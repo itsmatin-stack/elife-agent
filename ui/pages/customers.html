@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E LIFE — Customers</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+  <!-- PWA -->
+  <link rel="manifest" href="../manifest.json">
+  <meta name="theme-color" content="#534AB7">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="E LIFE">
+  <link rel="apple-touch-icon" href="../assets/icon.svg">
+  <link rel="icon" href="../assets/icon.svg">
+  <link rel="stylesheet" href="../assets/core.css">
+  <style>
+  @media(max-width:768px){
+    .sb{position:fixed;top:0;bottom:0;left:0;z-index:100;transform:translateX(0);box-shadow:4px 0 20px rgba(0,0,0,0.15);}
+    .sb.collapsed{transform:translateX(-100%);}
+    .main{width:100%;}
+    .grid-2,.grid-3,.grid-4{grid-template-columns:1fr!important;}
+    .page-content{padding:12px;}
+  }
+  </style>
+<style>
+.cust-card{display:flex;align-items:center;gap:12px;padding:13px;background:var(--card);border:0.5px solid var(--border);border-radius:var(--radius-lg);margin-bottom:8px;transition:border-color 0.15s;}
+.cust-card:hover{border-color:var(--acc3);}
+.cust-av{width:40px;height:40px;border-radius:50%;background:var(--acc2);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:var(--acc);flex-shrink:0;}
+.cust-body{flex:1;min-width:0;}
+.cust-name{font-size:14px;font-weight:700;color:var(--text);}
+.cust-info{font-size:12px;font-weight:600;color:var(--muted);margin-top:2px;}
+.cust-actions{display:flex;gap:8px;}
+.cust-actions i{font-size:17px;color:var(--muted);cursor:pointer;}
+.cust-actions i:hover{color:var(--acc);}
+.search-bar{display:flex;align-items:center;gap:8px;padding:10px 14px;background:var(--card);border:0.5px solid var(--border);border-radius:var(--radius-lg);margin-bottom:14px;}
+.search-bar i{font-size:16px;color:var(--muted);}
+.search-bar input{flex:1;border:none;background:transparent;font-size:14px;font-weight:600;color:var(--text);outline:none;}
+.search-bar input::placeholder{color:var(--muted);font-weight:400;}
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <div class="sb" id="sidebar">
+    <div class="sb-top">
+      <div class="sb-logo"><div class="logo-icon"><div class="logo-e">E</div><div class="logo-dot"></div><div class="logo-life">LIFE</div></div><div><div class="logo-name">E LIFE</div><div class="online-dot">Online</div></div></div>
+      <div class="sb-search"><i class="ti ti-search"></i><input type="text" placeholder="Search..."/></div>
+    </div>
+    <div class="sb-scroll">
+      <div class="sec-label">Main</div>
+      <a class="si" href="../index.html"><i class="ti ti-message-circle"></i><div class="si-body"><div class="si-name">Chat</div></div></a>
+      <a class="si" href="dashboard.html"><i class="ti ti-layout-dashboard"></i><div class="si-body"><div class="si-name">Dashboard</div></div></a>
+      <a class="si" href="notifications.html"><i class="ti ti-bell"></i><div class="si-body"><div class="si-name">Notifications</div></div><span class="badge br">3</span></a>
+      <div class="sb-div"></div><div class="sec-label">Business</div>
+      <a class="si active" href="customers.html"><i class="ti ti-users"></i><div class="si-body"><div class="si-name">Customers</div></div></a>
+      <a class="si" href="orders.html"><i class="ti ti-shopping-cart"></i><div class="si-body"><div class="si-name">Orders</div></div><span class="badge ba">5</span></a>
+      <a class="si" href="analytics.html"><i class="ti ti-chart-bar"></i><div class="si-body"><div class="si-name">Analytics</div></div></a>
+      <a class="si" href="emails.html"><i class="ti ti-mail"></i><div class="si-body"><div class="si-name">Emails</div></div><span class="badge br">2</span></a>
+      <a class="si" href="invoices.html"><i class="ti ti-receipt"></i><div class="si-body"><div class="si-name">Invoices</div></div></a>
+      <div class="sb-div"></div><div class="sec-label">Personal</div>
+      <a class="si" href="calendar.html"><i class="ti ti-calendar"></i><div class="si-body"><div class="si-name">Calendar</div></div></a>
+      <a class="si" href="tasks.html"><i class="ti ti-checkbox"></i><div class="si-body"><div class="si-name">Tasks</div></div></a>
+      <a class="si" href="notes.html"><i class="ti ti-note"></i><div class="si-body"><div class="si-name">Notes</div></div></a>
+      <a class="si" href="reminders.html"><i class="ti ti-clock"></i><div class="si-body"><div class="si-name">Reminders</div></div></a>
+      <a class="si" href="saved.html"><i class="ti ti-heart"></i><div class="si-body"><div class="si-name">Saved</div></div></a>
+      <div class="sb-div"></div><div class="sec-label">Tools</div>
+      <a class="si" href="files.html"><i class="ti ti-folder"></i><div class="si-body"><div class="si-name">Files</div></div></a>
+      <a class="si" href="research.html"><i class="ti ti-search"></i><div class="si-body"><div class="si-name">Research</div></div></a>
+      <a class="si" href="code.html"><i class="ti ti-code"></i><div class="si-body"><div class="si-name">Code</div></div></a>
+      <a class="si" href="translate.html"><i class="ti ti-language"></i><div class="si-body"><div class="si-name">Translate</div></div></a>
+      <div class="sb-div"></div><div class="sec-label">Memory</div>
+      <a class="si" href="profile.html"><i class="ti ti-brain"></i><div class="si-body"><div class="si-name">My Profile</div></div></a>
+      <a class="si" href="history.html"><i class="ti ti-history"></i><div class="si-body"><div class="si-name">History</div></div></a>
+      <a class="si" href="vault.html"><i class="ti ti-lock"></i><div class="si-body"><div class="si-name">Private Vault</div></div></a>
+      <div class="sb-div"></div><div class="sec-label">Settings</div>
+      <a class="si" href="settings.html"><i class="ti ti-settings"></i><div class="si-body"><div class="si-name">Settings</div></div></a>
+      <a class="si" href="apikeys.html"><i class="ti ti-key"></i><div class="si-body"><div class="si-name">API Keys</div></div></a>
+      <a class="si" href="about.html"><i class="ti ti-info-circle"></i><div class="si-body"><div class="si-name">About</div></div></a>
+    </div>
+    <div class="sb-bot">
+      <div class="theme-row" id="themeToggle"><div class="theme-lbl"><i class="ti ti-moon" id="themeIcon"></i><span id="themeLabel">Dark mode</span></div><div class="tgl" id="tgl"></div></div>
+      <div class="user-row"><div class="uav">EL</div><div><div class="uname">E LIFE User</div><div class="uplan">Groq powered</div></div><i class="ti ti-dots-vertical ml"></i></div>
+    </div>
+  </div>
+  <div class="main">
+    <div class="topbar">
+      <div class="tb-toggle" id="sidebarToggle"><i class="ti ti-layout-sidebar" id="toggleIcon"></i></div>
+      <div class="tb-title">Customers</div>
+      <div class="tb-icons"><i class="ti ti-plus" onclick="openModal('addModal')"></i></div>
+    </div>
+    <div class="page-content">
+      <div class="search-bar"><i class="ti ti-search"></i><input type="text" id="searchInput" placeholder="Customer dhundho..." oninput="render()"/></div>
+      <div id="custList"></div>
+    </div>
+  </div>
+</div>
+<div class="modal-overlay" id="addModal">
+  <div class="modal">
+    <div class="modal-title">Naya Customer <i class="ti ti-x" onclick="closeModal('addModal')"></i></div>
+    <div class="form-group"><label class="form-label">Naam</label><input class="form-input" id="cName" placeholder="Customer ka naam..."/></div>
+    <div class="form-group"><label class="form-label">Phone</label><input class="form-input" id="cPhone" placeholder="Phone number..."/></div>
+    <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="cEmail" placeholder="Email address..."/></div>
+    <div class="form-group"><label class="form-label">Note</label><input class="form-input" id="cNote" placeholder="Koi note..."/></div>
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:4px;">
+      <button class="btn btn-secondary" onclick="closeModal('addModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="addCustomer()"><i class="ti ti-plus"></i>Add</button>
+    </div>
+  </div>
+</div>
+<!-- WhatsApp Modal -->
+<div class="modal-overlay" id="waModal">
+  <div class="modal">
+    <div class="modal-title">WhatsApp Message <i class="ti ti-x" onclick="closeModal('waModal')"></i></div>
+    <div style="font-size:13px;font-weight:600;color:var(--muted);margin-bottom:10px;">To: <span id="waName" style="color:var(--text);"></span></div>
+    <div class="form-group"><label class="form-label">Message</label><textarea class="form-input" id="waMsg" rows="5" placeholder="Message likho..."></textarea></div>
+    <div style="display:flex;gap:8px;margin-bottom:10px;">
+      <button class="btn btn-secondary" style="font-size:12px;" onclick="aiDraftWA()"><i class="ti ti-sparkles"></i>AI Draft</button>
+    </div>
+    <div style="display:flex;gap:8px;justify-content:flex-end;">
+      <button class="btn btn-secondary" onclick="closeModal('waModal')">Cancel</button>
+      <button class="btn btn-primary" style="background:#25D366;" onclick="sendWA()"><i class="ti ti-brand-whatsapp"></i>Open WhatsApp</button>
+    </div>
+  </div>
+</div>
+
+<script src="../assets/core.js"></script>
+<script>
+let customers = loadData('customers', []);
+
+function addCustomer() {
+  const name = document.getElementById('cName').value.trim();
+  if(!name) { showToast('Naam zaroori hai!', 'error'); return; }
+  customers.push({ id: genId(), name, phone: document.getElementById('cPhone').value.trim(), email: document.getElementById('cEmail').value.trim(), note: document.getElementById('cNote').value.trim(), created: new Date().toISOString() });
+  saveData('customers', customers);
+  ['cName','cPhone','cEmail','cNote'].forEach(id => document.getElementById(id).value = '');
+  closeModal('addModal');
+  let waCustomer = null;
+
+function openWhatsApp(id) {
+  waCustomer = customers.find(c=>c.id===id);
+  if(!waCustomer){showToast('Customer nahi mila!','error');return;}
+  document.getElementById('waName').textContent = waCustomer.name;
+  document.getElementById('waMsg').value = '';
+  openModal('waModal');
+}
+
+async function aiDraftWA() {
+  if(!waCustomer)return;
+  document.getElementById('waMsg').value = 'AI likh raha hai...';
+  try {
+    const reply = await groqChat([{role:'user',content:`Write a short, friendly WhatsApp message to my customer "${waCustomer.name}". ${waCustomer.note?'Context: '+waCustomer.note:''} Keep it professional yet warm. In Hinglish. Max 3-4 lines.`}]);
+    document.getElementById('waMsg').value = reply;
+  } catch(e){ document.getElementById('waMsg').value = ''; showToast('Error','error'); }
+}
+
+function sendWA() {
+  const msg = document.getElementById('waMsg').value.trim();
+  const phone = waCustomer?.phone?.replace(/[^0-9]/g,'');
+  if(!msg){showToast('Message likho!','error');return;}
+  const url = phone
+    ? `https://wa.me/91${phone}?text=${encodeURIComponent(msg)}`
+    : `https://wa.me/?text=${encodeURIComponent(msg)}`;
+  window.open(url,'_blank');
+  closeModal('waModal');
+  showToast('WhatsApp khul raha hai!','success');
+}
+
+render();
+  showToast('Customer add ho gaya!', 'success');
+}
+
+function deleteCustomer(id) {
+  if(!confirm('Delete karna chahte ho?')) return;
+  customers = customers.filter(c => c.id !== id);
+  saveData('customers', customers);
+  render();
+  showToast('Customer delete ho gaya!', 'info');
+}
+
+function render() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const filtered = customers.filter(c => c.name.toLowerCase().includes(q) || c.phone.includes(q));
+  const el = document.getElementById('custList');
+  if(filtered.length === 0) {
+    el.innerHTML = `<div class="empty-state"><i class="ti ti-users"></i><h3>Koi customer nahi</h3><p>Plus button se naya customer add karo</p></div>`;
+    return;
+  }
+  el.innerHTML = filtered.slice().reverse().map(c => `
+    <div class="cust-card">
+      <div class="cust-av">${c.name[0].toUpperCase()}</div>
+      <div class="cust-body">
+        <div class="cust-name">${c.name}</div>
+        <div class="cust-info">${[c.phone, c.email, c.note].filter(Boolean).join(' · ') || 'Koi info nahi'}</div>
+      </div>
+      <div class="cust-actions">
+        <i class="ti ti-phone" title="Call" onclick="window.open('tel:${c.phone}')"></i>
+        <i class="ti ti-brand-whatsapp" title="WhatsApp" style="color:#25D366;" onclick="openWhatsApp('${c.id}')"></i>
+        <i class="ti ti-trash" onclick="deleteCustomer('${c.id}')"></i>
+      </div>
+    </div>`).join('');
+}
+render();
+</script>
+
+<!-- Mobile Bottom Nav -->
+<nav class="mob-nav">
+  <a class="mob-nav-item" href="../index.html"><i class="ti ti-message-circle"></i><span>Chat</span></a>
+  <a class="mob-nav-item" href="dashboard.html"><i class="ti ti-layout-dashboard"></i><span>Dashboard</span></a>
+  <a class="mob-nav-item" href="tasks.html"><i class="ti ti-checkbox"></i><span>Tasks</span></a>
+  <a class="mob-nav-item" href="customers.html"><i class="ti ti-users"></i><span>Customers</span></a>
+  <a class="mob-nav-item" href="settings.html"><i class="ti ti-settings"></i><span>Settings</span></a>
+</nav>
+</body>
+</html>

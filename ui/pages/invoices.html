@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E LIFE — Invoices</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+  <!-- PWA -->
+  <link rel="manifest" href="../manifest.json">
+  <meta name="theme-color" content="#534AB7">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="E LIFE">
+  <link rel="apple-touch-icon" href="../assets/icon.svg">
+  <link rel="icon" href="../assets/icon.svg">
+  <link rel="stylesheet" href="../assets/core.css">
+  <style>
+  @media(max-width:768px){
+    .sb{position:fixed;top:0;bottom:0;left:0;z-index:100;transform:translateX(0);box-shadow:4px 0 20px rgba(0,0,0,0.15);}
+    .sb.collapsed{transform:translateX(-100%);}
+    .main{width:100%;}
+    .grid-2,.grid-3,.grid-4{grid-template-columns:1fr!important;}
+    .page-content{padding:12px;}
+  }
+  </style>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+<style>
+.inv-card{background:var(--card);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:16px;margin-bottom:10px;}
+.inv-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.inv-no{font-size:13px;font-weight:800;color:var(--acc);}
+.inv-date{font-size:12px;font-weight:600;color:var(--muted);}
+.inv-client{font-size:15px;font-weight:800;color:var(--text);margin-bottom:4px;}
+.inv-desc{font-size:13px;font-weight:600;color:var(--muted);}
+.inv-bottom{display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding-top:10px;border-top:0.5px solid var(--border);}
+.inv-amount{font-size:18px;font-weight:800;color:var(--text);}
+.inv-actions{display:flex;gap:8px;}
+.inv-print{background:var(--print-area);padding:24px;max-width:600px;margin:0 auto;font-family:inherit;}
+@media print{body>*:not(.inv-print){display:none!important;}.inv-print{display:block!important;}}
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <div class="sb" id="sidebar">
+    <div class="sb-top"><div class="sb-logo"><div class="logo-icon"><div class="logo-e">E</div><div class="logo-dot"></div><div class="logo-life">LIFE</div></div><div><div class="logo-name">E LIFE</div><div class="online-dot">Online</div></div></div><div class="sb-search"><i class="ti ti-search"></i><input type="text" placeholder="Search..."/></div></div>
+    <div class="sb-scroll">
+      <div class="sec-label">Main</div>
+      <a class="si" href="../index.html"><i class="ti ti-message-circle"></i><div class="si-body"><div class="si-name">Chat</div></div></a>
+      <a class="si" href="dashboard.html"><i class="ti ti-layout-dashboard"></i><div class="si-body"><div class="si-name">Dashboard</div></div></a>
+      <div class="sb-div"></div><div class="sec-label">Business</div>
+      <a class="si" href="customers.html"><i class="ti ti-users"></i><div class="si-body"><div class="si-name">Customers</div></div></a>
+      <a class="si" href="orders.html"><i class="ti ti-shopping-cart"></i><div class="si-body"><div class="si-name">Orders</div></div></a>
+      <a class="si" href="analytics.html"><i class="ti ti-chart-bar"></i><div class="si-body"><div class="si-name">Analytics</div></div></a>
+      <a class="si" href="emails.html"><i class="ti ti-mail"></i><div class="si-body"><div class="si-name">Emails</div></div></a>
+      <a class="si active" href="invoices.html"><i class="ti ti-receipt"></i><div class="si-body"><div class="si-name">Invoices</div></div></a>
+      <div class="sb-div"></div><div class="sec-label">Personal</div>
+      <a class="si" href="tasks.html"><i class="ti ti-checkbox"></i><div class="si-body"><div class="si-name">Tasks</div></div></a>
+      <a class="si" href="notes.html"><i class="ti ti-note"></i><div class="si-body"><div class="si-name">Notes</div></div></a>
+      <div class="sb-div"></div><div class="sec-label">Memory</div>
+      <a class="si" href="profile.html"><i class="ti ti-brain"></i><div class="si-body"><div class="si-name">My Profile</div></div></a>
+      <a class="si" href="vault.html"><i class="ti ti-lock"></i><div class="si-body"><div class="si-name">Private Vault</div></div></a>
+      <div class="sb-div"></div><div class="sec-label">Settings</div>
+      <a class="si" href="settings.html"><i class="ti ti-settings"></i><div class="si-body"><div class="si-name">Settings</div></div></a>
+      <a class="si" href="about.html"><i class="ti ti-info-circle"></i><div class="si-body"><div class="si-name">About</div></div></a>
+    </div>
+    <div class="sb-bot"><div class="theme-row" id="themeToggle"><div class="theme-lbl"><i class="ti ti-moon" id="themeIcon"></i><span id="themeLabel">Dark mode</span></div><div class="tgl" id="tgl"></div></div><div class="user-row"><div class="uav">EL</div><div><div class="uname">E LIFE User</div><div class="uplan">Groq powered</div></div></div></div>
+  </div>
+  <div class="main">
+    <div class="topbar"><div class="tb-toggle" id="sidebarToggle"><i class="ti ti-layout-sidebar" id="toggleIcon"></i></div><div class="tb-title">Invoices</div><div class="tb-icons"><i class="ti ti-plus" onclick="openModal('addModal')"></i></div></div>
+    <div class="page-content">
+      <div class="grid-4" style="margin-bottom:16px;">
+        <div class="stat-card"><div class="stat-val" id="totalInv">0</div><div class="stat-lbl">Total</div></div>
+        <div class="stat-card"><div class="stat-val" id="paidInv" style="color:var(--green)">0</div><div class="stat-lbl">Paid</div></div>
+        <div class="stat-card"><div class="stat-val" id="pendInv" style="color:var(--amber)">0</div><div class="stat-lbl">Pending</div></div>
+        <div class="stat-card"><div class="stat-val" id="totalAmt" style="color:var(--acc)">₹0</div><div class="stat-lbl">Total Amount</div></div>
+      </div>
+      <div id="invList"></div>
+    </div>
+  </div>
+</div>
+<div class="modal-overlay" id="addModal">
+  <div class="modal">
+    <div class="modal-title">Naya Invoice <i class="ti ti-x" onclick="closeModal('addModal')"></i></div>
+    <div class="form-group"><label class="form-label">Client Naam</label><input class="form-input" id="iClient" placeholder="Client ka naam..."/></div>
+    <div class="form-group"><label class="form-label">Service / Item</label><input class="form-input" id="iDesc" placeholder="Kya service di..."/></div>
+    <div class="form-group"><label class="form-label">Amount (₹)</label><input class="form-input" id="iAmount" type="number" placeholder="0"/></div>
+    <div class="form-group"><label class="form-label">Due Date</label><input class="form-input" id="iDue" type="date"/></div>
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:4px;">
+      <button class="btn btn-secondary" onclick="closeModal('addModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="addInvoice()"><i class="ti ti-plus"></i>Create</button>
+    </div>
+  </div>
+</div>
+<script src="../assets/core.js"></script>
+<script>
+let invoices = loadData('invoices',[]);
+let invCount = loadData('invCount',1);
+
+function addInvoice(){
+  const client=document.getElementById('iClient').value.trim();
+  if(!client){showToast('Client naam zaroori hai!','error');return;}
+  invoices.push({id:genId(),no:`INV-${String(invCount).padStart(3,'0')}`,client,desc:document.getElementById('iDesc').value.trim(),amount:parseFloat(document.getElementById('iAmount').value)||0,due:document.getElementById('iDue').value,status:'pending',created:new Date().toISOString()});
+  invCount++;
+  saveData('invoices',invoices); saveData('invCount',invCount);
+  ['iClient','iDesc','iAmount','iDue'].forEach(id=>document.getElementById(id).value='');
+  closeModal('addModal'); render();
+  showToast('Invoice create ho gaya!','success');
+}
+
+function markPaid(id){invoices=invoices.map(i=>i.id===id?{...i,status:'paid'}:i);saveData('invoices',invoices);render();showToast('Invoice paid mark ho gaya!','success');}
+function deleteInv(id){invoices=invoices.filter(i=>i.id!==id);saveData('invoices',invoices);render();}
+function printInv(id){
+  const inv=invoices.find(i=>i.id===id);
+  if(!inv)return;
+  try {
+    const {jsPDF} = window.jspdf;
+    const doc = new jsPDF();
+    // Header
+    doc.setFillColor(83,74,183);
+    doc.rect(0,0,210,28,'F');
+    doc.setTextColor(255,255,255);
+    doc.setFontSize(20); doc.setFont('helvetica','bold');
+    doc.text('E LIFE AGENT', 14, 14);
+    doc.setFontSize(10); doc.setFont('helvetica','normal');
+    doc.text('Your AI-Powered Life', 14, 22);
+    // Invoice No
+    doc.setTextColor(83,74,183);
+    doc.setFontSize(16); doc.setFont('helvetica','bold');
+    doc.text(inv.no, 14, 44);
+    doc.setFontSize(10); doc.setTextColor(100,100,100);
+    doc.text('Date: ' + formatDate(inv.created), 14, 52);
+    if(inv.due) doc.text('Due: ' + inv.due, 14, 58);
+    // Divider
+    doc.setDrawColor(220,220,220); doc.line(14, 64, 196, 64);
+    // Client Info
+    doc.setTextColor(0,0,0); doc.setFont('helvetica','bold'); doc.setFontSize(11);
+    doc.text('Bill To:', 14, 74);
+    doc.setFont('helvetica','normal');
+    doc.text(inv.client, 14, 82);
+    // Service
+    doc.setFont('helvetica','bold');
+    doc.text('Service:', 14, 96);
+    doc.setFont('helvetica','normal');
+    doc.text(inv.desc||'—', 14, 104);
+    // Amount Box
+    doc.setFillColor(238,237,254);
+    doc.rect(14, 120, 182, 24, 'F');
+    doc.setTextColor(83,74,183); doc.setFont('helvetica','bold'); doc.setFontSize(14);
+    doc.text('Total Amount', 20, 132);
+    doc.setFontSize(16);
+    doc.text('Rs ' + inv.amount.toLocaleString('en-IN'), 140, 132);
+    // Status
+    doc.setFontSize(11); doc.setFont('helvetica','normal');
+    doc.setTextColor(inv.status==='paid'?29:239, inv.status==='paid'?158:159, inv.status==='paid'?117:39);
+    doc.text('Status: ' + inv.status.toUpperCase(), 14, 158);
+    // Footer
+    doc.setDrawColor(220,220,220); doc.line(14, 270, 196, 270);
+    doc.setTextColor(150,150,150); doc.setFontSize(9);
+    doc.text('Generated by E LIFE Agent — Your AI-Powered Life', 14, 278);
+    doc.save(inv.no + '.pdf');
+    showToast('PDF download ho raha hai!','success');
+  } catch(e) {
+    // Fallback to print
+    const w=window.open('','_blank');
+    w.document.write(`<html><body style="font-family:sans-serif;padding:40px;max-width:600px;margin:0 auto;"><h1 style="color:#534AB7;">E LIFE</h1><hr/><h2>${inv.no}</h2><p><strong>Client:</strong> ${inv.client}</p><p><strong>Amount:</strong> Rs ${inv.amount.toLocaleString('en-IN')}</p><p><strong>Status:</strong> ${inv.status}</p>
+<!-- Mobile Bottom Nav -->
+<nav class="mob-nav">
+  <a class="mob-nav-item" href="../index.html"><i class="ti ti-message-circle"></i><span>Chat</span></a>
+  <a class="mob-nav-item" href="dashboard.html"><i class="ti ti-layout-dashboard"></i><span>Dashboard</span></a>
+  <a class="mob-nav-item" href="tasks.html"><i class="ti ti-checkbox"></i><span>Tasks</span></a>
+  <a class="mob-nav-item" href="customers.html"><i class="ti ti-users"></i><span>Customers</span></a>
+  <a class="mob-nav-item" href="settings.html"><i class="ti ti-settings"></i><span>Settings</span></a>
+</nav>
+</body></html>`);
+    w.print();
+  }
+}
+
+function render(){
+  document.getElementById('totalInv').textContent=invoices.length;
+  document.getElementById('paidInv').textContent=invoices.filter(i=>i.status==='paid').length;
+  document.getElementById('pendInv').textContent=invoices.filter(i=>i.status==='pending').length;
+  document.getElementById('totalAmt').textContent='₹'+invoices.reduce((s,i)=>s+i.amount,0).toLocaleString('en-IN');
+  const el=document.getElementById('invList');
+  if(invoices.length===0){el.innerHTML=`<div class="empty-state"><i class="ti ti-receipt"></i><h3>Koi invoice nahi</h3><p>Plus se naya invoice banao</p></div>`;return;}
+  el.innerHTML=invoices.slice().reverse().map(inv=>`
+    <div class="inv-card">
+      <div class="inv-top"><div class="inv-no">${inv.no}</div><span class="status ${inv.status==='paid'?'active':'pending'}">${inv.status}</span></div>
+      <div class="inv-client">${inv.client}</div>
+      <div class="inv-desc">${inv.desc||'—'} ${inv.due?'· Due: '+inv.due:''}</div>
+      <div class="inv-bottom">
+        <div class="inv-amount">₹${inv.amount.toLocaleString('en-IN')}</div>
+        <div class="inv-actions">
+          <button class="btn btn-secondary" style="padding:5px 10px;font-size:12px;" onclick="printInv('${inv.id}')"><i class="ti ti-download"></i>PDF</button>
+          ${inv.status==='pending'?`<button class="btn btn-success" style="padding:5px 10px;font-size:12px;" onclick="markPaid('${inv.id}')"><i class="ti ti-check"></i>Paid</button>`:''}
+          <i class="ti ti-trash" style="font-size:17px;color:var(--muted);cursor:pointer;margin-left:4px;" onclick="deleteInv('${inv.id}')"></i>
+        </div>
+      </div>
+    </div>`).join('');
+}
+render();
+</script>
+</body>
+</html>

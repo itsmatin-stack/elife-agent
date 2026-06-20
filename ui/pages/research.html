@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E LIFE — Research</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+  <!-- PWA -->
+  <link rel="manifest" href="../manifest.json">
+  <meta name="theme-color" content="#534AB7">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="E LIFE">
+  <link rel="apple-touch-icon" href="../assets/icon.svg">
+  <link rel="icon" href="../assets/icon.svg">
+  <link rel="stylesheet" href="../assets/core.css">
+  <style>
+  @media(max-width:768px){
+    .sb{position:fixed;top:0;bottom:0;left:0;z-index:100;transform:translateX(0);box-shadow:4px 0 20px rgba(0,0,0,0.15);}
+    .sb.collapsed{transform:translateX(-100%);}
+    .main{width:100%;}
+    .grid-2,.grid-3,.grid-4{grid-template-columns:1fr!important;}
+    .page-content{padding:12px;}
+  }
+  </style>
+<style>
+.result-card{background:var(--card);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:16px;margin-bottom:12px;}
+.result-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:8px;}
+.result-body{font-size:14px;font-weight:600;color:var(--sub);line-height:1.7;}
+.search-box{display:flex;gap:8px;margin-bottom:20px;}
+.search-box input{flex:1;padding:12px 16px;border:0.5px solid var(--border);border-radius:var(--radius-lg);background:var(--card);color:var(--text);font-size:14px;font-weight:600;outline:none;font-family:inherit;}
+.search-box input:focus{border-color:var(--acc3);}
+.search-box input::placeholder{color:var(--muted);font-weight:400;}
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <div class="sb" id="sidebar">
+    <div class="sb-top"><div class="sb-logo"><div class="logo-icon"><div class="logo-e">E</div><div class="logo-dot"></div><div class="logo-life">LIFE</div></div><div><div class="logo-name">E LIFE</div><div class="online-dot">Online</div></div></div><div class="sb-search"><i class="ti ti-search"></i><input type="text" placeholder="Search..."/></div></div>
+    <div class="sb-scroll">
+      <div class="sec-label">Main</div>
+      <a class="si" href="../index.html"><i class="ti ti-message-circle"></i><div class="si-body"><div class="si-name">Chat</div></div></a>
+      <a class="si" href="dashboard.html"><i class="ti ti-layout-dashboard"></i><div class="si-body"><div class="si-name">Dashboard</div></div></a>
+      <div class="sb-div"></div><div class="sec-label">Business</div>
+      <a class="si" href="customers.html"><i class="ti ti-users"></i><div class="si-body"><div class="si-name">Customers</div></div></a>
+      <a class="si" href="orders.html"><i class="ti ti-shopping-cart"></i><div class="si-body"><div class="si-name">Orders</div></div></a>
+      <div class="sb-div"></div><div class="sec-label">Personal</div>
+      <a class="si" href="tasks.html"><i class="ti ti-checkbox"></i><div class="si-body"><div class="si-name">Tasks</div></div></a>
+      <a class="si" href="notes.html"><i class="ti ti-note"></i><div class="si-body"><div class="si-name">Notes</div></div></a>
+      <a class="si" href="reminders.html"><i class="ti ti-clock"></i><div class="si-body"><div class="si-name">Reminders</div></div></a>
+      <div class="sb-div"></div><div class="sec-label">Tools</div>
+      <a class="si" href="files.html"><i class="ti ti-folder"></i><div class="si-body"><div class="si-name">Files</div></div></a>
+      <a class="si active" href="research.html"><i class="ti ti-search"></i><div class="si-body"><div class="si-name">Research</div></div></a>
+      <a class="si" href="code.html"><i class="ti ti-code"></i><div class="si-body"><div class="si-name">Code</div></div></a>
+      <a class="si" href="translate.html"><i class="ti ti-language"></i><div class="si-body"><div class="si-name">Translate</div></div></a>
+      <div class="sb-div"></div><div class="sec-label">Memory</div>
+      <a class="si" href="profile.html"><i class="ti ti-brain"></i><div class="si-body"><div class="si-name">My Profile</div></div></a>
+      <a class="si" href="history.html"><i class="ti ti-history"></i><div class="si-body"><div class="si-name">History</div></div></a>
+      <a class="si" href="vault.html"><i class="ti ti-lock"></i><div class="si-body"><div class="si-name">Private Vault</div></div></a>
+      <div class="sb-div"></div><div class="sec-label">Settings</div>
+      <a class="si" href="settings.html"><i class="ti ti-settings"></i><div class="si-body"><div class="si-name">Settings</div></div></a>
+      <a class="si" href="about.html"><i class="ti ti-info-circle"></i><div class="si-body"><div class="si-name">About</div></div></a>
+    </div>
+    <div class="sb-bot"><div class="theme-row" id="themeToggle"><div class="theme-lbl"><i class="ti ti-moon" id="themeIcon"></i><span id="themeLabel">Dark mode</span></div><div class="tgl" id="tgl"></div></div><div class="user-row"><div class="uav">EL</div><div><div class="uname">E LIFE User</div><div class="uplan">Groq powered</div></div><i class="ti ti-dots-vertical ml"></i></div></div>
+  </div>
+  <div class="main">
+    <div class="topbar"><div class="tb-toggle" id="sidebarToggle"><i class="ti ti-layout-sidebar" id="toggleIcon"></i></div><div class="tb-title">Research</div></div>
+    <div class="page-content">
+      <div class="search-box">
+        <input type="text" id="query" placeholder="Kuch bhi research karo — AI batayega..." onkeydown="if(event.key==='Enter')doResearch()"/>
+        <button class="btn btn-primary" id="searchBtn" onclick="doResearch()"><i class="ti ti-search"></i>Research</button>
+      </div>
+      <div id="results"></div>
+    </div>
+  </div>
+</div>
+<script src="../assets/core.js"></script>
+<script>
+async function doResearch() {
+  const q = document.getElementById('query').value.trim();
+  if(!q) return;
+  const btn = document.getElementById('searchBtn');
+  btn.innerHTML='<i class="ti ti-loader" style="animation:spin 1s linear infinite;"></i> Searching...';
+  btn.disabled=true;
+  document.getElementById('results').innerHTML='<div style="text-align:center;padding:20px;color:var(--muted);font-weight:600;">AI research kar raha hai...</div>';
+  try {
+    const reply = await groqChat([{role:'user',content:`Mujhe "${q}" ke baare mein detailed research karke batao. Points mein, clear aur structured format mein. Hinglish mein.`}]);
+    document.getElementById('results').innerHTML=`<div class="result-card"><div class="result-title">📋 ${q}</div><div class="result-body">${reply.replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\*(.*?)\*/g,'<em>$1</em>')}</div></div>`;
+  } catch(e) {
+    document.getElementById('results').innerHTML='<div class="result-card"><div class="result-body">Error — dobara try karo.</div></div>';
+  }
+  btn.innerHTML='<i class="ti ti-search"></i>Research';
+  btn.disabled=false;
+}
+document.addEventListener('keydown', e => { if((e.ctrlKey||e.metaKey) && e.key==='k') document.getElementById('query').focus(); });
+</script>
+<style>@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}</style>
+
+<!-- Mobile Bottom Nav -->
+<nav class="mob-nav">
+  <a class="mob-nav-item" href="../index.html"><i class="ti ti-message-circle"></i><span>Chat</span></a>
+  <a class="mob-nav-item" href="dashboard.html"><i class="ti ti-layout-dashboard"></i><span>Dashboard</span></a>
+  <a class="mob-nav-item" href="tasks.html"><i class="ti ti-checkbox"></i><span>Tasks</span></a>
+  <a class="mob-nav-item" href="customers.html"><i class="ti ti-users"></i><span>Customers</span></a>
+  <a class="mob-nav-item" href="settings.html"><i class="ti ti-settings"></i><span>Settings</span></a>
+</nav>
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E LIFE — Tasks</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+  <!-- PWA -->
+  <link rel="manifest" href="../manifest.json">
+  <meta name="theme-color" content="#534AB7">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="E LIFE">
+  <link rel="apple-touch-icon" href="../assets/icon.svg">
+  <link rel="icon" href="../assets/icon.svg">
+  <link rel="stylesheet" href="../assets/core.css">
+  <style>
+  @media(max-width:768px){
+    .sb{position:fixed;top:0;bottom:0;left:0;z-index:100;transform:translateX(0);box-shadow:4px 0 20px rgba(0,0,0,0.15);}
+    .sb.collapsed{transform:translateX(-100%);}
+    .main{width:100%;}
+    .grid-2,.grid-3,.grid-4{grid-template-columns:1fr!important;}
+    .page-content{padding:12px;}
+  }
+  </style>
+<style>
+.filter-row{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap;}
+.filter-btn{padding:6px 14px;border-radius:20px;border:0.5px solid var(--border);background:var(--card);font-size:12px;font-weight:600;color:var(--sub);cursor:pointer;}
+.filter-btn.active{background:var(--acc2);border-color:var(--acc3);color:var(--acc);}
+.task-item{display:flex;align-items:center;gap:12px;padding:12px;background:var(--card);border:0.5px solid var(--border);border-radius:var(--radius-lg);margin-bottom:8px;transition:border-color 0.15s;}
+.task-item:hover{border-color:var(--acc3);}
+.task-item.done-item{opacity:0.6;}
+.task-check{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:all 0.15s;}
+.task-check.checked{background:var(--acc);border-color:var(--acc);}
+.task-check.checked i{display:block;}
+.task-check i{font-size:13px;color:#fff;display:none;}
+.task-body{flex:1;min-width:0;}
+.task-title{font-size:14px;font-weight:700;color:var(--text);}
+.task-item.done-item .task-title{text-decoration:line-through;}
+.task-meta{display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;}
+.task-tag{font-size:11px;font-weight:600;padding:2px 8px;border-radius:8px;}
+.task-actions{display:flex;gap:6px;}
+.task-actions i{font-size:16px;color:var(--muted);cursor:pointer;}
+.task-actions i:hover{color:var(--red);}
+.add-bar{display:flex;gap:8px;margin-bottom:16px;}
+.add-bar input{flex:1;padding:10px 14px;border:0.5px solid var(--border);border-radius:var(--radius-lg);background:var(--card);color:var(--text);font-size:14px;font-weight:600;outline:none;font-family:inherit;}
+.add-bar input:focus{border-color:var(--acc3);}
+.add-bar input::placeholder{color:var(--muted);font-weight:400;}
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <div class="sb" id="sidebar">
+    <div class="sb-top">
+      <div class="sb-logo"><div class="logo-icon"><div class="logo-e">E</div><div class="logo-dot"></div><div class="logo-life">LIFE</div></div><div><div class="logo-name">E LIFE</div><div class="online-dot">Online</div></div></div>
+      <div class="sb-search"><i class="ti ti-search"></i><input type="text" placeholder="Search..."/></div>
+    </div>
+    <div class="sb-scroll">
+      <div class="sec-label">Main</div>
+      <a class="si" href="../index.html"><i class="ti ti-message-circle"></i><div class="si-body"><div class="si-name">Chat</div></div></a>
+      <a class="si" href="dashboard.html"><i class="ti ti-layout-dashboard"></i><div class="si-body"><div class="si-name">Dashboard</div></div></a>
+      <a class="si" href="notifications.html"><i class="ti ti-bell"></i><div class="si-body"><div class="si-name">Notifications</div></div><span class="badge br">3</span></a>
+      <div class="sb-div"></div><div class="sec-label">Business</div>
+      <a class="si" href="customers.html"><i class="ti ti-users"></i><div class="si-body"><div class="si-name">Customers</div></div></a>
+      <a class="si" href="orders.html"><i class="ti ti-shopping-cart"></i><div class="si-body"><div class="si-name">Orders</div></div><span class="badge ba">5</span></a>
+      <a class="si" href="analytics.html"><i class="ti ti-chart-bar"></i><div class="si-body"><div class="si-name">Analytics</div></div></a>
+      <a class="si" href="emails.html"><i class="ti ti-mail"></i><div class="si-body"><div class="si-name">Emails</div></div><span class="badge br">2</span></a>
+      <a class="si" href="invoices.html"><i class="ti ti-receipt"></i><div class="si-body"><div class="si-name">Invoices</div></div></a>
+      <div class="sb-div"></div><div class="sec-label">Personal</div>
+      <a class="si" href="calendar.html"><i class="ti ti-calendar"></i><div class="si-body"><div class="si-name">Calendar</div></div></a>
+      <a class="si active" href="tasks.html"><i class="ti ti-checkbox"></i><div class="si-body"><div class="si-name">Tasks</div></div><span class="badge ba" id="pendingBadge">0</span></a>
+      <a class="si" href="notes.html"><i class="ti ti-note"></i><div class="si-body"><div class="si-name">Notes</div></div></a>
+      <a class="si" href="reminders.html"><i class="ti ti-clock"></i><div class="si-body"><div class="si-name">Reminders</div></div></a>
+      <a class="si" href="saved.html"><i class="ti ti-heart"></i><div class="si-body"><div class="si-name">Saved</div></div></a>
+      <div class="sb-div"></div><div class="sec-label">Tools</div>
+      <a class="si" href="files.html"><i class="ti ti-folder"></i><div class="si-body"><div class="si-name">Files</div></div></a>
+      <a class="si" href="research.html"><i class="ti ti-search"></i><div class="si-body"><div class="si-name">Research</div></div></a>
+      <a class="si" href="code.html"><i class="ti ti-code"></i><div class="si-body"><div class="si-name">Code</div></div></a>
+      <a class="si" href="translate.html"><i class="ti ti-language"></i><div class="si-body"><div class="si-name">Translate</div></div></a>
+      <div class="sb-div"></div><div class="sec-label">Memory</div>
+      <a class="si" href="profile.html"><i class="ti ti-brain"></i><div class="si-body"><div class="si-name">My Profile</div></div></a>
+      <a class="si" href="history.html"><i class="ti ti-history"></i><div class="si-body"><div class="si-name">History</div></div></a>
+      <a class="si" href="vault.html"><i class="ti ti-lock"></i><div class="si-body"><div class="si-name">Private Vault</div></div></a>
+      <div class="sb-div"></div><div class="sec-label">Settings</div>
+      <a class="si" href="settings.html"><i class="ti ti-settings"></i><div class="si-body"><div class="si-name">Settings</div></div></a>
+      <a class="si" href="apikeys.html"><i class="ti ti-key"></i><div class="si-body"><div class="si-name">API Keys</div></div></a>
+      <a class="si" href="about.html"><i class="ti ti-info-circle"></i><div class="si-body"><div class="si-name">About</div></div></a>
+    </div>
+    <div class="sb-bot">
+      <div class="theme-row" id="themeToggle"><div class="theme-lbl"><i class="ti ti-moon" id="themeIcon"></i><span id="themeLabel">Dark mode</span></div><div class="tgl" id="tgl"></div></div>
+      <div class="user-row"><div class="uav">EL</div><div><div class="uname">E LIFE User</div><div class="uplan">Groq powered</div></div><i class="ti ti-dots-vertical ml"></i></div>
+    </div>
+  </div>
+  <div class="main">
+    <div class="topbar">
+      <div class="tb-toggle" id="sidebarToggle"><i class="ti ti-layout-sidebar" id="toggleIcon"></i></div>
+      <div class="tb-title">Tasks</div>
+      <div class="tb-icons"><i class="ti ti-plus" onclick="document.getElementById('taskInput').focus()"></i></div>
+    </div>
+    <div class="page-content">
+      <div class="add-bar">
+        <input type="text" id="taskInput" placeholder="Naya task likho..." onkeydown="if(event.key==='Enter')addTask()"/>
+        <button class="btn btn-primary" onclick="addTask()"><i class="ti ti-plus"></i>Add</button>
+      </div>
+      <div class="filter-row">
+        <div class="filter-btn active" onclick="setFilter('all',this)">Sab</div>
+        <div class="filter-btn" onclick="setFilter('pending',this)">Pending</div>
+        <div class="filter-btn" onclick="setFilter('done',this)">Done</div>
+      </div>
+      <div id="taskList"></div>
+    </div>
+  </div>
+</div>
+<script src="../assets/core.js"></script>
+<script>
+let tasks = loadData('tasks', []);
+let filter = 'all';
+
+function setFilter(f, el) {
+  filter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  render();
+}
+
+function addTask() {
+  const input = document.getElementById('taskInput');
+  const title = input.value.trim();
+  if(!title) return;
+  tasks.push({ id: genId(), title, done: false, created: new Date().toISOString() });
+  saveData('tasks', tasks);
+  input.value = '';
+  render();
+  showToast('Task add ho gaya!', 'success');
+}
+
+function toggleTask(id) {
+  tasks = tasks.map(t => t.id === id ? {...t, done: !t.done} : t);
+  saveData('tasks', tasks);
+  render();
+}
+
+function deleteTask(id) {
+  tasks = tasks.filter(t => t.id !== id);
+  saveData('tasks', tasks);
+  render();
+  showToast('Task delete ho gaya!', 'info');
+}
+
+function render() {
+  const filtered = tasks.filter(t => filter === 'all' ? true : filter === 'done' ? t.done : !t.done);
+  const pending = tasks.filter(t => !t.done).length;
+  document.getElementById('pendingBadge').textContent = pending;
+  const el = document.getElementById('taskList');
+  if(filtered.length === 0) {
+    el.innerHTML = `<div class="empty-state"><i class="ti ti-checkbox"></i><h3>Koi task nahi</h3><p>Upar se naya task add karo</p></div>`;
+    return;
+  }
+  el.innerHTML = filtered.reverse().map(t => `
+    <div class="task-item ${t.done?'done-item':''}">
+      <div class="task-check ${t.done?'checked':''}" onclick="toggleTask('${t.id}')"><i class="ti ti-check"></i></div>
+      <div class="task-body">
+        <div class="task-title">${t.title}</div>
+        <div class="task-meta"><span class="task-tag ${t.done?'bg':'ba'}">${t.done?'Done':'Pending'}</span><span style="font-size:11px;color:var(--muted);font-weight:600;">${formatDate(t.created)}</span></div>
+      </div>
+      <div class="task-actions"><i class="ti ti-trash" onclick="deleteTask('${t.id}')"></i></div>
+    </div>`).join('');
+}
+
+render();
+</script>
+
+<!-- Mobile Bottom Nav -->
+<nav class="mob-nav">
+  <a class="mob-nav-item" href="../index.html"><i class="ti ti-message-circle"></i><span>Chat</span></a>
+  <a class="mob-nav-item" href="dashboard.html"><i class="ti ti-layout-dashboard"></i><span>Dashboard</span></a>
+  <a class="mob-nav-item" href="tasks.html"><i class="ti ti-checkbox"></i><span>Tasks</span></a>
+  <a class="mob-nav-item" href="customers.html"><i class="ti ti-users"></i><span>Customers</span></a>
+  <a class="mob-nav-item" href="settings.html"><i class="ti ti-settings"></i><span>Settings</span></a>
+</nav>
+</body>
+</html>
