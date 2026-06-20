@@ -559,6 +559,19 @@ function loadSession(id) {
 </nav>
 
 <script>
+// Mobile sidebar close on overlay tap
+document.addEventListener('click', function(e) {
+  if(window.innerWidth <= 768) {
+    const sb = document.getElementById('sidebar');
+    const toggle = document.getElementById('sidebarToggle');
+    if(sb && !sb.contains(e.target) && !toggle.contains(e.target)) {
+      sbOpen = false;
+      localStorage.setItem('elife_sb', 'closed');
+      applySidebar();
+    }
+  }
+});
+
 // Register Service Worker
 if('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
