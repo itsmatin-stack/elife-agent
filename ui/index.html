@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
-<title>FAWIN AI Agent — Happy Medical</title>
+<title>E LIFE - Chat</title>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -39,7 +39,7 @@
 html,body{height:100%;overflow:hidden}
 body{font-family:'Sora','Helvetica Neue',sans-serif;background:var(--bg);color:var(--text);display:flex;flex-direction:column;height:100vh;}
 
-/* ═══ TOP NAV ═══ */
+/* â•â•â• TOP NAV â•â•â• */
 #topnav{
   display:flex;align-items:center;gap:0;
   background:var(--bg2);border-bottom:1px solid var(--border);
@@ -78,10 +78,10 @@ body{font-family:'Sora','Helvetica Neue',sans-serif;background:var(--bg);color:v
   font-family:'JetBrains Mono',monospace;cursor:pointer;white-space:nowrap;
 }
 
-/* ═══ MAIN LAYOUT ═══ */
+/* â•â•â• MAIN LAYOUT â•â•â• */
 #app-body{flex:1;display:flex;overflow:hidden;}
 
-/* ═══ SIDEBAR ═══ */
+/* â•â•â• SIDEBAR â•â•â• */
 #sidebar{
   width:240px;min-width:160px;max-width:320px;
   background:var(--bg2);border-right:1px solid var(--border);
@@ -113,7 +113,7 @@ body{font-family:'Sora','Helvetica Neue',sans-serif;background:var(--bg);color:v
 #resize-handle{width:4px;cursor:col-resize;position:absolute;right:0;top:0;bottom:0;z-index:10;}
 #resize-handle:hover{background:var(--accent)}
 
-/* ═══ PANELS ═══ */
+/* â•â•â• PANELS â•â•â• */
 #panel-container{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;}
 
 /* CHAT PANEL */
@@ -194,7 +194,7 @@ body{font-family:'Sora','Helvetica Neue',sans-serif;background:var(--bg);color:v
 .typing-dots span:nth-child(3){animation-delay:.4s}
 @keyframes dot-bounce{0%,80%,100%{transform:scale(.7);opacity:.4}40%{transform:scale(1);opacity:1}}
 
-/* ═══ EMPTY STATE ═══ */
+/* â•â•â• EMPTY STATE â•â•â• */
 #empty{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:65vh;gap:8px;padding:40px;text-align:center;}
 #empty-title{font-size:20px;color:var(--text);font-weight:600;margin-bottom:4px;}
 #empty-sub{font-size:13px;color:var(--text3);max-width:420px;line-height:1.6}
@@ -205,7 +205,7 @@ body{font-family:'Sora','Helvetica Neue',sans-serif;background:var(--bg);color:v
 }
 .suggestion:hover{background:var(--hover);color:var(--text);border-color:var(--border2)}
 
-/* ═══ DASHBOARD PANEL ═══ */
+/* â•â•â• DASHBOARD PANEL â•â•â• */
 #dashboard-panel{flex:1;overflow-y:auto;padding:20px;display:none;}
 #dashboard-panel.active{display:block;}
 #dashboard-panel::-webkit-scrollbar{width:4px}
@@ -251,7 +251,7 @@ body{font-family:'Sora','Helvetica Neue',sans-serif;background:var(--bg);color:v
 .chart-canvas-wrap{padding:8px 0;height:200px;position:relative;}
 canvas.dash-chart{width:100%!important;height:200px!important;}
 
-/* ═══ BILLS PANEL ═══ */
+/* â•â•â• BILLS PANEL â•â•â• */
 #bills-panel{flex:1;overflow-y:auto;padding:20px;display:none;}
 #bills-panel.active{display:block;}
 #bills-panel::-webkit-scrollbar{width:4px}
@@ -317,7 +317,7 @@ canvas.dash-chart{width:100%!important;height:200px!important;}
   .bill-items-table th,.bill-items-table td{padding:3px 4px;font-size:9px;}
 }
 
-/* ═══ SEARCH PANEL ═══ */
+/* â•â•â• SEARCH PANEL â•â•â• */
 #search-panel{flex:1;overflow-y:auto;padding:20px;display:none;}
 #search-panel.active{display:block;}
 .search-bar{
@@ -355,7 +355,7 @@ canvas.dash-chart{width:100%!important;height:200px!important;}
 .src-badge.low-stock{background:var(--orange-bg);border:1px solid var(--orange-border);color:var(--orange);}
 .src-badge.out-stock{background:var(--red-bg);border:1px solid var(--red-border);color:var(--red);}
 
-/* ═══ REPORTS PANEL ═══ */
+/* â•â•â• REPORTS PANEL â•â•â• */
 #reports-panel{flex:1;overflow-y:auto;padding:20px;display:none;}
 #reports-panel.active{display:block;}
 .report-tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
@@ -394,7 +394,7 @@ canvas.dash-chart{width:100%!important;height:200px!important;}
 .gst-card-key{color:var(--text2);}
 .gst-card-val{color:var(--text);font-family:'JetBrains Mono',monospace;font-weight:600;}
 
-/* ═══ ALERTS PANEL ═══ */
+/* â•â•â• ALERTS PANEL â•â•â• */
 #alerts-panel{flex:1;overflow-y:auto;padding:20px;display:none;}
 #alerts-panel.active{display:block;}
 .alert-section{margin-bottom:20px;}
@@ -419,7 +419,7 @@ canvas.dash-chart{width:100%!important;height:200px!important;}
 .alert-action.wa{background:var(--green-bg);border-color:var(--green-border);color:var(--green);}
 .alert-action.wa:hover{background:var(--green);color:#fff;}
 
-/* ═══ MODALS ═══ */
+/* â•â•â• MODALS â•â•â• */
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
 .modal.open{display:flex}
 .modal-box{background:var(--bg2);border:1px solid var(--border2);border-radius:14px;padding:24px;max-width:520px;width:92%;max-height:88vh;overflow-y:auto;}
@@ -438,7 +438,7 @@ canvas.dash-chart{width:100%!important;height:200px!important;}
 .api-section{margin-top:10px;padding:10px;background:var(--bg3);border-radius:8px;border:1px solid var(--border);}
 .api-section-title{font-size:11px;color:var(--accent);margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em;}
 
-/* ═══ LOADING OVERLAY ═══ */
+/* â•â•â• LOADING OVERLAY â•â•â• */
 .panel-loading{
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   padding:60px 20px;gap:12px;color:var(--text3);font-size:13px;
@@ -446,7 +446,7 @@ canvas.dash-chart{width:100%!important;height:200px!important;}
 .spin{width:28px;height:28px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* ═══ MOBILE ═══ */
+/* â•â•â• MOBILE â•â•â• */
 @media(max-width:640px){
   #sidebar{display:none}
   .nav-tab .tab-label{display:none}
@@ -474,34 +474,34 @@ canvas.dash-chart{width:100%!important;height:200px!important;}
 </head>
 <body>
 
-<!-- ═══ TOP NAV ═══ -->
+<!-- â•â•â• TOP NAV â•â•â• -->
 <div id="topnav">
-  <div class="nav-brand"><span>💊</span>FAWIN AI</div>
+  <div class="nav-brand"><span>ðŸ’Š</span>FAWIN AI</div>
   <div class="nav-tabs">
-    <button class="nav-tab active" onclick="switchTab('chat')" id="tab-chat"><span class="tab-icon">💬</span><span class="tab-label">Chat</span></button>
-    <button class="nav-tab" onclick="switchTab('dashboard')" id="tab-dashboard"><span class="tab-icon">📊</span><span class="tab-label">Dashboard</span></button>
-    <button class="nav-tab" onclick="switchTab('bills')" id="tab-bills"><span class="tab-icon">🧾</span><span class="tab-label">Bills</span></button>
-    <button class="nav-tab" onclick="switchTab('search')" id="tab-search"><span class="tab-icon">🔍</span><span class="tab-label">Search</span></button>
-    <button class="nav-tab" onclick="switchTab('reports')" id="tab-reports"><span class="tab-icon">📈</span><span class="tab-label">GST Report</span></button>
-    <button class="nav-tab" onclick="switchTab('alerts')" id="tab-alerts"><span class="tab-icon">🔔</span><span class="tab-label">Alerts</span></button>
+    <button class="nav-tab active" onclick="switchTab('chat')" id="tab-chat"><span class="tab-icon">ðŸ’¬</span><span class="tab-label">Chat</span></button>
+    <button class="nav-tab" onclick="switchTab('dashboard')" id="tab-dashboard"><span class="tab-icon">ðŸ“Š</span><span class="tab-label">Dashboard</span></button>
+    <button class="nav-tab" onclick="switchTab('bills')" id="tab-bills"><span class="tab-icon">ðŸ§¾</span><span class="tab-label">Bills</span></button>
+    <button class="nav-tab" onclick="switchTab('search')" id="tab-search"><span class="tab-icon">ðŸ”</span><span class="tab-label">Search</span></button>
+    <button class="nav-tab" onclick="switchTab('reports')" id="tab-reports"><span class="tab-icon">ðŸ“ˆ</span><span class="tab-label">GST Report</span></button>
+    <button class="nav-tab" onclick="switchTab('alerts')" id="tab-alerts"><span class="tab-icon">ðŸ””</span><span class="tab-label">Alerts</span></button>
   </div>
   <div class="nav-right">
     <div id="server-status" style="display:flex;align-items:center;gap:6px;background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:600;color:var(--text2);">
       <span id="server-dot" style="width:8px;height:8px;border-radius:50%;background:#f59e0b;display:inline-block;transition:background .3s"></span>
       <span id="server-lbl">Checking...</span>
     </div>
-    <div id="provider-pill" title="Provider change karo" onclick="document.getElementById('gear-btn').click()">⚡ Groq • LLaMA 3.3</div>
+    <div id="provider-pill" title="Provider change karo" onclick="document.getElementById('gear-btn').click()">âš¡ Groq â€¢ LLaMA 3.3</div>
     <button class="nav-btn" id="stats-btn" title="Memory Stats">M</button>
-    <a href="customers.html" class="nav-btn" title="Customer Manager" style="display:flex;align-items:center;justify-content:center;text-decoration:none">👥</a>
-    <button class="nav-btn" id="gear-btn" title="Settings">⚙</button>
+    <a href="customers.html" class="nav-btn" title="Customer Manager" style="display:flex;align-items:center;justify-content:center;text-decoration:none">ðŸ‘¥</a>
+    <button class="nav-btn" id="gear-btn" title="Settings">âš™</button>
     <button class="nav-btn" id="theme-btn"><span id="theme-icon">L</span></button>
-    <button class="nav-btn" id="sidebar-toggle" title="Toggle Sidebar">☰</button>
+    <button class="nav-btn" id="sidebar-toggle" title="Toggle Sidebar">â˜°</button>
   </div>
 </div>
 
 <div id="app-body">
 
-  <!-- ═══ SIDEBAR ═══ -->
+  <!-- â•â•â• SIDEBAR â•â•â• -->
 <div id="sidebar">
     <button id="new-chat-btn" style="margin:10px;padding:8px 12px;background:transparent;border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:inherit;font-size:13px;cursor:pointer;transition:background .15s;text-align:left;" onmouseover="this.style.background='var(--hover)'" onmouseout="this.style.background='transparent'" onclick="newChat()">+ New chat</button>
     <div id="sidebar-label">Recents <button class="sidebar-reset-btn" id="reset-chats-btn">del all</button></div>
@@ -513,15 +513,15 @@ canvas.dash-chart{width:100%!important;height:200px!important;}
     <div id="resize-handle"></div>
   </div>
 
-  <!-- ═══ PANEL CONTAINER ═══ -->
+  <!-- â•â•â• PANEL CONTAINER â•â•â• -->
   <div id="panel-container">
 
     <!-- CHAT PANEL -->
     <div id="chat-panel" class="active">
       <div id="messages">
         <div id="empty">
-          <div id="empty-title">🏥 Happy Medical — AI Agent</div>
-          <div id="empty-sub">FAWIN se seedha data, bills, stock, reports — Hinglish mein!</div>
+          <div id="empty-title">ðŸ¥ Happy Medical â€” AI Agent</div>
+          <div id="empty-sub">FAWIN se seedha data, bills, stock, reports â€” Hinglish mein!</div>
           <div class="suggestion-grid">
             <div class="suggestion">Aaj ki purchase dikhao</div>
             <div class="suggestion">Low stock alert</div>
@@ -538,11 +538,11 @@ canvas.dash-chart{width:100%!important;height:200px!important;}
         <div id="input-box">
           <div id="input-row">
             <textarea id="user-input" placeholder="FAWIN data ya kuch bhi poocho..." rows="1"></textarea>
-            <button class="icon-btn" id="voice-btn" title="Voice input">🎤</button>
-            <button class="icon-btn" id="file-upload-btn" title="File/Bill upload">📎</button>
-            <button id="send-btn">➤</button>
+            <button class="icon-btn" id="voice-btn" title="Voice input">ðŸŽ¤</button>
+            <button class="icon-btn" id="file-upload-btn" title="File/Bill upload">ðŸ“Ž</button>
+            <button id="send-btn">âž¤</button>
           </div>
-          <div id="input-hint">Enter = send • Shift+Enter = new line • 📎 = bill/image upload</div>
+          <div id="input-hint">Enter = send â€¢ Shift+Enter = new line â€¢ ðŸ“Ž = bill/image upload</div>
         </div>
       </div>
     </div>
@@ -551,33 +551,33 @@ canvas.dash-chart{width:100%!important;height:200px!important;}
     <div id="dashboard-panel">
       <div class="dash-header">
         <div>
-          <div class="dash-title">📊 Daily Dashboard</div>
+          <div class="dash-title">ðŸ“Š Daily Dashboard</div>
           <div class="dash-date" id="dash-date-str"></div>
         </div>
-        <button class="dash-refresh" onclick="loadDashboard()">↻ Refresh</button>
+        <button class="dash-refresh" onclick="loadDashboard()">â†» Refresh</button>
       </div>
       <div class="kpi-grid" id="kpi-grid">
-        <div class="kpi-card blue"><div class="kpi-icon">🛒</div><div class="kpi-label">Aaj Purchase</div><div class="kpi-value kpi-loading" id="kpi-purchase">...</div><div class="kpi-sub" id="kpi-purchase-sub">loading...</div></div>
-        <div class="kpi-card green"><div class="kpi-icon">💰</div><div class="kpi-label">Aaj Sale</div><div class="kpi-value kpi-loading" id="kpi-sale">...</div><div class="kpi-sub" id="kpi-sale-sub">loading...</div></div>
-        <div class="kpi-card orange"><div class="kpi-icon">⚠️</div><div class="kpi-label">Low Stock</div><div class="kpi-value kpi-loading" id="kpi-lowstock">...</div><div class="kpi-sub">items critical</div></div>
-        <div class="kpi-card red"><div class="kpi-icon">📅</div><div class="kpi-label">Expiry (3 mah)</div><div class="kpi-value kpi-loading" id="kpi-expiry">...</div><div class="kpi-sub">items near expiry</div></div>
-        <div class="kpi-card purple"><div class="kpi-icon">🏪</div><div class="kpi-label">Parties</div><div class="kpi-value kpi-loading" id="kpi-parties">...</div><div class="kpi-sub">active accounts</div></div>
+        <div class="kpi-card blue"><div class="kpi-icon">ðŸ›’</div><div class="kpi-label">Aaj Purchase</div><div class="kpi-value kpi-loading" id="kpi-purchase">...</div><div class="kpi-sub" id="kpi-purchase-sub">loading...</div></div>
+        <div class="kpi-card green"><div class="kpi-icon">ðŸ’°</div><div class="kpi-label">Aaj Sale</div><div class="kpi-value kpi-loading" id="kpi-sale">...</div><div class="kpi-sub" id="kpi-sale-sub">loading...</div></div>
+        <div class="kpi-card orange"><div class="kpi-icon">âš ï¸</div><div class="kpi-label">Low Stock</div><div class="kpi-value kpi-loading" id="kpi-lowstock">...</div><div class="kpi-sub">items critical</div></div>
+        <div class="kpi-card red"><div class="kpi-icon">ðŸ“…</div><div class="kpi-label">Expiry (3 mah)</div><div class="kpi-value kpi-loading" id="kpi-expiry">...</div><div class="kpi-sub">items near expiry</div></div>
+        <div class="kpi-card purple"><div class="kpi-icon">ðŸª</div><div class="kpi-label">Parties</div><div class="kpi-value kpi-loading" id="kpi-parties">...</div><div class="kpi-sub">active accounts</div></div>
       </div>
       <div class="dash-grid">
         <div class="dash-card">
-          <div class="dash-card-head"><div class="dash-card-title">⚠️ Low Stock Items (Top 10)</div></div>
+          <div class="dash-card-head"><div class="dash-card-title">âš ï¸ Low Stock Items (Top 10)</div></div>
           <div class="dash-card-body" id="dash-lowstock-list"><div class="dash-empty">Loading...</div></div>
         </div>
         <div class="dash-card">
-          <div class="dash-card-head"><div class="dash-card-title">📅 Near Expiry Items</div></div>
+          <div class="dash-card-head"><div class="dash-card-title">ðŸ“… Near Expiry Items</div></div>
           <div class="dash-card-body" id="dash-expiry-list"><div class="dash-empty">Loading...</div></div>
         </div>
         <div class="dash-card">
-          <div class="dash-card-head"><div class="dash-card-title">📦 Aaj ke Purchases</div></div>
+          <div class="dash-card-head"><div class="dash-card-title">ðŸ“¦ Aaj ke Purchases</div></div>
           <div class="dash-card-body" id="dash-today-list"><div class="dash-empty">Loading...</div></div>
         </div>
         <div class="dash-card">
-          <div class="dash-card-head"><div class="dash-card-title">🏪 Top Parties (Purchase)</div></div>
+          <div class="dash-card-head"><div class="dash-card-title">ðŸª Top Parties (Purchase)</div></div>
           <div class="dash-card-body" id="dash-party-list"><div class="dash-empty">Loading...</div></div>
         </div>
       </div>
@@ -586,28 +586,28 @@ canvas.dash-chart{width:100%!important;height:200px!important;}
     <!-- BILLS PANEL -->
     <div id="bills-panel">
       <div class="bill-controls">
-        <button class="bill-type-btn active" id="bill-type-sale" onclick="setBillType('sale')">🧾 Last Sale Bill</button>
-        <button class="bill-type-btn" id="bill-type-purchase" onclick="setBillType('purchase')">📦 Last Purchase Bill</button>
-        <button class="fetch-bill-btn" onclick="fetchBill()">Fetch →</button>
+        <button class="bill-type-btn active" id="bill-type-sale" onclick="setBillType('sale')">ðŸ§¾ Last Sale Bill</button>
+        <button class="bill-type-btn" id="bill-type-purchase" onclick="setBillType('purchase')">ðŸ“¦ Last Purchase Bill</button>
+        <button class="fetch-bill-btn" onclick="fetchBill()">Fetch â†’</button>
         <div style="margin-left:auto;display:flex;gap:8px;">
-          <button class="bill-act-btn" onclick="printBill()">🖨️ Print (Thermal)</button>
-          <button class="bill-act-btn primary" onclick="saveBillPDF()">📄 Save PDF</button>
+          <button class="bill-act-btn" onclick="printBill()">ðŸ–¨ï¸ Print (Thermal)</button>
+          <button class="bill-act-btn primary" onclick="saveBillPDF()">ðŸ“„ Save PDF</button>
         </div>
       </div>
       <div id="bill-display">
-        <div id="bill-display-empty">☝️ Bill type select karo aur Fetch dabao</div>
+        <div id="bill-display-empty">â˜ï¸ Bill type select karo aur Fetch dabao</div>
         <div id="bill-content">
           <div class="bill-header-bar">
             <div class="bill-title" id="bill-header-title">Bill</div>
             <div class="bill-actions">
-              <button class="bill-act-btn" onclick="printBill()">🖨️ Print</button>
-              <button class="bill-act-btn primary" onclick="saveBillPDF()">📄 PDF</button>
+              <button class="bill-act-btn" onclick="printBill()">ðŸ–¨ï¸ Print</button>
+              <button class="bill-act-btn primary" onclick="saveBillPDF()">ðŸ“„ PDF</button>
             </div>
           </div>
           <div id="bill-printable">
             <div class="bill-company">
               <div class="bill-company-name">Happy Medical & Cosmetic</div>
-              <div class="bill-company-sub">Medical ERP — FAWIN System</div>
+              <div class="bill-company-sub">Medical ERP â€” FAWIN System</div>
             </div>
             <hr class="bill-divider"/>
             <div class="bill-meta-grid" id="bill-meta-grid"></div>
@@ -619,7 +619,7 @@ canvas.dash-chart{width:100%!important;height:200px!important;}
             <hr class="bill-divider"/>
             <div class="bill-totals" id="bill-totals"></div>
             <hr class="bill-divider" style="margin-top:16px;"/>
-            <div style="text-align:center;font-size:11px;color:var(--text3);padding-top:6px;">Shukriya! — Happy Medical & Cosmetic</div>
+            <div style="text-align:center;font-size:11px;color:var(--text3);padding-top:6px;">Shukriya! â€” Happy Medical & Cosmetic</div>
           </div>
         </div>
       </div>
@@ -629,13 +629,13 @@ canvas.dash-chart{width:100%!important;height:200px!important;}
     <div id="search-panel">
       <div class="search-bar">
         <select id="search-type">
-          <option value="item">💊 Item/Stock</option>
-          <option value="party">🏪 Party/Supplier</option>
+          <option value="item">ðŸ’Š Item/Stock</option>
+          <option value="party">ðŸª Party/Supplier</option>
         </select>
         <input type="text" id="search-input" placeholder="Item ya Party ka naam likhao..." autocomplete="off"/>
         <button id="search-btn" onclick="doSearch()">Search</button>
       </div>
-      <div id="search-hint" style="font-size:12px;color:var(--text3);margin-bottom:12px;">💡 Partial naam bhi chalega — jaise "para" likhne se Paracetamol mil jayega</div>
+      <div id="search-hint" style="font-size:12px;color:var(--text3);margin-bottom:12px;">ðŸ’¡ Partial naam bhi chalega â€” jaise "para" likhne se Paracetamol mil jayega</div>
       <div class="search-results" id="search-results">
         <div style="text-align:center;padding:60px;color:var(--text3);font-size:13px;">Upar naam likhkar Search dabao</div>
       </div>
@@ -644,9 +644,9 @@ canvas.dash-chart{width:100%!important;height:200px!important;}
     <!-- REPORTS PANEL -->
     <div id="reports-panel">
       <div class="report-tabs">
-        <button class="report-tab-btn active" onclick="switchReport('gst')" id="rtab-gst">📋 GST Report</button>
-        <button class="report-tab-btn" onclick="switchReport('purchase')" id="rtab-purchase">🛒 Purchase Summary</button>
-        <button class="report-tab-btn" onclick="switchReport('sale')" id="rtab-sale">💰 Sale Summary</button>
+        <button class="report-tab-btn active" onclick="switchReport('gst')" id="rtab-gst">ðŸ“‹ GST Report</button>
+        <button class="report-tab-btn" onclick="switchReport('purchase')" id="rtab-purchase">ðŸ›’ Purchase Summary</button>
+        <button class="report-tab-btn" onclick="switchReport('sale')" id="rtab-sale">ðŸ’° Sale Summary</button>
       </div>
 
       <!-- GST -->
@@ -654,7 +654,7 @@ canvas.dash-chart{width:100%!important;height:200px!important;}
         <div class="report-filters">
           <input type="month" id="gst-month" class="rpt-input" style="width:160px;"/>
           <button class="rpt-btn" onclick="loadGSTReport()">Generate GST</button>
-          <button class="rpt-btn green" onclick="exportGST()">⬇ Export CSV</button>
+          <button class="rpt-btn green" onclick="exportGST()">â¬‡ Export CSV</button>
         </div>
         <div class="gst-summary-grid" id="gst-summary"></div>
         <div class="report-table-wrap">
@@ -704,15 +704,15 @@ canvas.dash-chart{width:100%!important;height:200px!important;}
     <!-- ALERTS PANEL -->
     <div id="alerts-panel">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
-        <div style="font-size:18px;font-weight:600;color:var(--text);">🔔 Alerts & Notifications</div>
-        <button class="dash-refresh" onclick="loadAlerts()">↻ Refresh</button>
+        <div style="font-size:18px;font-weight:600;color:var(--text);">ðŸ”” Alerts & Notifications</div>
+        <button class="dash-refresh" onclick="loadAlerts()">â†» Refresh</button>
       </div>
       <div class="alert-section">
-        <div class="alert-section-title">⚠️ Low Stock Items <span class="alert-count-badge orange" id="alert-low-count">0</span></div>
+        <div class="alert-section-title">âš ï¸ Low Stock Items <span class="alert-count-badge orange" id="alert-low-count">0</span></div>
         <div id="alert-low-list"><div class="panel-loading"><div class="spin"></div>Loading...</div></div>
       </div>
       <div class="alert-section">
-        <div class="alert-section-title">📅 Expiry Alerts <span class="alert-count-badge red" id="alert-exp-count">0</span></div>
+        <div class="alert-section-title">ðŸ“… Expiry Alerts <span class="alert-count-badge red" id="alert-exp-count">0</span></div>
         <div id="alert-exp-list"><div class="panel-loading"><div class="spin"></div>Loading...</div></div>
       </div>
     </div>
@@ -725,7 +725,7 @@ canvas.dash-chart{width:100%!important;height:200px!important;}
   <div class="modal-box">
     <h3 id="tool-modal-title"></h3>
     <div id="tool-modal-desc" style="font-size:12px;color:var(--text2);margin-bottom:8px;"></div>
-    <div style="font-size:11px;color:var(--text3);margin-bottom:6px;">Used: <span id="tool-modal-uses">0</span>x | ✅ <span id="tool-modal-success">0</span> | ❌ <span id="tool-modal-fail">0</span></div>
+    <div style="font-size:11px;color:var(--text3);margin-bottom:6px;">Used: <span id="tool-modal-uses">0</span>x | âœ… <span id="tool-modal-success">0</span> | âŒ <span id="tool-modal-fail">0</span></div>
     <pre id="tool-modal-code"></pre>
     <div class="modal-btns">
       <button id="tool-modal-close">Close</button>
@@ -753,7 +753,7 @@ canvas.dash-chart{width:100%!important;height:200px!important;}
 <!-- SETTINGS MODAL -->
 <div id="settings-modal" class="modal">
   <div class="modal-box">
-    <h3>⚙️ Settings & API Keys</h3>
+    <h3>âš™ï¸ Settings & API Keys</h3>
     <div class="api-section">
       <div class="api-section-title">Primary AI Provider</div>
       <label>Provider</label>
@@ -826,9 +826,9 @@ canvas.dash-chart{width:100%!important;height:200px!important;}
 </div>
 
 <script>
-// ════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // CORE STATE
-// ════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 var tools = {};
 var chats = JSON.parse(localStorage.getItem('agent_chats') || '[]');
 var currentChatId = null;
@@ -853,16 +853,16 @@ var SERVER_ONLINE = false;
   if (dot) dot.style.background = SERVER_ONLINE ? '#22c55e' : '#ef4444';
   if (lbl) lbl.textContent = SERVER_ONLINE ? 'Server Online' : 'Server Offline';
 })();
-// Safe server fetch — never throws, returns null if offline
+// Safe server fetch â€” never throws, returns null if offline
 async function safeFetch(url, opts) {
   try { var r = await fetch(url, opts); return await r.json(); }
   catch(e) { return { success: false, error: 'Server offline', offline: true }; }
 }
 var currentBillType = 'sale';
 
-// ════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // INIT
-// ════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 function init() {
   var t = localStorage.getItem('theme') || 'dark';
   document.documentElement.setAttribute('data-theme', t);
@@ -894,9 +894,9 @@ function init() {
   document.getElementById('dash-date-str').textContent = today.toLocaleDateString('en-IN', {weekday:'long',year:'numeric',month:'long',day:'numeric'});
 }
 
-// ════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // TAB NAVIGATION
-// ════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 var tabPanels = {
   chat: 'chat-panel',
   dashboard: 'dashboard-panel',
@@ -917,9 +917,9 @@ function switchTab(tab) {
   if(tab === 'alerts') loadAlerts();
 }
 
-// ════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // DASHBOARD
-// ════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 async function loadDashboard() {
   // Load KPIs in parallel
   loadKPIToday();
@@ -938,11 +938,11 @@ async function loadKPIToday() {
     var parts = sumLine.split(/\s+/);
     var bills = parts[0] || '0';
     var total = parseFloat(parts[1] || 0).toFixed(0);
-    document.getElementById('kpi-purchase').textContent = '₹' + Number(total).toLocaleString('en-IN');
+    document.getElementById('kpi-purchase').textContent = 'â‚¹' + Number(total).toLocaleString('en-IN');
     document.getElementById('kpi-purchase').classList.remove('kpi-loading');
     document.getElementById('kpi-purchase-sub').textContent = bills + ' bills today';
-    // Today sale: call with SDN=12 — for now show same refresh
-    document.getElementById('kpi-sale').textContent = '—';
+    // Today sale: call with SDN=12 â€” for now show same refresh
+    document.getElementById('kpi-sale').textContent = 'â€”';
     document.getElementById('kpi-sale').classList.remove('kpi-loading');
     document.getElementById('kpi-sale-sub').textContent = 'See chat for sale data';
     // Fill today purchases list
@@ -952,7 +952,7 @@ async function loadKPIToday() {
     el.innerHTML = lines.slice(0,10).map(function(l){
       var p = l.split(/\s{2,}/);
       var inv = p[0]||''; var party = p[1]||''; var net = parseFloat(p[2]||0).toFixed(0);
-      return '<div class="dash-item"><span class="dash-item-name">'+esc(party||inv)+'</span><span class="dash-item-val green">₹'+Number(net).toLocaleString('en-IN')+'</span></div>';
+      return '<div class="dash-item"><span class="dash-item-name">'+esc(party||inv)+'</span><span class="dash-item-val green">â‚¹'+Number(net).toLocaleString('en-IN')+'</span></div>';
     }).join('');
   } catch(e) {
     document.getElementById('kpi-purchase').textContent='ERR';
@@ -970,7 +970,7 @@ async function loadKPILowStock() {
     document.getElementById('kpi-lowstock').classList.remove('kpi-loading');
     // Fill lowstock list
     var el = document.getElementById('dash-lowstock-list');
-    if(!count) { el.innerHTML='<div class="dash-empty">✅ No low stock</div>'; return; }
+    if(!count) { el.innerHTML='<div class="dash-empty">âœ… No low stock</div>'; return; }
     el.innerHTML = lines.map(function(l){
       var p = l.trim().split(/\s+/);
       var stock = parseInt(p[p.length-1]||0);
@@ -992,7 +992,7 @@ async function loadKPIExpiry() {
     document.getElementById('kpi-expiry').classList.remove('kpi-loading');
     // Fill expiry list
     var el = document.getElementById('dash-expiry-list');
-    if(!count) { el.innerHTML='<div class="dash-empty">✅ No near-expiry items</div>'; return; }
+    if(!count) { el.innerHTML='<div class="dash-empty">âœ… No near-expiry items</div>'; return; }
     el.innerHTML = lines.map(function(l){
       var p = l.trim().split(/\s+/);
       var exp = p[p.length-2]||''; var stock = p[p.length-1]||'';
@@ -1007,19 +1007,19 @@ async function loadKPIParties() {
     var r = await safeFetch(SERVER + '/fawin/party', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({partyName:''})});
     var d = r;
     var lines = (d.data || '').trim().split('\n\n').filter(Boolean);
-    document.getElementById('kpi-parties').textContent = lines.length || '—';
+    document.getElementById('kpi-parties').textContent = lines.length || 'â€”';
     document.getElementById('kpi-parties').classList.remove('kpi-loading');
     var el = document.getElementById('dash-party-list');
     if(!lines.length) { el.innerHTML='<div class="dash-empty">No party data</div>'; return; }
     el.innerHTML = lines.slice(0,8).map(function(block){
       var lns = block.split('\n');
-      var name = (lns[0]||'').replace(/^[🏪\s]+/,'');
+      var name = (lns[0]||'').replace(/^[ðŸª\s]+/,'');
       var details = lns[1]||'';
-      var purMatch = details.match(/Purchase: ₹([\d.]+)/);
-      var saleMatch = details.match(/Sale: ₹([\d.]+)/);
+      var purMatch = details.match(/Purchase: â‚¹([\d.]+)/);
+      var saleMatch = details.match(/Sale: â‚¹([\d.]+)/);
       var pur = purMatch ? parseFloat(purMatch[1]).toFixed(0) : '0';
       var sal = saleMatch ? parseFloat(saleMatch[1]).toFixed(0) : '0';
-      return '<div class="dash-item"><span class="dash-item-name">'+esc(name)+'</span><div style="display:flex;flex-direction:column;align-items:flex-end;gap:2px"><span class="dash-item-val blue" style="font-size:11px">P: ₹'+Number(pur).toLocaleString('en-IN')+'</span><span style="font-size:10px;color:var(--green)">S: ₹'+Number(sal).toLocaleString('en-IN')+'</span></div></div>';
+      return '<div class="dash-item"><span class="dash-item-name">'+esc(name)+'</span><div style="display:flex;flex-direction:column;align-items:flex-end;gap:2px"><span class="dash-item-val blue" style="font-size:11px">P: â‚¹'+Number(pur).toLocaleString('en-IN')+'</span><span style="font-size:10px;color:var(--green)">S: â‚¹'+Number(sal).toLocaleString('en-IN')+'</span></div></div>';
     }).join('');
   } catch(e) { document.getElementById('kpi-parties').textContent='ERR'; document.getElementById('kpi-parties').classList.remove('kpi-loading'); }
 }
@@ -1028,9 +1028,9 @@ async function loadDashLists() {
   // already loaded above
 }
 
-// ════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // BILLS
-// ════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 function setBillType(type) {
   currentBillType = type;
   document.getElementById('bill-type-sale').classList.toggle('active', type==='sale');
@@ -1060,9 +1060,9 @@ function renderBill(rawData, type) {
   var inItems = false;
   lines.forEach(function(l){
     l = l.trim();
-    if(l.startsWith('🧾')) { document.getElementById('bill-header-title').textContent = l; }
+    if(l.startsWith('ðŸ§¾')) { document.getElementById('bill-header-title').textContent = l; }
     if(l.includes('SK1=') || l.match(/^\d+\s+\w+/)) {
-      // header row — parse simple
+      // header row â€” parse simple
     }
     if(l.match(/^\d+\.\s/)) { items.push(l.replace(/^\d+\.\s/,'')); inItems=true; }
     if(!inItems) {
@@ -1096,10 +1096,10 @@ function renderBill(rawData, type) {
   document.getElementById('bill-table-body').innerHTML = tbody;
   // Totals
   var totHTML = '';
-  if(header.disc) totHTML += '<div class="bill-total-row"><span class="bill-total-key">Discount:</span><span class="bill-total-val">₹'+esc(header.disc)+'</span></div>';
-  if(header.cgst) totHTML += '<div class="bill-total-row"><span class="bill-total-key">CGST:</span><span class="bill-total-val">₹'+esc(header.cgst)+'</span></div>';
-  if(header.sgst) totHTML += '<div class="bill-total-row"><span class="bill-total-key">SGST:</span><span class="bill-total-val">₹'+esc(header.sgst)+'</span></div>';
-  if(header.net) totHTML += '<div class="bill-total-row bill-grand-total"><span class="bill-total-key">NET TOTAL:</span><span class="bill-total-val">₹'+esc(header.net)+'</span></div>';
+  if(header.disc) totHTML += '<div class="bill-total-row"><span class="bill-total-key">Discount:</span><span class="bill-total-val">â‚¹'+esc(header.disc)+'</span></div>';
+  if(header.cgst) totHTML += '<div class="bill-total-row"><span class="bill-total-key">CGST:</span><span class="bill-total-val">â‚¹'+esc(header.cgst)+'</span></div>';
+  if(header.sgst) totHTML += '<div class="bill-total-row"><span class="bill-total-key">SGST:</span><span class="bill-total-val">â‚¹'+esc(header.sgst)+'</span></div>';
+  if(header.net) totHTML += '<div class="bill-total-row bill-grand-total"><span class="bill-total-key">NET TOTAL:</span><span class="bill-total-val">â‚¹'+esc(header.net)+'</span></div>';
   document.getElementById('bill-totals').innerHTML = totHTML;
   empty.style.display='none'; content.style.display='block';
 }
@@ -1114,9 +1114,9 @@ function saveBillPDF() {
   alert('Print dialog mein "Save as PDF" select karo');
 }
 
-// ════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // SMART SEARCH
-// ════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 document.addEventListener('keydown', function(e){
   if(e.key==='Enter' && document.activeElement && document.activeElement.id==='search-input') doSearch();
 });
@@ -1132,7 +1132,7 @@ async function doSearch() {
     var body = type === 'item' ? {itemName:query} : {partyName:query};
     var r = await fetch(SERVER + endpoint, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
     var d = await r.json();
-    if(!d.success || !d.data) { el.innerHTML='<div style="padding:40px;text-align:center;color:var(--text3);">Koi result nahi mila — "'+esc(query)+'"</div>'; return; }
+    if(!d.success || !d.data) { el.innerHTML='<div style="padding:40px;text-align:center;color:var(--text3);">Koi result nahi mila â€” "'+esc(query)+'"</div>'; return; }
     renderSearchResults(d.data, type);
   } catch(e) { el.innerHTML='<div style="padding:40px;text-align:center;color:var(--red);">Error: '+esc(e.message)+'</div>'; }
 }
@@ -1144,7 +1144,7 @@ function renderSearchResults(raw, type) {
     if(!blocks.length) { el.innerHTML='<div style="padding:40px;text-align:center;color:var(--text3);">Koi item nahi mila</div>'; return; }
     el.innerHTML = blocks.map(function(b){
       var lines = b.split('\n');
-      var name = (lines[0]||'').replace(/^[📦\s]+/,'');
+      var name = (lines[0]||'').replace(/^[ðŸ“¦\s]+/,'');
       var details = (lines[1]||'').trim();
       var stockMatch = details.match(/Stock:\s*([\d.]+)/);
       var purchMatch = details.match(/Purchased:\s*([\d.]+)/);
@@ -1154,29 +1154,29 @@ function renderSearchResults(raw, type) {
       var stock = stockMatch ? parseFloat(stockMatch[1]) : 0;
       var badgeClass = stock <= 0 ? 'out-stock' : (stock < 10 ? 'low-stock' : 'in-stock');
       var badgeText = stock <= 0 ? 'Out of Stock' : (stock < 10 ? 'Low Stock' : 'In Stock');
-      return '<div class="search-result-card"><div class="src-name">💊 '+esc(name)+'</div><div class="src-details"><div class="src-detail"><div class="src-detail-key">Stock</div><div class="src-detail-val">'+esc(stockMatch?stockMatch[1]:'—')+'</div></div><div class="src-detail"><div class="src-detail-key">Purchased</div><div class="src-detail-val">'+esc(purchMatch?purchMatch[1]:'—')+'</div></div><div class="src-detail"><div class="src-detail-key">Sold</div><div class="src-detail-val">'+esc(soldMatch?soldMatch[1]:'—')+'</div></div><div class="src-detail"><div class="src-detail-key">Expiry</div><div class="src-detail-val">'+esc(expMatch?expMatch[1]:'—')+'</div></div><div class="src-detail"><div class="src-detail-key">Batch</div><div class="src-detail-val">'+esc(batchMatch?batchMatch[1]:'—')+'</div></div><div class="src-detail"><div class="src-detail-key">Status</div><div class="src-detail-val"><span class="src-badge '+badgeClass+'">'+badgeText+'</span></div></div></div></div>';
+      return '<div class="search-result-card"><div class="src-name">ðŸ’Š '+esc(name)+'</div><div class="src-details"><div class="src-detail"><div class="src-detail-key">Stock</div><div class="src-detail-val">'+esc(stockMatch?stockMatch[1]:'â€”')+'</div></div><div class="src-detail"><div class="src-detail-key">Purchased</div><div class="src-detail-val">'+esc(purchMatch?purchMatch[1]:'â€”')+'</div></div><div class="src-detail"><div class="src-detail-key">Sold</div><div class="src-detail-val">'+esc(soldMatch?soldMatch[1]:'â€”')+'</div></div><div class="src-detail"><div class="src-detail-key">Expiry</div><div class="src-detail-val">'+esc(expMatch?expMatch[1]:'â€”')+'</div></div><div class="src-detail"><div class="src-detail-key">Batch</div><div class="src-detail-val">'+esc(batchMatch?batchMatch[1]:'â€”')+'</div></div><div class="src-detail"><div class="src-detail-key">Status</div><div class="src-detail-val"><span class="src-badge '+badgeClass+'">'+badgeText+'</span></div></div></div></div>';
     }).join('');
   } else {
     var blocks2 = raw.split('\n\n').filter(Boolean);
     if(!blocks2.length) { el.innerHTML='<div style="padding:40px;text-align:center;color:var(--text3);">Koi party nahi mili</div>'; return; }
     el.innerHTML = blocks2.map(function(b){
       var lines = b.split('\n');
-      var name = (lines[0]||'').replace(/^[🏪\s]+/,'');
+      var name = (lines[0]||'').replace(/^[ðŸª\s]+/,'');
       var d1 = (lines[1]||'').trim();
       var d2 = (lines[2]||'').trim();
-      var purMatch = d1.match(/Purchase:\s*₹([\d.]+)/);
-      var saleMatch = d1.match(/Sale:\s*₹([\d.]+)/);
-      var balMatch = d1.match(/Balance:\s*₹([\d.-]+)/);
+      var purMatch = d1.match(/Purchase:\s*â‚¹([\d.]+)/);
+      var saleMatch = d1.match(/Sale:\s*â‚¹([\d.]+)/);
+      var balMatch = d1.match(/Balance:\s*â‚¹([\d.-]+)/);
       var dateMatch = d2.match(/Last Bill:\s*(\S+)/);
       var billsMatch = d2.match(/Total Bills:\s*(\d+)/);
-      return '<div class="search-result-card"><div class="src-name">🏪 '+esc(name)+'</div><div class="src-details"><div class="src-detail"><div class="src-detail-key">Purchase</div><div class="src-detail-val">₹'+esc(purMatch?Number(purMatch[1]).toLocaleString('en-IN'):'—')+'</div></div><div class="src-detail"><div class="src-detail-key">Sale</div><div class="src-detail-val">₹'+esc(saleMatch?Number(saleMatch[1]).toLocaleString('en-IN'):'—')+'</div></div><div class="src-detail"><div class="src-detail-key">Balance</div><div class="src-detail-val">₹'+esc(balMatch?balMatch[1]:'—')+'</div></div><div class="src-detail"><div class="src-detail-key">Last Bill</div><div class="src-detail-val">'+esc(dateMatch?dateMatch[1]:'—')+'</div></div><div class="src-detail"><div class="src-detail-key">Total Bills</div><div class="src-detail-val">'+esc(billsMatch?billsMatch[1]:'—')+'</div></div></div></div>';
+      return '<div class="search-result-card"><div class="src-name">ðŸª '+esc(name)+'</div><div class="src-details"><div class="src-detail"><div class="src-detail-key">Purchase</div><div class="src-detail-val">â‚¹'+esc(purMatch?Number(purMatch[1]).toLocaleString('en-IN'):'â€”')+'</div></div><div class="src-detail"><div class="src-detail-key">Sale</div><div class="src-detail-val">â‚¹'+esc(saleMatch?Number(saleMatch[1]).toLocaleString('en-IN'):'â€”')+'</div></div><div class="src-detail"><div class="src-detail-key">Balance</div><div class="src-detail-val">â‚¹'+esc(balMatch?balMatch[1]:'â€”')+'</div></div><div class="src-detail"><div class="src-detail-key">Last Bill</div><div class="src-detail-val">'+esc(dateMatch?dateMatch[1]:'â€”')+'</div></div><div class="src-detail"><div class="src-detail-key">Total Bills</div><div class="src-detail-val">'+esc(billsMatch?billsMatch[1]:'â€”')+'</div></div></div></div>';
     }).join('');
   }
 }
 
-// ════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // GST REPORT
-// ════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 function switchReport(type) {
   ['gst','purchase','sale'].forEach(function(t){
     document.getElementById('rtab-'+t).classList.toggle('active', t===type);
@@ -1211,32 +1211,32 @@ async function loadGSTReport() {
       return lm === month;
     });
     if(!filtered.length) {
-      tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;padding:30px;color:var(--text3);">Is month koi purchase nahi mili — try karo chat mein ya check karo party name</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;padding:30px;color:var(--text3);">Is month koi purchase nahi mili â€” try karo chat mein ya check karo party name</td></tr>';
       return;
     }
     var totalTaxable=0, totalCGST5=0, totalSGST5=0, totalGST=0, totalNet=0;
     var rows = filtered.map(function(l, i){
       var p = l.trim().split(/\s{2,}/);
       var inv=p[0]||''; var date=p[1]||''; var party=p[2]||''; var net=parseFloat(p[3]||0); var disc=parseFloat(p[4]||0);
-      // FIX 6: GST reverse calculation — FAWIN data mein net = taxable + GST
+      // FIX 6: GST reverse calculation â€” FAWIN data mein net = taxable + GST
       // Jo bhi GST rate hai bill mein woh use karo, default 5%
       // net = taxable * (1 + gst/100) => taxable = net / (1 + gst/100)
-      var gstRate = 5; // medical items mostly 5% — FAWIN se agar alag milega toh update hoga
+      var gstRate = 5; // medical items mostly 5% â€” FAWIN se agar alag milega toh update hoga
       var taxable = net / (1 + gstRate/100); // FIX: proper reverse calc
       var cgst5 = taxable * (gstRate/2/100);
       var sgst5 = taxable * (gstRate/2/100);
       var gstTotal = cgst5 + sgst5;
       totalTaxable+=taxable; totalCGST5+=cgst5; totalSGST5+=sgst5; totalGST+=gstTotal; totalNet+=net;
-      return '<tr><td>'+esc(inv)+'</td><td>'+esc(date)+'</td><td>'+esc(party)+'</td><td class="num">₹'+taxable.toFixed(2)+'</td><td class="num">₹'+cgst5.toFixed(2)+'</td><td class="num">₹'+sgst5.toFixed(2)+'</td><td class="num">—</td><td class="num">—</td><td class="num">₹'+gstTotal.toFixed(2)+'</td><td class="num">₹'+net.toFixed(2)+'</td></tr>';
+      return '<tr><td>'+esc(inv)+'</td><td>'+esc(date)+'</td><td>'+esc(party)+'</td><td class="num">â‚¹'+taxable.toFixed(2)+'</td><td class="num">â‚¹'+cgst5.toFixed(2)+'</td><td class="num">â‚¹'+sgst5.toFixed(2)+'</td><td class="num">â€”</td><td class="num">â€”</td><td class="num">â‚¹'+gstTotal.toFixed(2)+'</td><td class="num">â‚¹'+net.toFixed(2)+'</td></tr>';
     });
     tbody.innerHTML = rows.join('');
     // Summary cards
     document.getElementById('gst-summary').innerHTML = [
-      '<div class="gst-card"><div class="gst-card-title">Purchase Summary</div><div class="gst-card-row"><span class="gst-card-key">Total Bills</span><span class="gst-card-val">'+filtered.length+'</span></div><div class="gst-card-row"><span class="gst-card-key">Net Amount</span><span class="gst-card-val">₹'+totalNet.toFixed(2)+'</span></div></div>',
-      '<div class="gst-card"><div class="gst-card-title">GST 5% Slab</div><div class="gst-card-row"><span class="gst-card-key">Taxable</span><span class="gst-card-val">₹'+totalTaxable.toFixed(2)+'</span></div><div class="gst-card-row"><span class="gst-card-key">CGST 2.5%</span><span class="gst-card-val">₹'+totalCGST5.toFixed(2)+'</span></div><div class="gst-card-row"><span class="gst-card-key">SGST 2.5%</span><span class="gst-card-val">₹'+totalSGST5.toFixed(2)+'</span></div></div>',
-      '<div class="gst-card"><div class="gst-card-title">Total GST Paid</div><div class="gst-card-row"><span class="gst-card-key">Total GST</span><span class="gst-card-val" style="color:var(--accent)">₹'+totalGST.toFixed(2)+'</span></div></div>'
+      '<div class="gst-card"><div class="gst-card-title">Purchase Summary</div><div class="gst-card-row"><span class="gst-card-key">Total Bills</span><span class="gst-card-val">'+filtered.length+'</span></div><div class="gst-card-row"><span class="gst-card-key">Net Amount</span><span class="gst-card-val">â‚¹'+totalNet.toFixed(2)+'</span></div></div>',
+      '<div class="gst-card"><div class="gst-card-title">GST 5% Slab</div><div class="gst-card-row"><span class="gst-card-key">Taxable</span><span class="gst-card-val">â‚¹'+totalTaxable.toFixed(2)+'</span></div><div class="gst-card-row"><span class="gst-card-key">CGST 2.5%</span><span class="gst-card-val">â‚¹'+totalCGST5.toFixed(2)+'</span></div><div class="gst-card-row"><span class="gst-card-key">SGST 2.5%</span><span class="gst-card-val">â‚¹'+totalSGST5.toFixed(2)+'</span></div></div>',
+      '<div class="gst-card"><div class="gst-card-title">Total GST Paid</div><div class="gst-card-row"><span class="gst-card-key">Total GST</span><span class="gst-card-val" style="color:var(--accent)">â‚¹'+totalGST.toFixed(2)+'</span></div></div>'
     ].join('');
-    document.getElementById('gst-totals').innerHTML = '<div class="rpt-total-item"><div class="rpt-total-key">Total Bills</div><div class="rpt-total-val">'+filtered.length+'</div></div><div class="rpt-total-item"><div class="rpt-total-key">Net Amount</div><div class="rpt-total-val">₹'+totalNet.toFixed(0)+'</div></div><div class="rpt-total-item"><div class="rpt-total-key">Total GST</div><div class="rpt-total-val">₹'+totalGST.toFixed(2)+'</div></div>';
+    document.getElementById('gst-totals').innerHTML = '<div class="rpt-total-item"><div class="rpt-total-key">Total Bills</div><div class="rpt-total-val">'+filtered.length+'</div></div><div class="rpt-total-item"><div class="rpt-total-key">Net Amount</div><div class="rpt-total-val">â‚¹'+totalNet.toFixed(0)+'</div></div><div class="rpt-total-item"><div class="rpt-total-key">Total GST</div><div class="rpt-total-val">â‚¹'+totalGST.toFixed(2)+'</div></div>';
   } catch(e) { tbody.innerHTML='<tr><td colspan="10" style="text-align:center;padding:30px;color:var(--red);">Error: '+esc(e.message)+'</td></tr>'; }
 }
 
@@ -1274,10 +1274,10 @@ async function loadPurchaseReport() {
       var p = l.trim().split(/\s{2,}/);
       var net=parseFloat(p[3]||0); var disc=parseFloat(p[4]||0);
       totalNet+=net; totalDisc+=disc; totalBills++;
-      return '<tr><td>'+esc(p[0]||'')+'</td><td>'+esc(p[1]||'')+'</td><td>'+esc(p[2]||'')+'</td><td class="num">—</td><td class="num">₹'+disc.toFixed(2)+'</td><td class="num">—</td><td class="num">₹'+net.toFixed(2)+'</td></tr>';
+      return '<tr><td>'+esc(p[0]||'')+'</td><td>'+esc(p[1]||'')+'</td><td>'+esc(p[2]||'')+'</td><td class="num">â€”</td><td class="num">â‚¹'+disc.toFixed(2)+'</td><td class="num">â€”</td><td class="num">â‚¹'+net.toFixed(2)+'</td></tr>';
     });
     tbody.innerHTML = rows.length ? rows.join('') : '<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--text3);">Koi data nahi</td></tr>';
-    document.getElementById('purchase-totals').innerHTML = '<div class="rpt-total-item"><div class="rpt-total-key">Total Bills</div><div class="rpt-total-val">'+totalBills+'</div></div><div class="rpt-total-item"><div class="rpt-total-key">Total Discount</div><div class="rpt-total-val">₹'+totalDisc.toFixed(2)+'</div></div><div class="rpt-total-item"><div class="rpt-total-key">Net Amount</div><div class="rpt-total-val">₹'+totalNet.toFixed(2)+'</div></div>';
+    document.getElementById('purchase-totals').innerHTML = '<div class="rpt-total-item"><div class="rpt-total-key">Total Bills</div><div class="rpt-total-val">'+totalBills+'</div></div><div class="rpt-total-item"><div class="rpt-total-key">Total Discount</div><div class="rpt-total-val">â‚¹'+totalDisc.toFixed(2)+'</div></div><div class="rpt-total-item"><div class="rpt-total-key">Net Amount</div><div class="rpt-total-val">â‚¹'+totalNet.toFixed(2)+'</div></div>';
   } catch(e) { tbody.innerHTML='<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--red);">Error: '+esc(e.message)+'</td></tr>'; }
 }
 
@@ -1289,14 +1289,14 @@ async function loadSaleReport() {
   try {
     var r = await safeFetch(SERVER + '/fawin/party', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({partyName:''})});
     var d = r;
-    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:20px;color:var(--text3);">Sale detail report ke liye chat mein "Last sale bill" poocho — detailed data wahan milega</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:20px;color:var(--text3);">Sale detail report ke liye chat mein "Last sale bill" poocho â€” detailed data wahan milega</td></tr>';
     document.getElementById('sale-totals').innerHTML = '';
   } catch(e) { tbody.innerHTML='<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--red);">Error: '+esc(e.message)+'</td></tr>'; }
 }
 
-// ════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // ALERTS
-// ════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 async function loadAlerts() {
   loadLowStockAlerts();
   loadExpiryAlerts();
@@ -1311,14 +1311,14 @@ async function loadLowStockAlerts() {
     var d = r;
     var lines = (d.data||'').trim().split('\n').filter(function(l){return l && !l.startsWith('Error');});
     countEl.textContent = lines.length;
-    if(!lines.length) { el.innerHTML='<div class="alert-card info"><div class="alert-icon">✅</div><div class="alert-body"><div class="alert-name">Sabhi items ka stock theek hai!</div></div></div>'; return; }
+    if(!lines.length) { el.innerHTML='<div class="alert-card info"><div class="alert-icon">âœ…</div><div class="alert-body"><div class="alert-name">Sabhi items ka stock theek hai!</div></div></div>'; return; }
     el.innerHTML = lines.map(function(l){
       var p = l.trim().split(/\s+/);
       var stock = parseInt(p[p.length-1]||0);
       var name = p.slice(0,p.length-1).join(' ');
       var sev = stock <= 3 ? 'danger' : 'warning';
-      var icon = stock <= 3 ? '🔴' : '🟡';
-      return '<div class="alert-card '+sev+'"><div class="alert-icon">'+icon+'</div><div class="alert-body"><div class="alert-name">'+esc(name)+'</div><div class="alert-detail">Stock remaining: <strong>'+stock+'</strong> units</div></div><button class="alert-action wa" onclick="sendWAAlert(\''+esc(name)+'\','+stock+')">📱 WhatsApp</button></div>';
+      var icon = stock <= 3 ? 'ðŸ”´' : 'ðŸŸ¡';
+      return '<div class="alert-card '+sev+'"><div class="alert-icon">'+icon+'</div><div class="alert-body"><div class="alert-name">'+esc(name)+'</div><div class="alert-detail">Stock remaining: <strong>'+stock+'</strong> units</div></div><button class="alert-action wa" onclick="sendWAAlert(\''+esc(name)+'\','+stock+')">ðŸ“± WhatsApp</button></div>';
     }).join('');
   } catch(e) { el.innerHTML='<div style="color:var(--red);padding:12px">Error: '+esc(e.message)+'</div>'; }
 }
@@ -1332,11 +1332,11 @@ async function loadExpiryAlerts() {
     var d = r;
     var lines = (d.data||'').trim().split('\n').filter(function(l){return l && !l.startsWith('Error');});
     countEl.textContent = lines.length;
-    if(!lines.length) { el.innerHTML='<div class="alert-card info"><div class="alert-icon">✅</div><div class="alert-body"><div class="alert-name">Koi near-expiry item nahi hai (3 mahine mein)</div></div></div>'; return; }
+    if(!lines.length) { el.innerHTML='<div class="alert-card info"><div class="alert-icon">âœ…</div><div class="alert-body"><div class="alert-name">Koi near-expiry item nahi hai (3 mahine mein)</div></div></div>'; return; }
     el.innerHTML = lines.map(function(l){
       var p = l.trim().split(/\s{2,}/);
       var name = p[0]||l; var batch=p[1]||''; var expiry=p[2]||''; var stock=p[3]||'';
-      return '<div class="alert-card danger"><div class="alert-icon">📅</div><div class="alert-body"><div class="alert-name">'+esc(name)+'</div><div class="alert-detail">Expiry: <strong>'+esc(expiry)+'</strong> | Batch: '+esc(batch)+' | Stock: '+esc(stock)+'</div></div><button class="alert-action" onclick="sendWAAlert(\''+esc(name)+' expiry '+esc(expiry)+'\',0)">📱 Notify</button></div>';
+      return '<div class="alert-card danger"><div class="alert-icon">ðŸ“…</div><div class="alert-body"><div class="alert-name">'+esc(name)+'</div><div class="alert-detail">Expiry: <strong>'+esc(expiry)+'</strong> | Batch: '+esc(batch)+' | Stock: '+esc(stock)+'</div></div><button class="alert-action" onclick="sendWAAlert(\''+esc(name)+' expiry '+esc(expiry)+'\',0)">ðŸ“± Notify</button></div>';
     }).join('');
   } catch(e) { el.innerHTML='<div style="color:var(--red);padding:12px">Error: '+esc(e.message)+'</div>'; }
 }
@@ -1344,18 +1344,18 @@ async function loadExpiryAlerts() {
 function sendWAAlert(itemName, stock) {
   var msg = '';
   if(stock > 0) {
-    msg = '⚠️ *Low Stock Alert* — Happy Medical\n\nItem: *'+itemName+'*\nRemaining Stock: *'+stock+' units*\n\nPlease reorder karo ASAP!\n\n— FAWIN AI Agent';
+    msg = 'âš ï¸ *Low Stock Alert* â€” Happy Medical\n\nItem: *'+itemName+'*\nRemaining Stock: *'+stock+' units*\n\nPlease reorder karo ASAP!\n\nâ€” FAWIN AI Agent';
   } else {
-    msg = '📅 *Expiry Alert* — Happy Medical\n\n'+itemName+'\n\nKripya arrange karo.\n\n— FAWIN AI Agent';
+    msg = 'ðŸ“… *Expiry Alert* â€” Happy Medical\n\n'+itemName+'\n\nKripya arrange karo.\n\nâ€” FAWIN AI Agent';
   }
   var waUrl = 'https://wa.me/?text='+encodeURIComponent(msg);
   // FIX 18: anchor tag
   var _waLink = document.createElement('a'); _waLink.href = (waUrl); _waLink.target='_blank'; _waLink.rel='noopener'; document.body.appendChild(_waLink); _waLink.click(); document.body.removeChild(_waLink); //
 }
 
-// ════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // EXISTING CHAT ENGINE (preserved fully)
-// ════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 function askForKey() {
   var provider = localStorage.getItem('ai_provider') || 'groq';
   var keyMap = { groq:'groq_key', gemini:'gemini_key', deepseek:'deepseek_key', openai:'openai_key', openrouter:'openrouter_key', cohere:'cohere_key' };
@@ -1482,11 +1482,11 @@ function updateProviderBadge() {
   var model = localStorage.getItem('model') || 'llama-3.3-70b-versatile';
   var keyMap2 = { groq:'groq_key', gemini:'gemini_key', deepseek:'deepseek_key', openai:'openai_key', openrouter:'openrouter_key', cohere:'cohere_key' };
   var activeApiKey = localStorage.getItem(keyMap2[provider] || 'groq_key') || localStorage.getItem('groq_key');
-  if (!activeApiKey) { throw new Error('API key nahi mili — Settings mein daalo'); }
-  var icons = { groq:'⚡', gemini:'✦', deepseek:'◈', openai:'◎', openrouter:'⊕', cohere:'◉' };
+  if (!activeApiKey) { throw new Error('API key nahi mili â€” Settings mein daalo'); }
+  var icons = { groq:'âš¡', gemini:'âœ¦', deepseek:'â—ˆ', openai:'â—Ž', openrouter:'âŠ•', cohere:'â—‰' };
   var shortModel = model.split('/').pop().split('-').slice(0,3).join('-');
   var badge = document.getElementById('provider-pill');
-  if (badge) badge.textContent = (icons[provider]||'●') + ' ' + provider.charAt(0).toUpperCase()+provider.slice(1) + ' • ' + shortModel;
+  if (badge) badge.textContent = (icons[provider]||'â—') + ' ' + provider.charAt(0).toUpperCase()+provider.slice(1) + ' â€¢ ' + shortModel;
 }
 
 function updateThemeIcon() {
@@ -1509,7 +1509,7 @@ function renderHistory() {
     var div = document.createElement('div');
     div.className = 'hist-item' + (chat.id === currentChatId ? ' active' : '');
     var span = document.createElement('span'); span.className = 'hist-title'; span.textContent = chat.title;
-    var del = document.createElement('button'); del.className = 'hist-del'; del.textContent = '×';
+    var del = document.createElement('button'); del.className = 'hist-del'; del.textContent = 'Ã—';
     del.onclick = function(e) { e.stopPropagation(); deleteChat(chat.id); };
     div.appendChild(span); div.appendChild(del);
     div.onclick = function() { loadChat(chat.id); switchTab('chat'); };
@@ -1536,8 +1536,8 @@ function newChat() {
   currentChatId = 'chat_' + Date.now(); conversationHistory = [];
   uploadedFileContent = ''; uploadedFileName = ''; uploadedImageB64 = ''; uploadedImageType = '';
   var msgs = document.getElementById('messages');
-  msgs.innerHTML = '<div id="empty"><div id="empty-title">🏥 Happy Medical — AI Agent</div><div id="empty-sub">FAWIN se seedha data, bills, stock, reports — Hinglish mein!</div><div class="suggestion-grid"><div class="suggestion">Aaj ki purchase dikhao</div><div class="suggestion">Low stock alert</div><div class="suggestion">Last sale bill</div><div class="suggestion">Expiry wali items</div><div class="suggestion">Party balance dikhao</div><div class="suggestion">Paracetamol stock</div><div class="suggestion">Aaj India mein kya news hai</div><div class="suggestion">Mera naam yaad rakhna</div></div></div>';
-  // FIX 5: Suggestion single binding — no duplicates
+  msgs.innerHTML = '<div id="empty"><div id="empty-title">ðŸ¥ Happy Medical â€” AI Agent</div><div id="empty-sub">FAWIN se seedha data, bills, stock, reports â€” Hinglish mein!</div><div class="suggestion-grid"><div class="suggestion">Aaj ki purchase dikhao</div><div class="suggestion">Low stock alert</div><div class="suggestion">Last sale bill</div><div class="suggestion">Expiry wali items</div><div class="suggestion">Party balance dikhao</div><div class="suggestion">Paracetamol stock</div><div class="suggestion">Aaj India mein kya news hai</div><div class="suggestion">Mera naam yaad rakhna</div></div></div>';
+  // FIX 5: Suggestion single binding â€” no duplicates
   document.querySelectorAll('.suggestion').forEach(function(el) {
     var newEl = el.cloneNode(true); // clone removes old listeners
     el.parentNode.replaceChild(newEl, el);
@@ -1604,15 +1604,15 @@ function appendAiMsg(data) {
   var div = document.createElement('div'); div.className = 'msg-wrap msg-ai';
   var inner = '<div class="msg-inner"><div class="ai-avatar">AI</div><div class="ai-content">';
   if (data.thinking) inner += '<div class="thinking-text">'+esc(data.thinking)+'</div>';
-  if (data.memUsed) inner += '<span class="badge mem-badge">💾 Memory</span>';
-  if (data.webUsed) inner += '<span class="badge web-badge">🌐 Web</span>';
-  if (data.visionUsed) inner += '<span class="badge vision-badge">👁️ Vision</span>';
-  if (data.fileUsed) inner += '<span class="badge file-badge">📎 '+esc(data.fileUsed)+'</span>';
-  if (data.newTool) inner += '<span class="badge tool-badge">🔧 '+esc(data.newTool)+'</span>';
+  if (data.memUsed) inner += '<span class="badge mem-badge">ðŸ’¾ Memory</span>';
+  if (data.webUsed) inner += '<span class="badge web-badge">ðŸŒ Web</span>';
+  if (data.visionUsed) inner += '<span class="badge vision-badge">ðŸ‘ï¸ Vision</span>';
+  if (data.fileUsed) inner += '<span class="badge file-badge">ðŸ“Ž '+esc(data.fileUsed)+'</span>';
+  if (data.newTool) inner += '<span class="badge tool-badge">ðŸ”§ '+esc(data.newTool)+'</span>';
   if (data.execResult) inner += '<div class="tool-execution">'+esc(data.execResult)+'</div>';
   inner += '<div class="ai-text">'+esc(data.text)+'</div>';
   if (data.imageUrl) inner += '<img class="gen-image" src="'+data.imageUrl+'" alt="Generated" loading="lazy" onerror="this.style.display=\'none\'"/>';
-  inner += '<div class="ai-actions"><button class="copy-btn">Copy</button><button class="speak-btn">🔊 Speak</button></div></div></div>';
+  inner += '<div class="ai-actions"><button class="copy-btn">Copy</button><button class="speak-btn">ðŸ”Š Speak</button></div></div></div>';
   div.innerHTML = inner;
   msgs.appendChild(div);
   div.querySelector('.copy-btn').onclick = function() { navigator.clipboard.writeText(data.text).then(function() {}); };
@@ -1633,7 +1633,7 @@ function esc(s) {
 }
 
 function autoResize() {
-  // FIX 14: Stable resize — no jitter
+  // FIX 14: Stable resize â€” no jitter
   var el = document.getElementById('user-input');
   if (!el) return;
   el.style.height = 'auto';
@@ -1652,16 +1652,16 @@ function handleFileUpload(event) {
       uploadedImageType = file.type;
       uploadedFileName = file.name;
       appendUserMsg('Image uploaded: ' + file.name);
-      appendAiMsg({ text: '📸 Image "' + file.name + '" ready hai. Bill scan karna hai? Ya kuch poocho!' });
+      appendAiMsg({ text: 'ðŸ“¸ Image "' + file.name + '" ready hai. Bill scan karna hai? Ya kuch poocho!' });
     } else {
       appendUserMsg('Uploading: ' + file.name); appendTyping();
       try {
         var isB64 = typeof content === 'string' && content.startsWith('data:');
         var res = await safeFetch(SERVER + '/upload', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ filename: file.name, content: isB64 ? content.split(',')[1] : content, encoding: isB64 ? 'base64' : 'utf8' }) });
         var d = res; removeTyping();
-        if (d.success) { uploadedFileContent = d.content || ''; uploadedFileName = file.name; appendAiMsg({ fileUsed: file.name, text: '✅ File "' + file.name + '" upload ho gaya! Poocho.' }); }
+        if (d.success) { uploadedFileContent = d.content || ''; uploadedFileName = file.name; appendAiMsg({ fileUsed: file.name, text: 'âœ… File "' + file.name + '" upload ho gaya! Poocho.' }); }
         else appendAiMsg({ text: 'Upload failed: ' + d.error });
-      } catch(err) { removeTyping(); appendAiMsg({ text: 'Server nahi mila — start-agent.bat chalao.' }); }
+      } catch(err) { removeTyping(); appendAiMsg({ text: 'Server nahi mila â€” start-agent.bat chalao.' }); }
     }
   };
   if (isImage || file.type === 'application/pdf') reader.readAsDataURL(file);
@@ -1716,7 +1716,7 @@ async function analyzeImage(imageB64, imageType, question) {
 }
 
 async function searchWeb(query) {
-  // FIX 8: Server first, then Google News RSS fallback — no key needed
+  // FIX 8: Server first, then Google News RSS fallback â€” no key needed
   try {
     var source = localStorage.getItem('search_source') || 'openrouter';
     var apiKey = source === 'newsapi' ? (localStorage.getItem('newsapi_key') || '') : '';
@@ -1792,11 +1792,11 @@ async function callAI(userMessage, webContext, ragContext, memContext) {
     'Expiry alert: toolUsed="fawinExpiry", toolInput=""',
     'Last sale bill: toolUsed="fawinLastBill", toolInput="sale"',
     'Last purchase bill: toolUsed="fawinLastBill", toolInput="purchase"',
-    '⚠️ SQL READ-ONLY — INSERT/UPDATE/DELETE NAHI.',
+    'âš ï¸ SQL READ-ONLY â€” INSERT/UPDATE/DELETE NAHI.',
     'Date: ' + dateStr + ' | Time: ' + timeStr,
     '', memContext || '', '',
     'RULES:',
-    '1. FAWIN data ke liye SEEDHA tool call karo — koi waiting nahi.',
+    '1. FAWIN data ke liye SEEDHA tool call karo â€” koi waiting nahi.',
     '2. toolOutput field BLANK rakho.',
     '3. Fake numbers mat do.',
     '4. News ke liye WEB DATA use karo.',
@@ -1847,24 +1847,24 @@ async function callAI(userMessage, webContext, ragContext, memContext) {
 }
 
 function runTool(code, input) {
-  // FIX 9: Security — block dangerous patterns before executing
+  // FIX 9: Security â€” block dangerous patterns before executing
   var dangerous = /(require\s*\(|import\s|process\.|__dirname|__filename|fs\.|child_process|exec\s*\(|eval\s*\(|Function\s*\(|XMLHttpRequest|fetch\s*\(|document\.cookie|localStorage\.clear|window\.location\s*=)/i;
-  if (dangerous.test(code)) { return 'Error: Unsafe code detected — file/network/eval operations not allowed in tools'; }
+  if (dangerous.test(code)) { return 'Error: Unsafe code detected â€” file/network/eval operations not allowed in tools'; }
   try { var fn = new Function('input', code + '\nreturn run(input);'); return String(fn(input)); }
   catch(e) { return 'Error: ' + e.message; }
 }
 
 async function sendMessage() {
-  if (isLoading) { isLoading = false; document.getElementById('send-btn').textContent = '➤'; return; }
+  if (isLoading) { isLoading = false; document.getElementById('send-btn').textContent = 'âž¤'; return; }
   var text = document.getElementById('user-input').value.trim();
   if (!text) return;
-  // FIX 2: Key check pehle — provider ke hisaab se
+  // FIX 2: Key check pehle â€” provider ke hisaab se
   var provider = localStorage.getItem('ai_provider') || 'groq';
   var keyMap = { groq:'groq_key', gemini:'gemini_key', deepseek:'deepseek_key', openai:'openai_key', openrouter:'openrouter_key', cohere:'cohere_key' };
   var activeKey = localStorage.getItem(keyMap[provider] || 'groq_key') || localStorage.getItem('groq_key');
   if (!activeKey) { askForKey(); return; }
   document.getElementById('user-input').value = ''; autoResize();
-  isLoading = true; document.getElementById('send-btn').textContent = '⬛';
+  isLoading = true; document.getElementById('send-btn').textContent = 'â¬›';
   if (!currentChatId) currentChatId = 'chat_' + Date.now();
   appendUserMsg(text); appendTyping();
   var chat = chats.find(function(c) { return c.id === currentChatId; });
@@ -1884,7 +1884,7 @@ async function sendMessage() {
         conversationHistory.push({ role:'assistant', content:visionResult.text });
         chat.history = conversationHistory;
         localStorage.setItem('agent_chats', JSON.stringify(chats));
-        isLoading = false; document.getElementById('send-btn').textContent = '➤';
+        isLoading = false; document.getElementById('send-btn').textContent = 'âž¤';
         document.getElementById('user-input').focus();
         safeFetch(SERVER + '/eval/extract', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({userMessage:text,agentResponse:visionResult.text,apiKey:localStorage.getItem('groq_key')})});
         return;
@@ -1921,7 +1921,7 @@ async function sendMessage() {
       var cmdInput = result.toolInput || '';
       var blockedCmds = /(rm\s+-rf|del\s+\/[sf]|format\s+[a-z]:|rmdir\s+\/s|shutdown|reg\s+delete|netsh\s+firewall|taskkill\s+\/f)/i;
       if (blockedCmds.test(cmdInput)) {
-        toolOutput = '❌ Blocked: Dangerous command not allowed — ' + cmdInput.slice(0,50);
+        toolOutput = 'âŒ Blocked: Dangerous command not allowed â€” ' + cmdInput.slice(0,50);
         execResult = toolOutput;
       } else
       try { var cmdRes = await fetch(SERVER + '/system/command', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({command:result.toolInput,confirm:false})}); var cmdData = await cmdRes.json();
@@ -1968,9 +1968,9 @@ async function sendMessage() {
     safeFetch(SERVER + '/eval/extract', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({userMessage:text,agentResponse:result.response,apiKey:localStorage.getItem('groq_key')})});
   } catch(err) {
     removeTyping();
-    appendAiMsg({ text: '❌ Error: ' + err.message + '\n\nstart-agent.bat chalao server start karne ke liye.' });
+    appendAiMsg({ text: 'âŒ Error: ' + err.message + '\n\nstart-agent.bat chalao server start karne ke liye.' });
   }
-  isLoading = false; document.getElementById('send-btn').textContent = '➤';
+  isLoading = false; document.getElementById('send-btn').textContent = 'âž¤';
   document.getElementById('user-input').focus();
 }
 
@@ -1980,10 +1980,10 @@ function toggleVoice() {
   if (recognition && recognition._on) { recognition.stop(); return; }
   var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   recognition = new SR(); recognition.lang = 'hi-IN'; recognition.interimResults = false; recognition._on = false;
-  recognition.onstart = function() { recognition._on = true; btn.classList.add('recording'); btn.textContent = '🔴'; };
-  recognition.onend = function() { recognition._on = false; btn.classList.remove('recording'); btn.textContent = '🎤'; };
+  recognition.onstart = function() { recognition._on = true; btn.classList.add('recording'); btn.textContent = 'ðŸ”´'; };
+  recognition.onend = function() { recognition._on = false; btn.classList.remove('recording'); btn.textContent = 'ðŸŽ¤'; };
   recognition.onresult = function(e) { document.getElementById('user-input').value = e.results[0][0].transcript; autoResize(); };
-  recognition.onerror = function() { recognition._on = false; btn.classList.remove('recording'); btn.textContent = '🎤'; };
+  recognition.onerror = function() { recognition._on = false; btn.classList.remove('recording'); btn.textContent = 'ðŸŽ¤'; };
   recognition.start();
 }
 
@@ -2005,3 +2005,4 @@ document.getElementById('chat-panel').style.display = 'flex';
 </script>
 </body>
 </html>
+
