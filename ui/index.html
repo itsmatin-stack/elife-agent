@@ -16,8 +16,12 @@
 <link rel="stylesheet" href="assets/core.css">
 <style>
 /* Mobile responsive */
+/* Mobile sidebar overlay */
+.sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:99;}
+.sb-overlay.show{display:block;}
 @media(max-width:768px){
-  .sb{position:fixed;top:0;bottom:0;left:0;z-index:100;transform:translateX(0);box-shadow:4px 0 20px rgba(0,0,0,0.15);}
+  .sb{position:fixed;top:0;bottom:0;left:0;z-index:100;transform:translateX(-100%);box-shadow:4px 0 20px rgba(0,0,0,0.15);}
+  .sb:not(.collapsed){transform:translateX(0);}
   .sb.collapsed{transform:translateX(-100%);}
   .main{width:100%;}
   .chat-toolbar{padding:6px 12px;}
@@ -114,7 +118,10 @@
 </head>
 <body>
 <div class="app-shell">
-  <!-- SIDEBAR -->
+  <!-- Mobile Overlay -->
+<div class="sb-overlay" id="sbOverlay" onclick="closeSidebar()"></div>
+
+<!-- SIDEBAR -->
   <div class="sb" id="sidebar">
     <div class="sb-top">
       <div class="sb-logo"><div class="logo-icon"><div class="logo-e">E</div><div class="logo-dot"></div><div class="logo-life">LIFE</div></div><div><div class="logo-name">E LIFE</div><div class="online-dot">Online</div></div></div>
@@ -559,19 +566,6 @@ function loadSession(id) {
 </nav>
 
 <script>
-// Mobile sidebar close on overlay tap
-document.addEventListener('click', function(e) {
-  if(window.innerWidth <= 768) {
-    const sb = document.getElementById('sidebar');
-    const toggle = document.getElementById('sidebarToggle');
-    if(sb && !sb.contains(e.target) && !toggle.contains(e.target)) {
-      sbOpen = false;
-      localStorage.setItem('elife_sb', 'closed');
-      applySidebar();
-    }
-  }
-});
-
 // Register Service Worker
 if('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
