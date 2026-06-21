@@ -4,44 +4,46 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>E LIFE — Calendar</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
-  <!-- PWA -->
-  <link rel="manifest" href="../manifest.json">
-  <meta name="theme-color" content="#534AB7">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="E LIFE">
-  <link rel="apple-touch-icon" href="../assets/icon.svg">
-  <link rel="icon" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/core.css">
-  <style>
-  @media(max-width:768px){
-    .sb{position:fixed;top:0;bottom:0;left:0;z-index:100;transform:translateX(0);box-shadow:4px 0 20px rgba(0,0,0,0.15);}
-    .sb.collapsed{transform:translateX(-100%);}
-    .main{width:100%;}
-    .grid-2,.grid-3,.grid-4{grid-template-columns:1fr!important;}
-    .page-content{padding:12px;}
-  }
-  </style>
+<link rel="stylesheet" href="../assets/core.css">
 <style>
 .cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
 .cal-nav{display:flex;align-items:center;gap:12px;}
-.cal-nav i{font-size:20px;color:var(--sub);cursor:pointer;padding:4px;}
-.cal-nav i:hover{color:var(--acc);}
-.cal-month{font-size:17px;font-weight:800;color:var(--text);}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:16px;}
+.cal-nav i{font-size:22px;color:var(--sub);cursor:pointer;padding:4px;border-radius:8px;}
+.cal-nav i:hover{background:var(--bg2);color:var(--acc);}
+.cal-month{font-size:18px;font-weight:800;color:var(--text);}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:16px;}
 .cal-day-label{text-align:center;font-size:11px;font-weight:700;color:var(--muted);padding:6px 0;text-transform:uppercase;}
-.cal-day{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700;color:var(--text);position:relative;transition:background 0.1s;}
-.cal-day:hover{background:var(--bg2);}
+.cal-day{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:10px;cursor:pointer;font-size:13px;font-weight:700;color:var(--text);position:relative;transition:all 0.15s;border:1.5px solid transparent;}
+.cal-day:hover{background:var(--bg2);border-color:var(--border);}
 .cal-day.today{background:var(--acc);color:#fff;}
-.cal-day.today:hover{background:var(--acc);opacity:0.9;}
-.cal-day.other-month{color:var(--muted);opacity:0.4;}
-.cal-day.has-event::after{content:'';position:absolute;bottom:3px;width:4px;height:4px;border-radius:50%;background:var(--green);}
+.cal-day.selected:not(.today){background:var(--acc2);border-color:var(--acc3);color:var(--acc);}
+.cal-day.other-month{color:var(--muted);opacity:0.35;}
+.cal-day.has-event::after{content:'';position:absolute;bottom:3px;width:5px;height:5px;border-radius:50%;background:var(--green);}
 .cal-day.today.has-event::after{background:#fff;}
-.event-list{display:flex;flex-direction:column;gap:8px;}
-.event-item{display:flex;align-items:center;gap:12px;padding:12px;background:var(--card);border:0.5px solid var(--border);border-radius:var(--radius-lg);}
-.event-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.event-section{margin-top:4px;}
+.event-section-title{font-size:13px;font-weight:800;color:var(--text);margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;}
+.event-item{display:flex;align-items:center;gap:12px;padding:13px;background:var(--card);border:0.5px solid var(--border);border-radius:var(--radius-lg);margin-bottom:8px;transition:border-color 0.15s;cursor:pointer;}
+.event-item:hover{border-color:var(--acc3);}
+.event-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;}
 .event-body{flex:1;}
 .event-title{font-size:14px;font-weight:700;color:var(--text);}
-.event-time{font-size:12px;font-weight:600;color:var(--muted);margin-top:2px;}
+.event-meta{display:flex;gap:8px;margin-top:3px;flex-wrap:wrap;}
+.event-tag{font-size:11px;font-weight:600;color:var(--muted);display:flex;align-items:center;gap:3px;}
+.event-tag i{font-size:12px;}
+.view-btns{display:flex;gap:6px;}
+.view-btn{padding:5px 12px;border-radius:20px;border:0.5px solid var(--border);background:var(--card);font-size:12px;font-weight:600;color:var(--sub);cursor:pointer;}
+.view-btn.active{background:var(--acc2);border-color:var(--acc3);color:var(--acc);}
+.week-view{display:grid;grid-template-columns:50px repeat(7,1fr);gap:1px;background:var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:16px;}
+.week-header{background:var(--card);padding:8px 4px;text-align:center;font-size:11px;font-weight:700;color:var(--muted);}
+.week-time{background:var(--bg2);padding:4px 6px;font-size:10px;font-weight:600;color:var(--muted);text-align:right;}
+.week-cell{background:var(--card);min-height:40px;position:relative;cursor:pointer;}
+.week-cell:hover{background:var(--acc2);}
+.week-cell.today-col{background:var(--acc2);}
+.mini-event{position:absolute;left:2px;right:2px;border-radius:4px;padding:2px 4px;font-size:10px;font-weight:600;color:#fff;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;cursor:pointer;}
+/* AI suggestion */
+.ai-suggest{background:var(--acc2);border:0.5px solid var(--acc3);border-radius:var(--radius-lg);padding:12px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+.ai-suggest i{font-size:20px;color:var(--acc);}
+.ai-suggest-text{flex:1;font-size:13px;font-weight:600;color:var(--text);}
 </style>
 </head>
 <body>
@@ -52,61 +54,118 @@
       <div class="sec-label">Main</div>
       <a class="si" href="../index.html"><i class="ti ti-message-circle"></i><div class="si-body"><div class="si-name">Chat</div></div></a>
       <a class="si" href="dashboard.html"><i class="ti ti-layout-dashboard"></i><div class="si-body"><div class="si-name">Dashboard</div></div></a>
-      <a class="si" href="notifications.html"><i class="ti ti-bell"></i><div class="si-body"><div class="si-name">Notifications</div></div></a>
       <div class="sb-div"></div><div class="sec-label">Business</div>
       <a class="si" href="customers.html"><i class="ti ti-users"></i><div class="si-body"><div class="si-name">Customers</div></div></a>
       <a class="si" href="orders.html"><i class="ti ti-shopping-cart"></i><div class="si-body"><div class="si-name">Orders</div></div></a>
       <a class="si" href="analytics.html"><i class="ti ti-chart-bar"></i><div class="si-body"><div class="si-name">Analytics</div></div></a>
-      <a class="si" href="emails.html"><i class="ti ti-mail"></i><div class="si-body"><div class="si-name">Emails</div></div></a>
       <a class="si" href="invoices.html"><i class="ti ti-receipt"></i><div class="si-body"><div class="si-name">Invoices</div></div></a>
       <div class="sb-div"></div><div class="sec-label">Personal</div>
       <a class="si active" href="calendar.html"><i class="ti ti-calendar"></i><div class="si-body"><div class="si-name">Calendar</div></div></a>
       <a class="si" href="tasks.html"><i class="ti ti-checkbox"></i><div class="si-body"><div class="si-name">Tasks</div></div></a>
       <a class="si" href="notes.html"><i class="ti ti-note"></i><div class="si-body"><div class="si-name">Notes</div></div></a>
       <a class="si" href="reminders.html"><i class="ti ti-clock"></i><div class="si-body"><div class="si-name">Reminders</div></div></a>
-      <a class="si" href="saved.html"><i class="ti ti-heart"></i><div class="si-body"><div class="si-name">Saved</div></div></a>
       <div class="sb-div"></div><div class="sec-label">Tools</div>
-      <a class="si" href="files.html"><i class="ti ti-folder"></i><div class="si-body"><div class="si-name">Files</div></div></a>
       <a class="si" href="research.html"><i class="ti ti-search"></i><div class="si-body"><div class="si-name">Research</div></div></a>
       <a class="si" href="code.html"><i class="ti ti-code"></i><div class="si-body"><div class="si-name">Code</div></div></a>
-      <a class="si" href="translate.html"><i class="ti ti-language"></i><div class="si-body"><div class="si-name">Translate</div></div></a>
-      <div class="sb-div"></div><div class="sec-label">Memory</div>
-      <a class="si" href="profile.html"><i class="ti ti-brain"></i><div class="si-body"><div class="si-name">My Profile</div></div></a>
-      <a class="si" href="history.html"><i class="ti ti-history"></i><div class="si-body"><div class="si-name">History</div></div></a>
-      <a class="si" href="vault.html"><i class="ti ti-lock"></i><div class="si-body"><div class="si-name">Private Vault</div></div></a>
       <div class="sb-div"></div><div class="sec-label">Settings</div>
       <a class="si" href="settings.html"><i class="ti ti-settings"></i><div class="si-body"><div class="si-name">Settings</div></div></a>
-      <a class="si" href="about.html"><i class="ti ti-info-circle"></i><div class="si-body"><div class="si-name">About</div></div></a>
     </div>
-    <div class="sb-bot"><div class="theme-row" id="themeToggle"><div class="theme-lbl"><i class="ti ti-moon" id="themeIcon"></i><span id="themeLabel">Dark mode</span></div><div class="tgl" id="tgl"></div></div><div class="user-row"><div class="uav">EL</div><div><div class="uname">E LIFE User</div><div class="uplan">Groq powered</div></div><i class="ti ti-dots-vertical ml"></i></div></div>
+    <div class="sb-bot"><div class="theme-row" id="themeToggle"><div class="theme-lbl"><i class="ti ti-moon" id="themeIcon"></i><span id="themeLabel">Dark mode</span></div><div class="tgl" id="tgl"></div></div><div class="user-row"><div class="uav">EL</div><div><div class="uname">E LIFE User</div><div class="uplan">Groq powered</div></div></div></div>
   </div>
   <div class="main">
-    <div class="topbar"><div class="tb-toggle" id="sidebarToggle"><i class="ti ti-layout-sidebar" id="toggleIcon"></i></div><div class="tb-title">Calendar</div><div class="tb-icons"><i class="ti ti-plus" onclick="openModal('addModal')"></i></div></div>
-    <div class="page-content">
-      <div class="cal-header">
-        <div class="cal-nav">
-          <i class="ti ti-chevron-left" onclick="changeMonth(-1)"></i>
-          <div class="cal-month" id="calMonth"></div>
-          <i class="ti ti-chevron-right" onclick="changeMonth(1)"></i>
+    <div class="topbar">
+      <div class="tb-toggle" id="sidebarToggle"><i class="ti ti-layout-sidebar" id="toggleIcon"></i></div>
+      <div class="tb-title">Calendar</div>
+      <div class="tb-icons">
+        <div class="view-btns">
+          <div class="view-btn active" onclick="setView('month',this)">Month</div>
+          <div class="view-btn" onclick="setView('week',this)">Week</div>
         </div>
-        <button class="btn btn-secondary" onclick="goToday()"><i class="ti ti-calendar"></i>Aaj</button>
+        <i class="ti ti-plus" onclick="openModal('addModal')" style="margin-left:8px;"></i>
+        <i class="ti ti-sparkles" onclick="getAISuggestions()" title="AI Schedule"></i>
       </div>
-      <div class="cal-grid" id="calGrid"></div>
-      <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;" id="selectedDateLabel">Aaj ke events</div>
-      <div class="event-list" id="eventList"></div>
+    </div>
+    <div class="page-content">
+      <!-- AI Suggestion -->
+      <div class="ai-suggest" id="aiSuggest" style="display:none;">
+        <i class="ti ti-sparkles"></i>
+        <div class="ai-suggest-text" id="aiSuggestText"></div>
+        <i class="ti ti-x" onclick="document.getElementById('aiSuggest').style.display='none'" style="cursor:pointer;color:var(--muted);"></i>
+      </div>
+
+      <!-- Month View -->
+      <div id="monthView">
+        <div class="cal-header">
+          <div class="cal-nav">
+            <i class="ti ti-chevron-left" onclick="changeMonth(-1)"></i>
+            <div class="cal-month" id="calMonth"></div>
+            <i class="ti ti-chevron-right" onclick="changeMonth(1)"></i>
+          </div>
+          <button class="btn btn-secondary" onclick="goToday()"><i class="ti ti-calendar"></i>Aaj</button>
+        </div>
+        <div class="cal-grid" id="calGrid"></div>
+      </div>
+
+      <!-- Week View -->
+      <div id="weekView" style="display:none;">
+        <div class="cal-header">
+          <div class="cal-nav">
+            <i class="ti ti-chevron-left" onclick="changeWeek(-1)"></i>
+            <div class="cal-month" id="weekTitle"></div>
+            <i class="ti ti-chevron-right" onclick="changeWeek(1)"></i>
+          </div>
+          <button class="btn btn-secondary" onclick="goToday()"><i class="ti ti-calendar"></i>Aaj</button>
+        </div>
+        <div class="week-view" id="weekGrid"></div>
+      </div>
+
+      <!-- Events -->
+      <div class="event-section">
+        <div class="event-section-title">
+          <span id="selectedDateLabel">Aaj ke events</span>
+          <span style="font-size:12px;font-weight:600;color:var(--muted);" id="eventCount">0 events</span>
+        </div>
+        <div id="eventList"></div>
+      </div>
     </div>
   </div>
 </div>
+
+<!-- Add Event Modal -->
 <div class="modal-overlay" id="addModal">
   <div class="modal">
     <div class="modal-title">Naya Event <i class="ti ti-x" onclick="closeModal('addModal')"></i></div>
-    <div class="form-group"><label class="form-label">Event Title</label><input class="form-input" id="eTitle" placeholder="Kya hai?"/></div>
-    <div class="form-group"><label class="form-label">Date</label><input class="form-input" id="eDate" type="date"/></div>
-    <div class="form-group"><label class="form-label">Time</label><input class="form-input" id="eTime" type="time"/></div>
+    <div class="form-group"><label class="form-label">Title *</label><input class="form-input" id="eTitle" placeholder="Event ka naam..."/></div>
+    <div class="grid-2" style="gap:10px;">
+      <div class="form-group"><label class="form-label">Date *</label><input class="form-input" id="eDate" type="date"/></div>
+      <div class="form-group"><label class="form-label">Time</label><input class="form-input" id="eTime" type="time"/></div>
+    </div>
+    <div class="form-group"><label class="form-label">End Time</label><input class="form-input" id="eEndTime" type="time"/></div>
+    <div class="form-group"><label class="form-label">Category</label>
+      <select class="form-input" id="eCat">
+        <option value="personal">Personal</option>
+        <option value="business">Business</option>
+        <option value="meeting">Meeting</option>
+        <option value="reminder">Reminder</option>
+        <option value="holiday">Holiday</option>
+      </select>
+    </div>
     <div class="form-group"><label class="form-label">Color</label>
       <select class="form-input" id="eColor">
-        <option value="#534AB7">Purple</option><option value="#1D9E75">Green</option>
-        <option value="#EF9F27">Orange</option><option value="#D94F4F">Red</option>
+        <option value="#534AB7">Purple</option>
+        <option value="#1D9E75">Green</option>
+        <option value="#EF9F27">Orange</option>
+        <option value="#D94F4F">Red</option>
+        <option value="#3B82F6">Blue</option>
+      </select>
+    </div>
+    <div class="form-group"><label class="form-label">Note</label><textarea class="form-input" id="eNote" rows="2" placeholder="Koi note..."></textarea></div>
+    <div class="form-group"><label class="form-label">Repeat</label>
+      <select class="form-input" id="eRepeat">
+        <option value="none">None</option>
+        <option value="daily">Daily</option>
+        <option value="weekly">Weekly</option>
+        <option value="monthly">Monthly</option>
       </select>
     </div>
     <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:4px;">
@@ -115,78 +174,216 @@
     </div>
   </div>
 </div>
+
+<!-- Event Detail Modal -->
+<div class="modal-overlay" id="detailModal">
+  <div class="modal">
+    <div class="modal-title" id="detailTitle">Event <i class="ti ti-x" onclick="closeModal('detailModal')"></i></div>
+    <div id="detailBody"></div>
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:14px;">
+      <button class="btn btn-danger" id="detailDelete">Delete</button>
+      <button class="btn btn-secondary" onclick="closeModal('detailModal')">Close</button>
+    </div>
+  </div>
+</div>
+
+<nav class="mob-nav">
+  <a class="mob-nav-item" href="../index.html"><i class="ti ti-message-circle"></i><span>Chat</span></a>
+  <a class="mob-nav-item" href="dashboard.html"><i class="ti ti-layout-dashboard"></i><span>Dashboard</span></a>
+  <a class="mob-nav-item active" href="calendar.html"><i class="ti ti-calendar"></i><span>Calendar</span></a>
+  <a class="mob-nav-item" href="tasks.html"><i class="ti ti-checkbox"></i><span>Tasks</span></a>
+  <a class="mob-nav-item" href="settings.html"><i class="ti ti-settings"></i><span>Settings</span></a>
+</nav>
+
 <script src="../assets/core.js"></script>
 <script>
 let events = loadData('calEvents', []);
 let cur = new Date();
 let selectedDate = new Date().toISOString().split('T')[0];
+let currentView = 'month';
+let weekOffset = 0;
+let selectedEventId = null;
+
 const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const catColors = {personal:'#534AB7',business:'#1D9E75',meeting:'#3B82F6',reminder:'#EF9F27',holiday:'#D94F4F'};
+
+function setView(v, el) {
+  currentView = v;
+  document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('monthView').style.display = v==='month' ? 'block' : 'none';
+  document.getElementById('weekView').style.display = v==='week' ? 'block' : 'none';
+  if(v==='week') renderWeek();
+  else renderCal();
+}
 
 function changeMonth(d){ cur.setMonth(cur.getMonth()+d); renderCal(); }
-function goToday(){ cur = new Date(); selectedDate = new Date().toISOString().split('T')[0]; renderCal(); renderEvents(); }
+function changeWeek(d){ weekOffset+=d; renderWeek(); }
+function goToday(){ cur=new Date(); selectedDate=new Date().toISOString().split('T')[0]; weekOffset=0; renderCal(); renderWeek(); renderEvents(); }
 
 function addEvent(){
-  const title = document.getElementById('eTitle').value.trim();
-  if(!title){ showToast('Title zaroori hai!','error'); return; }
-  events.push({ id:genId(), title, date:document.getElementById('eDate').value||selectedDate, time:document.getElementById('eTime').value, color:document.getElementById('eColor').value });
+  const title=document.getElementById('eTitle').value.trim();
+  if(!title){showToast('Title zaroori hai!','error');return;}
+  const ev = {
+    id:genId(), title,
+    date:document.getElementById('eDate').value||selectedDate,
+    time:document.getElementById('eTime').value,
+    endTime:document.getElementById('eEndTime').value,
+    cat:document.getElementById('eCat').value,
+    color:document.getElementById('eColor').value,
+    note:document.getElementById('eNote').value.trim(),
+    repeat:document.getElementById('eRepeat').value,
+    created:new Date().toISOString()
+  };
+  events.push(ev);
   saveData('calEvents',events);
-  ['eTitle','eDate','eTime'].forEach(id=>document.getElementById(id).value='');
+  ['eTitle','eDate','eTime','eEndTime','eNote'].forEach(id=>document.getElementById(id).value='');
   closeModal('addModal'); renderCal(); renderEvents();
   showToast('Event add ho gaya!','success');
 }
 
-function deleteEvent(id){ events=events.filter(e=>e.id!==id); saveData('calEvents',events); renderCal(); renderEvents(); }
-
-function renderCal(){
-  document.getElementById('calMonth').textContent = `${months[cur.getMonth()]} ${cur.getFullYear()}`;
-  const grid = document.getElementById('calGrid');
-  let html = days.map(d=>`<div class="cal-day-label">${d}</div>`).join('');
-  const first = new Date(cur.getFullYear(), cur.getMonth(), 1).getDay();
-  const total = new Date(cur.getFullYear(), cur.getMonth()+1, 0).getDate();
-  const prevTotal = new Date(cur.getFullYear(), cur.getMonth(), 0).getDate();
-  const today = new Date().toISOString().split('T')[0];
-  for(let i=0;i<first;i++){
-    const d = prevTotal-first+i+1;
-    html+=`<div class="cal-day other-month">${d}</div>`;
-  }
-  for(let d=1;d<=total;d++){
-    const dateStr = `${cur.getFullYear()}-${String(cur.getMonth()+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const isToday = dateStr===today;
-    const isSel = dateStr===selectedDate;
-    const hasEv = events.some(e=>e.date===dateStr);
-    html+=`<div class="cal-day${isToday?' today':''}${hasEv?' has-event':''}${isSel&&!isToday?' selected':''}" style="${isSel&&!isToday?'background:var(--acc2);':''}" onclick="selectDate('${dateStr}')">${d}</div>`;
-  }
-  const rem = 42-(first+total);
-  for(let i=1;i<=rem;i++) html+=`<div class="cal-day other-month">${i}</div>`;
-  grid.innerHTML = html;
+function deleteEvent(id){
+  events=events.filter(e=>e.id!==id);
+  saveData('calEvents',events);
+  closeModal('detailModal');
+  renderCal(); renderEvents();
+  showToast('Event delete ho gaya!','info');
 }
 
-function selectDate(d){ selectedDate=d; renderCal(); renderEvents(); document.getElementById('selectedDateLabel').textContent=`${d} ke events`; document.getElementById('eDate').value=d; }
+function showDetail(id){
+  const ev=events.find(e=>e.id===id);
+  if(!ev)return;
+  selectedEventId=id;
+  document.getElementById('detailTitle').innerHTML=`<span style="color:${ev.color}">${ev.title}</span> <i class="ti ti-x" onclick="closeModal('detailModal')" style="cursor:pointer;color:var(--muted);float:right;"></i>`;
+  document.getElementById('detailBody').innerHTML=`
+    <div style="display:flex;flex-direction:column;gap:8px;font-size:14px;font-weight:600;">
+      <div style="display:flex;gap:8px;"><i class="ti ti-calendar" style="color:var(--acc);"></i><span>${ev.date}</span></div>
+      ${ev.time?`<div style="display:flex;gap:8px;"><i class="ti ti-clock" style="color:var(--acc);"></i><span>${ev.time}${ev.endTime?' - '+ev.endTime:''}</span></div>`:''}
+      <div style="display:flex;gap:8px;"><i class="ti ti-tag" style="color:var(--acc);"></i><span>${ev.cat}</span></div>
+      ${ev.repeat!=='none'?`<div style="display:flex;gap:8px;"><i class="ti ti-repeat" style="color:var(--acc);"></i><span>Repeats ${ev.repeat}</span></div>`:''}
+      ${ev.note?`<div style="display:flex;gap:8px;align-items:flex-start;"><i class="ti ti-note" style="color:var(--acc);margin-top:2px;"></i><span>${ev.note}</span></div>`:''}
+    </div>`;
+  document.getElementById('detailDelete').onclick=()=>deleteEvent(id);
+  openModal('detailModal');
+}
+
+function renderCal(){
+  document.getElementById('calMonth').textContent=`${months[cur.getMonth()]} ${cur.getFullYear()}`;
+  const grid=document.getElementById('calGrid');
+  let html=days.map(d=>`<div class="cal-day-label">${d}</div>`).join('');
+  const first=new Date(cur.getFullYear(),cur.getMonth(),1).getDay();
+  const total=new Date(cur.getFullYear(),cur.getMonth()+1,0).getDate();
+  const prevTotal=new Date(cur.getFullYear(),cur.getMonth(),0).getDate();
+  const today=new Date().toISOString().split('T')[0];
+
+  for(let i=0;i<first;i++){
+    html+=`<div class="cal-day other-month">${prevTotal-first+i+1}</div>`;
+  }
+  for(let d=1;d<=total;d++){
+    const ds=`${cur.getFullYear()}-${String(cur.getMonth()+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const isToday=ds===today, isSel=ds===selectedDate;
+    const dayEvents=getEventsForDate(ds);
+    html+=`<div class="cal-day${isToday?' today':''}${isSel&&!isToday?' selected':''}${dayEvents.length?' has-event':''}" onclick="selectDate('${ds}')" title="${dayEvents.map(e=>e.title).join(', ')}">${d}</div>`;
+  }
+  const rem=42-(first+total);
+  for(let i=1;i<=rem;i++) html+=`<div class="cal-day other-month">${i}</div>`;
+  grid.innerHTML=html;
+}
+
+function getEventsForDate(dateStr){
+  return events.filter(ev=>{
+    if(ev.date===dateStr) return true;
+    if(ev.repeat==='daily') return true;
+    if(ev.repeat==='weekly'){
+      const evDay=new Date(ev.date).getDay();
+      const selDay=new Date(dateStr).getDay();
+      return evDay===selDay && dateStr>=ev.date;
+    }
+    if(ev.repeat==='monthly'){
+      const evD=new Date(ev.date).getDate();
+      const selD=new Date(dateStr).getDate();
+      return evD===selD && dateStr>=ev.date;
+    }
+    return false;
+  });
+}
+
+function selectDate(d){
+  selectedDate=d;
+  renderCal();
+  renderEvents();
+  document.getElementById('eDate').value=d;
+  document.getElementById('selectedDateLabel').textContent=`${d} ke events`;
+}
 
 function renderEvents(){
-  const el = document.getElementById('eventList');
-  const dayEvents = events.filter(e=>e.date===selectedDate);
-  if(dayEvents.length===0){ el.innerHTML=`<div class="empty-state" style="padding:20px;"><i class="ti ti-calendar-off"></i><p>Is din koi event nahi</p></div>`; return; }
-  el.innerHTML = dayEvents.map(e=>`
-    <div class="event-item">
-      <div class="event-dot" style="background:${e.color||'var(--acc)'}"></div>
-      <div class="event-body"><div class="event-title">${e.title}</div>${e.time?`<div class="event-time">${e.time}</div>`:''}</div>
-      <i class="ti ti-trash" style="font-size:16px;color:var(--muted);cursor:pointer;" onclick="deleteEvent('${e.id}')"></i>
+  const el=document.getElementById('eventList');
+  const dayEvents=getEventsForDate(selectedDate);
+  document.getElementById('eventCount').textContent=`${dayEvents.length} event${dayEvents.length!==1?'s':''}`;
+  if(dayEvents.length===0){
+    el.innerHTML=`<div class="empty-state" style="padding:24px;"><i class="ti ti-calendar-off"></i><h3>Koi event nahi</h3><p>Plus se naya event add karo</p></div>`;
+    return;
+  }
+  el.innerHTML=dayEvents.sort((a,b)=>(a.time||'00:00').localeCompare(b.time||'00:00')).map(ev=>`
+    <div class="event-item" onclick="showDetail('${ev.id}')">
+      <div class="event-dot" style="background:${ev.color||catColors[ev.cat]||'var(--acc)'}"></div>
+      <div class="event-body">
+        <div class="event-title">${ev.title}</div>
+        <div class="event-meta">
+          ${ev.time?`<span class="event-tag"><i class="ti ti-clock"></i>${ev.time}${ev.endTime?' - '+ev.endTime:''}</span>`:''}
+          <span class="event-tag"><i class="ti ti-tag"></i>${ev.cat}</span>
+          ${ev.repeat!=='none'?`<span class="event-tag"><i class="ti ti-repeat"></i>${ev.repeat}</span>`:''}
+        </div>
+      </div>
+      <i class="ti ti-chevron-right" style="color:var(--muted);font-size:16px;"></i>
     </div>`).join('');
 }
 
-document.getElementById('eDate').value = selectedDate;
-renderCal(); renderEvents();
-</script>
+function renderWeek(){
+  const today=new Date();
+  const startOfWeek=new Date(today);
+  startOfWeek.setDate(today.getDate()-today.getDay()+(weekOffset*7));
+  const weekDays=Array.from({length:7},(_,i)=>{
+    const d=new Date(startOfWeek); d.setDate(startOfWeek.getDate()+i); return d;
+  });
+  document.getElementById('weekTitle').textContent=`${weekDays[0].toLocaleDateString('en-IN',{month:'short',day:'numeric'})} - ${weekDays[6].toLocaleDateString('en-IN',{month:'short',day:'numeric',year:'numeric'})}`;
+  const todayStr=new Date().toISOString().split('T')[0];
+  let html=`<div class="week-header"></div>`+weekDays.map(d=>`<div class="week-header${d.toISOString().split('T')[0]===todayStr?' today-col':''}">${days[d.getDay()]}<br><strong>${d.getDate()}</strong></div>`).join('');
+  const hours=[8,9,10,11,12,13,14,15,16,17,18,19,20];
+  hours.forEach(h=>{
+    html+=`<div class="week-time">${h}:00</div>`;
+    weekDays.forEach(d=>{
+      const ds=d.toISOString().split('T')[0];
+      const hourEvents=getEventsForDate(ds).filter(ev=>ev.time&&parseInt(ev.time.split(':')[0])===h);
+      const isToday=ds===todayStr;
+      html+=`<div class="week-cell${isToday?' today-col':''}" onclick="selectDate('${ds}');setView('month',document.querySelector('.view-btn'))">`;
+      hourEvents.forEach(ev=>{
+        html+=`<div class="mini-event" style="background:${ev.color||'var(--acc)'}" onclick="event.stopPropagation();showDetail('${ev.id}')">${ev.title}</div>`;
+      });
+      html+=`</div>`;
+    });
+  });
+  document.getElementById('weekGrid').innerHTML=html;
+}
 
-<!-- Mobile Bottom Nav -->
-<nav class="mob-nav">
-  <a class="mob-nav-item" href="../index.html"><i class="ti ti-message-circle"></i><span>Chat</span></a>
-  <a class="mob-nav-item" href="dashboard.html"><i class="ti ti-layout-dashboard"></i><span>Dashboard</span></a>
-  <a class="mob-nav-item" href="tasks.html"><i class="ti ti-checkbox"></i><span>Tasks</span></a>
-  <a class="mob-nav-item" href="customers.html"><i class="ti ti-users"></i><span>Customers</span></a>
-  <a class="mob-nav-item" href="settings.html"><i class="ti ti-settings"></i><span>Settings</span></a>
-</nav>
+async function getAISuggestions(){
+  const el=document.getElementById('aiSuggest');
+  const textEl=document.getElementById('aiSuggestText');
+  el.style.display='flex';
+  textEl.textContent='AI schedule analyze kar raha hai...';
+  try{
+    const upcomingEvents=events.filter(e=>e.date>=new Date().toISOString().split('T')[0]).slice(0,10);
+    const reply=await groqChat([{role:'user',content:`Mere calendar events:\n${upcomingEvents.map(e=>`- ${e.date} ${e.time||''}: ${e.title} (${e.cat})`).join('\n')||'Koi event nahi'}\n\nMujhe 2-3 smart suggestions do schedule ke liye. Hinglish mein, short mein.`}]);
+    textEl.textContent=reply;
+  }catch(e){
+    textEl.textContent='AI se connect nahi ho paya.';
+  }
+}
+
+document.getElementById('eDate').value=selectedDate;
+renderCal();
+renderEvents();
+</script>
 </body>
 </html>

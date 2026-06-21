@@ -4,154 +4,320 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>E LIFE — Notes</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
-  <!-- PWA -->
-  <link rel="manifest" href="../manifest.json">
-  <meta name="theme-color" content="#534AB7">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="E LIFE">
-  <link rel="apple-touch-icon" href="../assets/icon.svg">
-  <link rel="icon" href="../assets/icon.svg">
-  <link rel="stylesheet" href="../assets/core.css">
-  <style>
-  @media(max-width:768px){
-    .sb{position:fixed;top:0;bottom:0;left:0;z-index:100;transform:translateX(0);box-shadow:4px 0 20px rgba(0,0,0,0.15);}
-    .sb.collapsed{transform:translateX(-100%);}
-    .main{width:100%;}
-    .grid-2,.grid-3,.grid-4{grid-template-columns:1fr!important;}
-    .page-content{padding:12px;}
-  }
-  </style>
+<link rel="stylesheet" href="../assets/core.css">
 <style>
-.notes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;}
-.note-card{background:var(--card);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:14px;cursor:pointer;transition:border-color 0.15s;position:relative;}
-.note-card:hover{border-color:var(--acc3);}
-.note-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px;}
-.note-preview{font-size:12px;font-weight:600;color:var(--muted);line-height:1.5;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
-.note-date{font-size:11px;font-weight:600;color:var(--muted);margin-top:10px;}
-.note-del{position:absolute;top:10px;right:10px;font-size:15px;color:var(--muted);cursor:pointer;opacity:0;}
-.note-card:hover .note-del{opacity:1;}
-.note-del:hover{color:var(--red);}
-.note-colors{display:flex;gap:6px;margin-bottom:14px;}
-.nc{width:20px;height:20px;border-radius:50%;cursor:pointer;border:2px solid transparent;}
-.nc.sel{border-color:var(--text);}
+.notes-toolbar{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center;}
+.search-box{flex:1;min-width:160px;display:flex;align-items:center;gap:7px;padding:9px 12px;background:var(--card);border:0.5px solid var(--border);border-radius:var(--radius-lg);}
+.search-box i{font-size:15px;color:var(--muted);}
+.search-box input{border:none;background:transparent;font-size:13px;font-weight:600;color:var(--text);outline:none;width:100%;}
+.search-box input::placeholder{color:var(--muted);font-weight:400;}
+.filter-row{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;}
+.filter-btn{padding:5px 12px;border-radius:20px;border:0.5px solid var(--border);background:var(--card);font-size:12px;font-weight:600;color:var(--sub);cursor:pointer;transition:all 0.15s;}
+.filter-btn.active{background:var(--acc2);border-color:var(--acc3);color:var(--acc);}
+.notes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;}
+.note-card{background:var(--card);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:16px;cursor:pointer;transition:all 0.15s;position:relative;display:flex;flex-direction:column;gap:8px;}
+.note-card:hover{border-color:var(--acc3);transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,0.08);}
+.note-card-header{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
+.note-title{font-size:14px;font-weight:800;color:var(--text);line-height:1.3;}
+.note-tag{padding:3px 8px;border-radius:10px;font-size:10px;font-weight:700;white-space:nowrap;}
+.note-preview{font-size:12px;font-weight:600;color:var(--muted);line-height:1.6;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;flex:1;}
+.note-footer{display:flex;align-items:center;justify-content:space-between;margin-top:4px;}
+.note-date{font-size:11px;font-weight:600;color:var(--muted);}
+.note-actions{display:flex;gap:6px;opacity:0;transition:opacity 0.15s;}
+.note-card:hover .note-actions{opacity:1;}
+.note-actions i{font-size:15px;color:var(--muted);cursor:pointer;}
+.note-actions i:hover{color:var(--acc);}
+.note-pinned{position:absolute;top:10px;right:10px;font-size:14px;color:var(--amber);}
+/* Editor */
+.note-editor{display:none;flex-direction:column;height:100%;}
+.note-editor.open{display:flex;}
+.editor-toolbar{display:flex;gap:4px;padding:8px 0;border-bottom:0.5px solid var(--border);margin-bottom:12px;flex-wrap:wrap;}
+.et-btn{width:30px;height:30px;border-radius:6px;border:none;background:transparent;color:var(--sub);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700;}
+.et-btn:hover{background:var(--bg2);color:var(--acc);}
+.et-sep{width:0.5px;height:24px;background:var(--border);margin:0 4px;align-self:center;}
+.editor-title{font-size:20px;font-weight:800;color:var(--text);border:none;outline:none;background:transparent;width:100%;margin-bottom:8px;font-family:inherit;}
+.editor-body{flex:1;font-size:14px;font-weight:500;color:var(--text);border:none;outline:none;background:transparent;width:100%;resize:none;line-height:1.8;font-family:inherit;min-height:200px;}
+.editor-meta{display:flex;gap:12px;align-items:center;padding:10px 0;border-top:0.5px solid var(--border);margin-top:8px;flex-wrap:wrap;}
+.word-count{font-size:11px;font-weight:600;color:var(--muted);}
 </style>
 </head>
 <body>
 <div class="app-shell">
   <div class="sb" id="sidebar">
-    <div class="sb-top">
-      <div class="sb-logo"><div class="logo-icon"><div class="logo-e">E</div><div class="logo-dot"></div><div class="logo-life">LIFE</div></div><div><div class="logo-name">E LIFE</div><div class="online-dot">Online</div></div></div>
-      <div class="sb-search"><i class="ti ti-search"></i><input type="text" placeholder="Search..."/></div>
-    </div>
+    <div class="sb-top"><div class="sb-logo"><div class="logo-icon"><div class="logo-e">E</div><div class="logo-dot"></div><div class="logo-life">LIFE</div></div><div><div class="logo-name">E LIFE</div><div class="online-dot">Online</div></div></div><div class="sb-search"><i class="ti ti-search"></i><input type="text" placeholder="Search..."/></div></div>
     <div class="sb-scroll">
       <div class="sec-label">Main</div>
       <a class="si" href="../index.html"><i class="ti ti-message-circle"></i><div class="si-body"><div class="si-name">Chat</div></div></a>
       <a class="si" href="dashboard.html"><i class="ti ti-layout-dashboard"></i><div class="si-body"><div class="si-name">Dashboard</div></div></a>
-      <a class="si" href="notifications.html"><i class="ti ti-bell"></i><div class="si-body"><div class="si-name">Notifications</div></div><span class="badge br">3</span></a>
-      <div class="sb-div"></div><div class="sec-label">Business</div>
-      <a class="si" href="customers.html"><i class="ti ti-users"></i><div class="si-body"><div class="si-name">Customers</div></div></a>
-      <a class="si" href="orders.html"><i class="ti ti-shopping-cart"></i><div class="si-body"><div class="si-name">Orders</div></div><span class="badge ba">5</span></a>
-      <a class="si" href="analytics.html"><i class="ti ti-chart-bar"></i><div class="si-body"><div class="si-name">Analytics</div></div></a>
-      <a class="si" href="emails.html"><i class="ti ti-mail"></i><div class="si-body"><div class="si-name">Emails</div></div><span class="badge br">2</span></a>
-      <a class="si" href="invoices.html"><i class="ti ti-receipt"></i><div class="si-body"><div class="si-name">Invoices</div></div></a>
       <div class="sb-div"></div><div class="sec-label">Personal</div>
       <a class="si" href="calendar.html"><i class="ti ti-calendar"></i><div class="si-body"><div class="si-name">Calendar</div></div></a>
       <a class="si" href="tasks.html"><i class="ti ti-checkbox"></i><div class="si-body"><div class="si-name">Tasks</div></div></a>
       <a class="si active" href="notes.html"><i class="ti ti-note"></i><div class="si-body"><div class="si-name">Notes</div></div></a>
       <a class="si" href="reminders.html"><i class="ti ti-clock"></i><div class="si-body"><div class="si-name">Reminders</div></div></a>
-      <a class="si" href="saved.html"><i class="ti ti-heart"></i><div class="si-body"><div class="si-name">Saved</div></div></a>
-      <div class="sb-div"></div><div class="sec-label">Tools</div>
-      <a class="si" href="files.html"><i class="ti ti-folder"></i><div class="si-body"><div class="si-name">Files</div></div></a>
-      <a class="si" href="research.html"><i class="ti ti-search"></i><div class="si-body"><div class="si-name">Research</div></div></a>
-      <a class="si" href="code.html"><i class="ti ti-code"></i><div class="si-body"><div class="si-name">Code</div></div></a>
-      <a class="si" href="translate.html"><i class="ti ti-language"></i><div class="si-body"><div class="si-name">Translate</div></div></a>
-      <div class="sb-div"></div><div class="sec-label">Memory</div>
-      <a class="si" href="profile.html"><i class="ti ti-brain"></i><div class="si-body"><div class="si-name">My Profile</div></div></a>
-      <a class="si" href="history.html"><i class="ti ti-history"></i><div class="si-body"><div class="si-name">History</div></div></a>
-      <a class="si" href="vault.html"><i class="ti ti-lock"></i><div class="si-body"><div class="si-name">Private Vault</div></div></a>
       <div class="sb-div"></div><div class="sec-label">Settings</div>
       <a class="si" href="settings.html"><i class="ti ti-settings"></i><div class="si-body"><div class="si-name">Settings</div></div></a>
-      <a class="si" href="apikeys.html"><i class="ti ti-key"></i><div class="si-body"><div class="si-name">API Keys</div></div></a>
-      <a class="si" href="about.html"><i class="ti ti-info-circle"></i><div class="si-body"><div class="si-name">About</div></div></a>
     </div>
-    <div class="sb-bot">
-      <div class="theme-row" id="themeToggle"><div class="theme-lbl"><i class="ti ti-moon" id="themeIcon"></i><span id="themeLabel">Dark mode</span></div><div class="tgl" id="tgl"></div></div>
-      <div class="user-row"><div class="uav">EL</div><div><div class="uname">E LIFE User</div><div class="uplan">Groq powered</div></div><i class="ti ti-dots-vertical ml"></i></div>
-    </div>
+    <div class="sb-bot"><div class="theme-row" id="themeToggle"><div class="theme-lbl"><i class="ti ti-moon" id="themeIcon"></i><span id="themeLabel">Dark mode</span></div><div class="tgl" id="tgl"></div></div><div class="user-row"><div class="uav">EL</div><div><div class="uname">E LIFE User</div><div class="uplan">Groq powered</div></div></div></div>
   </div>
   <div class="main">
     <div class="topbar">
       <div class="tb-toggle" id="sidebarToggle"><i class="ti ti-layout-sidebar" id="toggleIcon"></i></div>
-      <div class="tb-title">Notes</div>
-      <div class="tb-icons"><i class="ti ti-plus" onclick="openModal('addModal')"></i></div>
+      <div class="tb-title" id="pageTitle">Notes</div>
+      <div class="tb-icons" id="topbarIcons">
+        <i class="ti ti-plus" onclick="newNote()" title="New Note"></i>
+        <i class="ti ti-sparkles" onclick="aiSummarize()" title="AI Summarize"></i>
+      </div>
     </div>
-    <div class="page-content">
+
+    <!-- Notes List View -->
+    <div class="page-content" id="listView">
+      <div class="notes-toolbar">
+        <div class="search-box">
+          <i class="ti ti-search"></i>
+          <input type="text" id="searchInput" placeholder="Notes mein search karo..." oninput="render()"/>
+        </div>
+        <button class="btn btn-primary" onclick="newNote()"><i class="ti ti-plus"></i>New</button>
+      </div>
+      <div class="filter-row">
+        <div class="filter-btn active" onclick="setFilter('all',this)">Sab</div>
+        <div class="filter-btn" onclick="setFilter('pinned',this)">📌 Pinned</div>
+        <div class="filter-btn" onclick="setFilter('personal',this)">Personal</div>
+        <div class="filter-btn" onclick="setFilter('business',this)">Business</div>
+        <div class="filter-btn" onclick="setFilter('idea',this)">💡 Ideas</div>
+      </div>
       <div class="notes-grid" id="notesList"></div>
     </div>
-  </div>
-</div>
 
-<!-- Add Note Modal -->
-<div class="modal-overlay" id="addModal">
-  <div class="modal">
-    <div class="modal-title">Naya Note <i class="ti ti-x" onclick="closeModal('addModal')"></i></div>
-    <div class="form-group"><label class="form-label">Title</label><input class="form-input" id="noteTitle" placeholder="Note ka naam..."/></div>
-    <div class="form-group"><label class="form-label">Content</label><textarea class="form-input" id="noteContent" rows="5" placeholder="Yahan likho..."></textarea></div>
-    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:4px;">
-      <button class="btn btn-secondary" onclick="closeModal('addModal')">Cancel</button>
-      <button class="btn btn-primary" onclick="addNote()"><i class="ti ti-plus"></i>Save</button>
+    <!-- Editor View -->
+    <div class="page-content" id="editorView" style="display:none;padding-top:8px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+        <button class="btn btn-secondary" onclick="closeEditor()"><i class="ti ti-arrow-left"></i>Back</button>
+        <div style="flex:1;"></div>
+        <select class="form-input" id="noteTag" style="width:auto;" onchange="saveCurrentNote()">
+          <option value="personal">Personal</option>
+          <option value="business">Business</option>
+          <option value="idea">💡 Idea</option>
+          <option value="meeting">Meeting</option>
+          <option value="todo">Todo</option>
+        </select>
+        <button class="btn btn-secondary" onclick="togglePin()" id="pinBtn"><i class="ti ti-pin"></i></button>
+        <button class="btn btn-primary" onclick="saveCurrentNote()"><i class="ti ti-check"></i>Save</button>
+        <button class="btn btn-danger" onclick="deleteCurrentNote()"><i class="ti ti-trash"></i></button>
+      </div>
+      <div class="editor-toolbar">
+        <button class="et-btn" onclick="fmt('bold')" title="Bold"><b>B</b></button>
+        <button class="et-btn" onclick="fmt('italic')" title="Italic"><i>I</i></button>
+        <button class="et-btn" onclick="fmt('underline')" title="Underline"><u>U</u></button>
+        <div class="et-sep"></div>
+        <button class="et-btn" onclick="insertText('• ')" title="Bullet">•</button>
+        <button class="et-btn" onclick="insertText('1. ')" title="Numbered">1.</button>
+        <button class="et-btn" onclick="insertText('☐ ')" title="Checkbox">☐</button>
+        <div class="et-sep"></div>
+        <button class="et-btn" onclick="aiEnhance()" title="AI Enhance"><i class="ti ti-sparkles" style="font-size:14px;"></i></button>
+        <button class="et-btn" onclick="aiSummarizeNote()" title="AI Summary"><i class="ti ti-list" style="font-size:14px;"></i></button>
+      </div>
+      <input type="text" class="editor-title" id="editorTitle" placeholder="Note ka title..." oninput="autoSave()"/>
+      <textarea class="editor-body" id="editorBody" placeholder="Yahan likho..." oninput="autoSave();updateWordCount()"></textarea>
+      <div class="editor-meta">
+        <span class="word-count" id="wordCount">0 words</span>
+        <span class="word-count" id="lastSaved">Not saved</span>
+      </div>
     </div>
   </div>
 </div>
 
-<script src="../assets/core.js"></script>
-<script>
-let notes = loadData('notes', []);
-
-function addNote() {
-  const title = document.getElementById('noteTitle').value.trim();
-  const content = document.getElementById('noteContent').value.trim();
-  if(!title && !content) return;
-  notes.push({ id: genId(), title: title || 'Untitled', content, created: new Date().toISOString() });
-  saveData('notes', notes);
-  document.getElementById('noteTitle').value = '';
-  document.getElementById('noteContent').value = '';
-  closeModal('addModal');
-  render();
-  showToast('Note save ho gaya!', 'success');
-}
-
-function deleteNote(id) {
-  notes = notes.filter(n => n.id !== id);
-  saveData('notes', notes);
-  render();
-  showToast('Note delete ho gaya!', 'info');
-}
-
-function render() {
-  const el = document.getElementById('notesList');
-  if(notes.length === 0) {
-    el.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><i class="ti ti-note"></i><h3>Koi note nahi</h3><p>Plus button se naya note banao</p></div>`;
-    return;
-  }
-  el.innerHTML = notes.slice().reverse().map(n => `
-    <div class="note-card">
-      <i class="ti ti-trash note-del" onclick="deleteNote('${n.id}')"></i>
-      <div class="note-title">${n.title}</div>
-      <div class="note-preview">${n.content || '(Koi content nahi)'}</div>
-      <div class="note-date">${formatDate(n.created)}</div>
-    </div>`).join('');
-}
-render();
-</script>
-
-<!-- Mobile Bottom Nav -->
 <nav class="mob-nav">
   <a class="mob-nav-item" href="../index.html"><i class="ti ti-message-circle"></i><span>Chat</span></a>
   <a class="mob-nav-item" href="dashboard.html"><i class="ti ti-layout-dashboard"></i><span>Dashboard</span></a>
   <a class="mob-nav-item" href="tasks.html"><i class="ti ti-checkbox"></i><span>Tasks</span></a>
-  <a class="mob-nav-item" href="customers.html"><i class="ti ti-users"></i><span>Customers</span></a>
+  <a class="mob-nav-item active" href="notes.html"><i class="ti ti-note"></i><span>Notes</span></a>
   <a class="mob-nav-item" href="settings.html"><i class="ti ti-settings"></i><span>Settings</span></a>
 </nav>
+
+<script src="../assets/core.js"></script>
+<script>
+let notes = loadData('notes', []);
+let filter = 'all';
+let currentNoteId = null;
+let autoSaveTimer = null;
+const tagColors = {personal:'var(--acc2)',business:'var(--green2)',idea:'var(--amber2)',meeting:'#E6F1FB',todo:'var(--red2)'};
+const tagText = {personal:'var(--acc)',business:'var(--green)',idea:'#633806',meeting:'#185FA5',todo:'var(--red)'};
+
+function setFilter(f, el) {
+  filter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  render();
+}
+
+function newNote() {
+  const note = {id:genId(), title:'', content:'', tag:'personal', pinned:false, created:new Date().toISOString(), updated:new Date().toISOString()};
+  notes.unshift(note);
+  saveData('notes', notes);
+  openEditor(note.id);
+}
+
+function openEditor(id) {
+  const note = notes.find(n => n.id === id);
+  if(!note) return;
+  currentNoteId = id;
+  document.getElementById('editorTitle').value = note.title;
+  document.getElementById('editorBody').value = note.content;
+  document.getElementById('noteTag').value = note.tag || 'personal';
+  document.getElementById('pinBtn').innerHTML = `<i class="ti ti-pin${note.pinned?'-filled':''}" style="${note.pinned?'color:var(--amber)':''}"></i>`;
+  document.getElementById('listView').style.display = 'none';
+  document.getElementById('editorView').style.display = 'block';
+  document.getElementById('editorTitle').focus();
+  updateWordCount();
+}
+
+function closeEditor() {
+  saveCurrentNote();
+  currentNoteId = null;
+  document.getElementById('listView').style.display = 'block';
+  document.getElementById('editorView').style.display = 'none';
+  render();
+}
+
+function saveCurrentNote() {
+  if(!currentNoteId) return;
+  const idx = notes.findIndex(n => n.id === currentNoteId);
+  if(idx === -1) return;
+  notes[idx].title = document.getElementById('editorTitle').value || 'Untitled';
+  notes[idx].content = document.getElementById('editorBody').value;
+  notes[idx].tag = document.getElementById('noteTag').value;
+  notes[idx].updated = new Date().toISOString();
+  saveData('notes', notes);
+  document.getElementById('lastSaved').textContent = 'Saved ' + timeNow();
+  showToast('Saved!', 'success');
+}
+
+function autoSave() {
+  clearTimeout(autoSaveTimer);
+  autoSaveTimer = setTimeout(() => {
+    if(!currentNoteId) return;
+    const idx = notes.findIndex(n => n.id === currentNoteId);
+    if(idx === -1) return;
+    notes[idx].title = document.getElementById('editorTitle').value || 'Untitled';
+    notes[idx].content = document.getElementById('editorBody').value;
+    notes[idx].updated = new Date().toISOString();
+    saveData('notes', notes);
+    document.getElementById('lastSaved').textContent = 'Auto-saved ' + timeNow();
+  }, 1500);
+}
+
+function togglePin() {
+  if(!currentNoteId) return;
+  const idx = notes.findIndex(n => n.id === currentNoteId);
+  if(idx === -1) return;
+  notes[idx].pinned = !notes[idx].pinned;
+  saveData('notes', notes);
+  document.getElementById('pinBtn').innerHTML = `<i class="ti ti-pin${notes[idx].pinned?'-filled':''}" style="${notes[idx].pinned?'color:var(--amber)':''}"></i>`;
+  showToast(notes[idx].pinned ? 'Pinned!' : 'Unpinned!', 'info');
+}
+
+function deleteCurrentNote() {
+  if(!currentNoteId || !confirm('Delete karna chahte ho?')) return;
+  notes = notes.filter(n => n.id !== currentNoteId);
+  saveData('notes', notes);
+  closeEditor();
+  showToast('Note delete ho gaya!', 'info');
+}
+
+function fmt(cmd) {
+  document.getElementById('editorBody').focus();
+  document.execCommand(cmd);
+}
+
+function insertText(text) {
+  const ta = document.getElementById('editorBody');
+  const pos = ta.selectionStart;
+  ta.value = ta.value.slice(0, pos) + text + ta.value.slice(pos);
+  ta.selectionStart = ta.selectionEnd = pos + text.length;
+  ta.focus();
+  autoSave();
+}
+
+function updateWordCount() {
+  const text = document.getElementById('editorBody').value;
+  const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+  document.getElementById('wordCount').textContent = `${words} words`;
+}
+
+async function aiEnhance() {
+  const content = document.getElementById('editorBody').value.trim();
+  if(!content) { showToast('Pehle kuch likho!', 'error'); return; }
+  showToast('AI enhance kar raha hai...', 'info');
+  try {
+    const reply = await groqChat([{role:'user', content:`Improve this note — make it cleaner, better structured, and more detailed. Keep the same language (Hinglish/Hindi/English):\n\n${content}`}]);
+    document.getElementById('editorBody').value = reply;
+    autoSave();
+    showToast('AI ne enhance kiya!', 'success');
+  } catch(e) { showToast('Error!', 'error'); }
+}
+
+async function aiSummarizeNote() {
+  const content = document.getElementById('editorBody').value.trim();
+  if(!content) { showToast('Pehle kuch likho!', 'error'); return; }
+  showToast('AI summarize kar raha hai...', 'info');
+  try {
+    const reply = await groqChat([{role:'user', content:`Summarize this note in 3-4 bullet points. Hinglish mein:\n\n${content}`}]);
+    document.getElementById('editorBody').value = content + '\n\n--- AI Summary ---\n' + reply;
+    autoSave();
+    showToast('Summary add ho gayi!', 'success');
+  } catch(e) { showToast('Error!', 'error'); }
+}
+
+function deleteNote(id, e) {
+  e.stopPropagation();
+  notes = notes.filter(n => n.id !== id);
+  saveData('notes', notes);
+  render();
+  showToast('Deleted!', 'info');
+}
+
+function pinNote(id, e) {
+  e.stopPropagation();
+  const idx = notes.findIndex(n => n.id === id);
+  if(idx === -1) return;
+  notes[idx].pinned = !notes[idx].pinned;
+  saveData('notes', notes);
+  render();
+}
+
+function render() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  let filtered = notes.filter(n => {
+    if(q && !n.title.toLowerCase().includes(q) && !n.content.toLowerCase().includes(q)) return false;
+    if(filter === 'pinned') return n.pinned;
+    if(filter === 'all') return true;
+    return n.tag === filter;
+  });
+  filtered = [...filtered.filter(n=>n.pinned), ...filtered.filter(n=>!n.pinned)];
+  const el = document.getElementById('notesList');
+  if(filtered.length === 0) {
+    el.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><i class="ti ti-note"></i><h3>Koi note nahi</h3><p>Plus se naya note banao</p></div>`;
+    return;
+  }
+  el.innerHTML = filtered.map(n => `
+    <div class="note-card" onclick="openEditor('${n.id}')">
+      ${n.pinned ? '<i class="ti ti-pin-filled note-pinned"></i>' : ''}
+      <div class="note-card-header">
+        <div class="note-title">${n.title || 'Untitled'}</div>
+        <span class="note-tag" style="background:${tagColors[n.tag]||'var(--acc2)'};color:${tagText[n.tag]||'var(--acc)'};">${n.tag}</span>
+      </div>
+      <div class="note-preview">${n.content || '(Empty note)'}</div>
+      <div class="note-footer">
+        <div class="note-date">${formatDate(n.updated || n.created)}</div>
+        <div class="note-actions">
+          <i class="ti ti-pin${n.pinned?'-filled':''}" onclick="pinNote('${n.id}',event)" style="${n.pinned?'color:var(--amber)':''}"></i>
+          <i class="ti ti-trash" onclick="deleteNote('${n.id}',event)" style="color:var(--red);"></i>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+render();
+</script>
 </body>
 </html>
