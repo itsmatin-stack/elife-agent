@@ -39,7 +39,21 @@ let sbOpen = localStorage.getItem('elife_sb') !== 'closed';
 function applySidebar() {
   const sb = document.getElementById('sidebar');
   const icon = document.getElementById('toggleIcon');
-  if (sb) sb.classList.toggle('collapsed', !sbOpen);
+  const overlay = document.getElementById('sbOverlay');
+  const isMobile = window.innerWidth <= 768;
+  
+  if(isMobile) {
+    if(sbOpen) {
+      sb?.classList.remove('collapsed');
+      overlay?.classList.add('show');
+    } else {
+      sb?.classList.add('collapsed');
+      overlay?.classList.remove('show');
+    }
+  } else {
+    sb?.classList.toggle('collapsed', !sbOpen);
+    overlay?.classList.remove('show');
+  }
   if (icon) icon.className = sbOpen ? 'ti ti-layout-sidebar' : 'ti ti-layout-sidebar-right';
 }
 function toggleSidebar() {
@@ -151,6 +165,7 @@ function genId() {
 // ── INIT ──────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   applyTheme();
+  if(window.innerWidth <= 768) { sbOpen = false; localStorage.setItem('elife_sb','closed'); }
   applySidebar();
   document.getElementById('themeToggle')?.addEventListener('click', toggleTheme);
   document.getElementById('sidebarToggle')?.addEventListener('click', toggleSidebar);
