@@ -44,13 +44,16 @@ function applySidebar() {
   
   if(isMobile) {
     if(sbOpen) {
+      sb?.classList.add('open');
       sb?.classList.remove('collapsed');
       overlay?.classList.add('show');
     } else {
+      sb?.classList.remove('open');
       sb?.classList.add('collapsed');
       overlay?.classList.remove('show');
     }
   } else {
+    sb?.classList.remove('open');
     sb?.classList.toggle('collapsed', !sbOpen);
     overlay?.classList.remove('show');
   }
@@ -165,7 +168,10 @@ function genId() {
 // ── INIT ──────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   applyTheme();
-  if(window.innerWidth <= 768) { sbOpen = false; localStorage.setItem('elife_sb','closed'); }
+  if(window.innerWidth <= 768) {
+    sbOpen = false;
+    localStorage.setItem('elife_sb','closed');
+  }
   applySidebar();
   document.getElementById('themeToggle')?.addEventListener('click', toggleTheme);
   document.getElementById('sidebarToggle')?.addEventListener('click', toggleSidebar);
