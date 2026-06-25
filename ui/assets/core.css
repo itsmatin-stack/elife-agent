@@ -187,3 +187,7 @@ textarea.form-input{resize:vertical;min-height:80px;}
 }
 .sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:99;}
 .sb-overlay.show{display:block;}
+
+@media(max-width:768px){.sb{display:none!important;}.sb.open{display:flex!important;}}
+
+@media(max-width:768px){.sb{display:none!important;}.sb.open{display:flex!important;}}
