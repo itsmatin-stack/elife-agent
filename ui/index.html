@@ -282,38 +282,6 @@
 
 <script src="assets/core.js"></script>
 <script>
-// ── DOTS MENU ──────────────────────────
-function toggleDotsMenu() {
-  const menu = document.getElementById('dotsMenu');
-  menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
-}
-function closeDotsMenu() {
-  document.getElementById('dotsMenu').style.display = 'none';
-}
-document.addEventListener('click', function(e) {
-  const btn = document.getElementById('dotsBtn');
-  const menu = document.getElementById('dotsMenu');
-  if(menu && btn && !btn.contains(e.target) && !menu.contains(e.target)) {
-    menu.style.display = 'none';
-  }
-});
-
-// ── DOTS MENU ──────────────────────────
-function toggleDotsMenu() {
-  const menu = document.getElementById('dotsMenu');
-  if(menu) menu.style.display = menu.style.display==='none' ? 'block' : 'none';
-}
-function closeDotsMenu() {
-  const menu = document.getElementById('dotsMenu');
-  if(menu) menu.style.display = 'none';
-}
-document.addEventListener('click', function(e) {
-  const btn = document.getElementById('dotsBtn');
-  const menu = document.getElementById('dotsMenu');
-  if(menu && btn && !btn.contains(e.target) && !menu.contains(e.target)) {
-    menu.style.display = 'none';
-  }
-});
 // ── STATE ──────────────────────────────
 let messages = [];
 let currentModel = 'llama-3.3-70b-versatile';
