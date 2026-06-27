@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E LIFE — Tasks</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+<link rel="stylesheet" href="../assets/core.css">
+<style>
+.task-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px;}
+.task-stat{background:var(--card);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:12px;text-align:center;}
+.task-stat-val{font-size:22px;font-weight:800;color:var(--text);}
+.task-stat-lbl{font-size:11px;font-weight:600;color:var(--muted);margin-top:2px;}
+.progress-bar{height:6px;background:var(--bg2);border-radius:3px;overflow:hidden;margin-bottom:16px;}
+.progress-fill{height:100%;background:var(--acc);border-radius:3px;transition:width 0.5s;}
+.task-item{display:flex;align-items:flex-start;gap:12px;padding:13px;background:var(--card);border:0.5px solid var(--border);border-radius:var(--radius-lg);margin-bottom:8px;transition:all 0.15s;}
+.task-item:hover{border-color:var(--acc3);}
+.task-item.done-item{opacity:0.55;}
+.task-check{width:22px;height:22px;border-radius:6px;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;margin-top:1px;transition:all 0.15s;}
+.task-check.checked{background:var(--acc);border-color:var(--acc);}
+.task-check.checked i{display:block;}
+.task-check i{font-size:13px;color:#fff;display:none;}
+.task-body{flex:1;min-width:0;}
+.task-title{font-size:14px;font-weight:700;color:var(--text);line-height:1.4;}
+.task-item.done-item .task-title{text-decoration:line-through;}
+.task-desc{font-size:12px;font-weight:600;color:var(--muted);margin-top:3px;}
+.task-meta{display:flex;gap:8px;margin-top:6px;flex-wrap:wrap;align-items:center;}
+.task-tag{font-size:11px;font-weight:700;padding:2px 8px;border-radius:8px;}
+.task-priority{display:flex;align-items:center;gap:3px;font-size:11px;font-weight:700;}
+.pri-high{color:var(--red);}
+.pri-med{color:var(--amber);}
+.pri-low{color:var(--green);}
+.task-due{font-size:11px;font-weight:600;color:var(--muted);display:flex;align-items:center;gap:3px;}
+.task-due.overdue{color:var(--red);}
+.task-actions{display:flex;gap:6px;flex-shrink:0;}
+.task-actions i{font-size:16px;color:var(--muted);cursor:pointer;padding:2px;}
+.task-actions i:hover{color:var(--acc);}
+.add-bar{display:flex;gap:8px;margin-bottom:16px;}
+.add-bar input{flex:1;padding:11px 14px;border:0.5px solid var(--border);border-radius:var(--radius-lg);background:var(--card);color:var(--text);font-size:14px;font-weight:600;outline:none;font-family:inherit;}
+.add-bar input:focus{border-color:var(--acc3);}
+.add-bar input::placeholder{color:var(--muted);font-weight:400;}
+.filter-row{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;}
+.filter-btn{padding:5px 12px;border-radius:20px;border:0.5px solid var(--border);background:var(--card);font-size:12px;font-weight:600;color:var(--sub);cursor:pointer;}
+.filter-btn.active{background:var(--acc2);border-color:var(--acc3);color:var(--acc);}
+.section-title{font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin:16px 0 8px;padding-bottom:4px;border-bottom:0.5px solid var(--border);}
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <div class="sb" id="sidebar">
+    <div class="sb-top"><div class="sb-logo"><div class="logo-icon"><div class="logo-e">E</div><div class="logo-dot"></div><div class="logo-life">LIFE</div></div><div><div class="logo-name">E LIFE</div><div class="online-dot">Online</div></div></div><div class="sb-search"><i class="ti ti-search"></i><input type="text" placeholder="Search..."/></div></div>
+    <div class="sb-scroll">
+      <div class="sec-label">Main</div>
+      <a class="si" href="../index.html"><i class="ti ti-message-circle"></i><div class="si-body"><div class="si-name">Chat</div></div></a>
+      <a class="si" href="dashboard.html"><i class="ti ti-layout-dashboard"></i><div class="si-body"><div class="si-name">Dashboard</div></div></a>
+      <div class="sb-div"></div><div class="sec-label">Personal</div>
+      <a class="si" href="calendar.html"><i class="ti ti-calendar"></i><div class="si-body"><div class="si-name">Calendar</div></div></a>
+      <a class="si active" href="tasks.html"><i class="ti ti-checkbox"></i><div class="si-body"><div class="si-name">Tasks</div></div></a>
+      <a class="si" href="notes.html"><i class="ti ti-note"></i><div class="si-body"><div class="si-name">Notes</div></div></a>
+      <a class="si" href="reminders.html"><i class="ti ti-clock"></i><div class="si-body"><div class="si-name">Reminders</div></div></a>
+      <div class="sb-div"></div><div class="sec-label">Settings</div>
+      <a class="si" href="settings.html"><i class="ti ti-settings"></i><div class="si-body"><div class="si-name">Settings</div></div></a>
+    </div>
+    <div class="sb-bot"><div class="theme-row" id="themeToggle"><div class="theme-lbl"><i class="ti ti-moon" id="themeIcon"></i><span id="themeLabel">Dark mode</span></div><div class="tgl" id="tgl"></div></div><div class="user-row"><div class="uav">EL</div><div><div class="uname">E LIFE User</div><div class="uplan">Groq powered</div></div></div></div>
+  </div>
+  <div class="main">
+    <div class="topbar">
+      <div class="tb-toggle" id="sidebarToggle"><i class="ti ti-layout-sidebar" id="toggleIcon"></i></div>
+      <div class="tb-title">Tasks</div>
+      <div class="tb-icons">
+        <i class="ti ti-sparkles" onclick="aiSuggestTasks()" title="AI Suggest"></i>
+        <i class="ti ti-plus" onclick="openModal('addModal')"></i>
+      </div>
+    </div>
+    <div class="page-content">
+      <div class="task-stats">
+        <div class="task-stat"><div class="task-stat-val" id="totalCount">0</div><div class="task-stat-lbl">Total</div></div>
+        <div class="task-stat"><div class="task-stat-val" id="doneCount" style="color:var(--green)">0</div><div class="task-stat-lbl">Done</div></div>
+        <div class="task-stat"><div class="task-stat-val" id="pendCount" style="color:var(--amber)">0</div><div class="task-stat-lbl">Pending</div></div>
+        <div class="task-stat"><div class="task-stat-val" id="overdueCount" style="color:var(--red)">0</div><div class="task-stat-lbl">Overdue</div></div>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+
+      <div class="add-bar">
+        <input type="text" id="quickInput" placeholder="Quick task add karo... (Enter dabaо)" onkeydown="if(event.key==='Enter')quickAdd()"/>
+        <button class="btn btn-primary" onclick="quickAdd()"><i class="ti ti-plus"></i>Add</button>
+      </div>
+
+      <div class="filter-row">
+        <div class="filter-btn active" onclick="setFilter('all',this)">Sab</div>
+        <div class="filter-btn" onclick="setFilter('pending',this)">Pending</div>
+        <div class="filter-btn" onclick="setFilter('done',this)">Done</div>
+        <div class="filter-btn" onclick="setFilter('high',this)">🔴 High</div>
+        <div class="filter-btn" onclick="setFilter('today',this)">📅 Today</div>
+        <div class="filter-btn" onclick="setFilter('overdue',this)">⚠️ Overdue</div>
+      </div>
+
+      <div id="taskList"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Add Task Modal -->
+<div class="modal-overlay" id="addModal">
+  <div class="modal">
+    <div class="modal-title">Naya Task <i class="ti ti-x" onclick="closeModal('addModal')"></i></div>
+    <div class="form-group"><label class="form-label">Task Title *</label><input class="form-input" id="tTitle" placeholder="Kya karna hai..."/></div>
+    <div class="form-group"><label class="form-label">Description</label><textarea class="form-input" id="tDesc" rows="2" placeholder="Details..."></textarea></div>
+    <div class="grid-2" style="gap:10px;">
+      <div class="form-group"><label class="form-label">Priority</label>
+        <select class="form-input" id="tPriority">
+          <option value="high">🔴 High</option>
+          <option value="medium" selected>🟡 Medium</option>
+          <option value="low">🟢 Low</option>
+        </select>
+      </div>
+      <div class="form-group"><label class="form-label">Category</label>
+        <select class="form-input" id="tCat">
+          <option value="personal">Personal</option>
+          <option value="business">Business</option>
+          <option value="health">Health</option>
+          <option value="learning">Learning</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group"><label class="form-label">Due Date</label><input class="form-input" id="tDue" type="date"/></div>
+    <div style="display:flex;gap:8px;justify-content:flex-end;">
+      <button class="btn btn-secondary" onclick="closeModal('addModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="addTask()"><i class="ti ti-plus"></i>Add Task</button>
+    </div>
+  </div>
+</div>
+
+<nav class="mob-nav">
+  <a class="mob-nav-item" href="../index.html"><i class="ti ti-message-circle"></i><span>Chat</span></a>
+  <a class="mob-nav-item" href="dashboard.html"><i class="ti ti-layout-dashboard"></i><span>Dashboard</span></a>
+  <a class="mob-nav-item active" href="tasks.html"><i class="ti ti-checkbox"></i><span>Tasks</span></a>
+  <a class="mob-nav-item" href="notes.html"><i class="ti ti-note"></i><span>Notes</span></a>
+  <a class="mob-nav-item" href="settings.html"><i class="ti ti-settings"></i><span>Settings</span></a>
+</nav>
+
+<script src="../assets/core.js"></script>
+<script>
+let tasks = loadData('tasks', []);
+let filter = 'all';
+const today = new Date().toISOString().split('T')[0];
+const catColors = {personal:'var(--acc2)',business:'var(--green2)',health:'var(--red2)',learning:'var(--amber2)'};
+const catText = {personal:'var(--acc)',business:'var(--green)',health:'var(--red)',learning:'#633806'};
+
+function setFilter(f, el) {
+  filter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  render();
+}
+
+function quickAdd() {
+  const input = document.getElementById('quickInput');
+  const title = input.value.trim();
+  if(!title) return;
+  tasks.unshift({id:genId(), title, desc:'', priority:'medium', cat:'personal', due:'', done:false, created:new Date().toISOString()});
+  saveData('tasks', tasks);
+  input.value = '';
+  render();
+  showToast('Task add ho gaya!', 'success');
+}
+
+function addTask() {
+  const title = document.getElementById('tTitle').value.trim();
+  if(!title) { showToast('Title zaroori hai!', 'error'); return; }
+  tasks.unshift({
+    id:genId(), title,
+    desc:document.getElementById('tDesc').value.trim(),
+    priority:document.getElementById('tPriority').value,
+    cat:document.getElementById('tCat').value,
+    due:document.getElementById('tDue').value,
+    done:false, created:new Date().toISOString()
+  });
+  saveData('tasks', tasks);
+  ['tTitle','tDesc','tDue'].forEach(id=>document.getElementById(id).value='');
+  closeModal('addModal');
+  render();
+  showToast('Task add ho gaya!', 'success');
+}
+
+function toggleTask(id) {
+  tasks = tasks.map(t => t.id===id ? {...t, done:!t.done, completedAt:!t.done?new Date().toISOString():null} : t);
+  saveData('tasks', tasks);
+  render();
+}
+
+function deleteTask(id) {
+  tasks = tasks.filter(t => t.id !== id);
+  saveData('tasks', tasks);
+  render();
+  showToast('Task delete ho gaya!', 'info');
+}
+
+function updateStats() {
+  const total = tasks.length;
+  const done = tasks.filter(t => t.done).length;
+  const pending = total - done;
+  const overdue = tasks.filter(t => !t.done && t.due && t.due < today).length;
+  const pct = total ? Math.round((done/total)*100) : 0;
+  document.getElementById('totalCount').textContent = total;
+  document.getElementById('doneCount').textContent = done;
+  document.getElementById('pendCount').textContent = pending;
+  document.getElementById('overdueCount').textContent = overdue;
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+
+function render() {
+  updateStats();
+  let filtered = tasks.filter(t => {
+    if(filter==='pending') return !t.done;
+    if(filter==='done') return t.done;
+    if(filter==='high') return t.priority==='high' && !t.done;
+    if(filter==='today') return t.due===today && !t.done;
+    if(filter==='overdue') return !t.done && t.due && t.due < today;
+    return true;
+  });
+
+  const el = document.getElementById('taskList');
+  if(filtered.length === 0) {
+    el.innerHTML = `<div class="empty-state"><i class="ti ti-checkbox"></i><h3>Koi task nahi</h3><p>Upar se naya task add karo</p></div>`;
+    return;
+  }
+
+  // Sort: high priority first, then by due date
+  filtered.sort((a,b) => {
+    if(a.done !== b.done) return a.done ? 1 : -1;
+    const priOrder = {high:0,medium:1,low:2};
+    if(priOrder[a.priority] !== priOrder[b.priority]) return priOrder[a.priority]-priOrder[b.priority];
+    if(a.due && b.due) return a.due.localeCompare(b.due);
+    return 0;
+  });
+
+  const priIcon = {high:'🔴',medium:'🟡',low:'🟢'};
+  const isOverdue = t => !t.done && t.due && t.due < today;
+
+  el.innerHTML = filtered.map(t => `
+    <div class="task-item ${t.done?'done-item':''}">
+      <div class="task-check ${t.done?'checked':''}" onclick="toggleTask('${t.id}')"><i class="ti ti-check"></i></div>
+      <div class="task-body">
+        <div class="task-title">${t.title}</div>
+        ${t.desc?`<div class="task-desc">${t.desc}</div>`:''}
+        <div class="task-meta">
+          <span class="task-priority ${t.priority==='high'?'pri-high':t.priority==='low'?'pri-low':'pri-med'}">${priIcon[t.priority]} ${t.priority}</span>
+          <span class="task-tag" style="background:${catColors[t.cat]||'var(--acc2)'};color:${catText[t.cat]||'var(--acc)'};">${t.cat}</span>
+          ${t.due?`<span class="task-due ${isOverdue(t)?'overdue':''}"><i class="ti ti-calendar"></i>${t.due}${isOverdue(t)?' ⚠️':''}</span>`:''}
+        </div>
+      </div>
+      <div class="task-actions">
+        <i class="ti ti-trash" onclick="deleteTask('${t.id}')"></i>
+      </div>
+    </div>`).join('');
+}
+
+async function aiSuggestTasks() {
+  showToast('AI suggest kar raha hai...', 'info');
+  try {
+    const pending = tasks.filter(t=>!t.done).map(t=>t.title).slice(0,10);
+    const reply = await groqChat([{role:'user', content:`Mere pending tasks:\n${pending.length?pending.join('\n'):'Koi task nahi'}\n\nMujhe 3-4 new useful tasks suggest karo jo main add kar sakta hoon. Hinglish mein, numbered list mein.`}]);
+    showToast('AI suggestions ready!', 'success');
+    alert(reply);
+  } catch(e) { showToast('Error!', 'error'); }
+}
+
+render();
+</script>
+</body>
+</html>

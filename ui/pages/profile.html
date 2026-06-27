@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E LIFE — My Profile</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+  <!-- PWA -->
+  <link rel="manifest" href="../manifest.json">
+  <meta name="theme-color" content="#534AB7">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="E LIFE">
+  <link rel="apple-touch-icon" href="../assets/icon.svg">
+  <link rel="icon" href="../assets/icon.svg">
+  <link rel="stylesheet" href="../assets/core.css">
+  <style>
+  @media(max-width:768px){
+    .sb{position:fixed;top:0;bottom:0;left:0;z-index:100;transform:translateX(0);box-shadow:4px 0 20px rgba(0,0,0,0.15);}
+    .sb.collapsed{transform:translateX(-100%);}
+    .main{width:100%;}
+    .grid-2,.grid-3,.grid-4{grid-template-columns:1fr!important;}
+    .page-content{padding:12px;}
+  }
+  </style>
+</head>
+<body>
+<div class="app-shell">
+  <div class="sb" id="sidebar">
+    <div class="sb-top"><div class="sb-logo"><div class="logo-icon"><div class="logo-e">E</div><div class="logo-dot"></div><div class="logo-life">LIFE</div></div><div><div class="logo-name">E LIFE</div><div class="online-dot">Online</div></div></div><div class="sb-search"><i class="ti ti-search"></i><input type="text" placeholder="Search..."/></div></div>
+    <div class="sb-scroll">
+      <div class="sec-label">Main</div>
+      <a class="si" href="../index.html"><i class="ti ti-message-circle"></i><div class="si-body"><div class="si-name">Chat</div></div></a>
+      <a class="si" href="dashboard.html"><i class="ti ti-layout-dashboard"></i><div class="si-body"><div class="si-name">Dashboard</div></div></a>
+      <div class="sb-div"></div><div class="sec-label">Memory</div>
+      <a class="si active" href="profile.html"><i class="ti ti-brain"></i><div class="si-body"><div class="si-name">My Profile</div></div></a>
+      <a class="si" href="history.html"><i class="ti ti-history"></i><div class="si-body"><div class="si-name">History</div></div></a>
+      <a class="si" href="vault.html"><i class="ti ti-lock"></i><div class="si-body"><div class="si-name">Private Vault</div></div></a>
+      <div class="sb-div"></div><div class="sec-label">Settings</div>
+      <a class="si" href="settings.html"><i class="ti ti-settings"></i><div class="si-body"><div class="si-name">Settings</div></div></a>
+      <a class="si" href="about.html"><i class="ti ti-info-circle"></i><div class="si-body"><div class="si-name">About</div></div></a>
+    </div>
+    <div class="sb-bot"><div class="theme-row" id="themeToggle"><div class="theme-lbl"><i class="ti ti-moon" id="themeIcon"></i><span id="themeLabel">Dark mode</span></div><div class="tgl" id="tgl"></div></div><div class="user-row"><div class="uav">EL</div><div><div class="uname">E LIFE User</div><div class="uplan">Groq powered</div></div></div></div>
+  </div>
+  <div class="main">
+    <div class="topbar"><div class="tb-toggle" id="sidebarToggle"><i class="ti ti-layout-sidebar" id="toggleIcon"></i></div><div class="tb-title">My Profile</div><div class="tb-icons"><i class="ti ti-edit" onclick="toggleEdit()"></i></div></div>
+    <div class="page-content">
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;">
+        <div style="width:64px;height:64px;border-radius:50%;background:var(--acc2);border:2px solid var(--acc3);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;color:var(--acc);" id="avatarEl">?</div>
+        <div><div style="font-size:20px;font-weight:800;color:var(--text);" id="displayName">E LIFE User</div><div style="font-size:13px;font-weight:600;color:var(--muted);">Agent tumhe jaanta hai</div></div>
+      </div>
+      <div class="card" style="margin-bottom:12px;" id="viewMode">
+        <div class="card-title">Personal Info</div>
+        <div id="profileView"></div>
+      </div>
+      <div class="card" style="margin-bottom:12px;display:none;" id="editMode">
+        <div class="card-title">Profile Edit Karo</div>
+        <div class="form-group"><label class="form-label">Naam</label><input class="form-input" id="pName" placeholder="Tera naam..."/></div>
+        <div class="form-group"><label class="form-label">Business / Kaam</label><input class="form-input" id="pBiz" placeholder="Tera business ya kaam..."/></div>
+        <div class="form-group"><label class="form-label">City</label><input class="form-input" id="pCity" placeholder="Kahan rehte ho..."/></div>
+        <div class="form-group"><label class="form-label">Phone</label><input class="form-input" id="pPhone" placeholder="Phone number..."/></div>
+        <div class="form-group"><label class="form-label">Agent ko kya pata hona chahiye</label><textarea class="form-input" id="pContext" rows="3" placeholder="Jaise: Main ek freelancer hoon, mujhe daily tasks aur clients manage karne mein help chahiye..."></textarea></div>
+        <button class="btn btn-primary" onclick="saveProfile()"><i class="ti ti-check"></i>Save</button>
+      </div>
+      <div class="card" id="statsCard"></div>
+    </div>
+  </div>
+</div>
+<script src="../assets/core.js"></script>
+<script>
+let profile = loadData('profile', {name:'',biz:'',city:'',phone:'',context:''});
+let editing = false;
+
+function toggleEdit(){
+  editing=!editing;
+  document.getElementById('viewMode').style.display=editing?'none':'block';
+  document.getElementById('editMode').style.display=editing?'block':'none';
+  if(editing){
+    document.getElementById('pName').value=profile.name||'';
+    document.getElementById('pBiz').value=profile.biz||'';
+    document.getElementById('pCity').value=profile.city||'';
+    document.getElementById('pPhone').value=profile.phone||'';
+    document.getElementById('pContext').value=profile.context||'';
+  }
+}
+
+function saveProfile(){
+  profile={name:document.getElementById('pName').value.trim(),biz:document.getElementById('pBiz').value.trim(),city:document.getElementById('pCity').value.trim(),phone:document.getElementById('pPhone').value.trim(),context:document.getElementById('pContext').value.trim()};
+  saveData('profile',profile);
+  editing=false;
+  document.getElementById('viewMode').style.display='block';
+  document.getElementById('editMode').style.display='none';
+  render(); showToast('Profile save ho gaya!','success');
+}
+
+function render(){
+  const name=profile.name||'E LIFE User';
+  document.getElementById('displayName').textContent=name;
+  document.getElementById('avatarEl').textContent=name[0]?.toUpperCase()||'E';
+  const fields=[['Naam',profile.name],['Business',profile.biz],['City',profile.city],['Phone',profile.phone],['Context',profile.context]];
+  document.getElementById('profileView').innerHTML=fields.filter(f=>f[1]).map(f=>`
+    <div style="display:flex;gap:12px;padding:10px 0;border-bottom:0.5px solid var(--border);">
+      <span style="font-size:13px;font-weight:700;color:var(--muted);width:80px;flex-shrink:0;">${f[0]}</span>
+      <span style="font-size:13px;font-weight:700;color:var(--text);">${f[1]}</span>
+    </div>`).join('')||'<div style="padding:12px;color:var(--muted);font-weight:600;">Upar pencil icon se profile bharо</div>';
+
+  const tasks=loadData('tasks',[]);
+  const notes=loadData('notes',[]);
+  const customers=loadData('customers',[]);
+  document.getElementById('statsCard').innerHTML=`
+    <div class="card-title">Tera Data</div>
+    <div class="grid-3" style="gap:8px;">
+      <div class="stat-card"><div class="stat-val">${tasks.length}</div><div class="stat-lbl">Tasks</div></div>
+      <div class="stat-card"><div class="stat-val">${notes.length}</div><div class="stat-lbl">Notes</div></div>
+      <div class="stat-card"><div class="stat-val">${customers.length}</div><div class="stat-lbl">Customers</div></div>
+    </div>`;
+}
+render();
+</script>
+
+<!-- Mobile Bottom Nav -->
+<nav class="mob-nav">
+  <a class="mob-nav-item" href="../index.html"><i class="ti ti-message-circle"></i><span>Chat</span></a>
+  <a class="mob-nav-item" href="dashboard.html"><i class="ti ti-layout-dashboard"></i><span>Dashboard</span></a>
+  <a class="mob-nav-item" href="tasks.html"><i class="ti ti-checkbox"></i><span>Tasks</span></a>
+  <a class="mob-nav-item" href="customers.html"><i class="ti ti-users"></i><span>Customers</span></a>
+  <a class="mob-nav-item" href="settings.html"><i class="ti ti-settings"></i><span>Settings</span></a>
+</nav>
+</body>
+</html>

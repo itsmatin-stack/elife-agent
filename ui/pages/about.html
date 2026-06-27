@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E LIFE — About</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+  <!-- PWA -->
+  <link rel="manifest" href="../manifest.json">
+  <meta name="theme-color" content="#534AB7">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="E LIFE">
+  <link rel="apple-touch-icon" href="../assets/icon.svg">
+  <link rel="icon" href="../assets/icon.svg">
+  <link rel="stylesheet" href="../assets/core.css">
+  <style>
+  @media(max-width:768px){
+    .sb{position:fixed;top:0;bottom:0;left:0;z-index:100;transform:translateX(0);box-shadow:4px 0 20px rgba(0,0,0,0.15);}
+    .sb.collapsed{transform:translateX(-100%);}
+    .main{width:100%;}
+    .grid-2,.grid-3,.grid-4{grid-template-columns:1fr!important;}
+    .page-content{padding:12px;}
+  }
+  </style>
+</head>
+<body>
+<div class="app-shell">
+  <div class="sb" id="sidebar">
+    <div class="sb-top"><div class="sb-logo"><div class="logo-icon"><div class="logo-e">E</div><div class="logo-dot"></div><div class="logo-life">LIFE</div></div><div><div class="logo-name">E LIFE</div><div class="online-dot">Online</div></div></div><div class="sb-search"><i class="ti ti-search"></i><input type="text" placeholder="Search..."/></div></div>
+    <div class="sb-scroll">
+      <div class="sec-label">Main</div>
+      <a class="si" href="../index.html"><i class="ti ti-message-circle"></i><div class="si-body"><div class="si-name">Chat</div></div></a>
+      <a class="si" href="dashboard.html"><i class="ti ti-layout-dashboard"></i><div class="si-body"><div class="si-name">Dashboard</div></div></a>
+      <div class="sb-div"></div><div class="sec-label">Settings</div>
+      <a class="si" href="settings.html"><i class="ti ti-settings"></i><div class="si-body"><div class="si-name">Settings</div></div></a>
+      <a class="si" href="apikeys.html"><i class="ti ti-key"></i><div class="si-body"><div class="si-name">API Keys</div></div></a>
+      <a class="si active" href="about.html"><i class="ti ti-info-circle"></i><div class="si-body"><div class="si-name">About</div></div></a>
+    </div>
+    <div class="sb-bot"><div class="theme-row" id="themeToggle"><div class="theme-lbl"><i class="ti ti-moon" id="themeIcon"></i><span id="themeLabel">Dark mode</span></div><div class="tgl" id="tgl"></div></div><div class="user-row"><div class="uav">EL</div><div><div class="uname">E LIFE User</div><div class="uplan">Groq powered</div></div></div></div>
+  </div>
+  <div class="main">
+    <div class="topbar"><div class="tb-toggle" id="sidebarToggle"><i class="ti ti-layout-sidebar" id="toggleIcon"></i></div><div class="tb-title">About</div></div>
+    <div class="page-content" style="display:flex;flex-direction:column;align-items:center;padding-top:40px;">
+      <div style="width:80px;height:80px;border-radius:22px;background:var(--acc2);border:2px solid var(--acc3);display:flex;align-items:center;justify-content:center;margin-bottom:16px;flex-direction:column;">
+        <div style="font-size:28px;font-weight:800;color:var(--acc);line-height:1;">E</div>
+        <div style="width:6px;height:6px;border-radius:50%;background:var(--green);margin:2px auto;"></div>
+        <div style="font-size:9px;font-weight:700;color:var(--acc);letter-spacing:2px;">LIFE</div>
+      </div>
+      <h2 style="font-size:24px;font-weight:800;color:var(--text);margin-bottom:4px;">E LIFE Agent</h2>
+      <p style="font-size:14px;font-weight:600;color:var(--muted);margin-bottom:24px;">Your AI-Powered Life · v0.1.0</p>
+      <div class="card" style="width:100%;max-width:500px;margin-bottom:12px;">
+        <div class="card-title">Tech Stack</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;justify-content:space-between;"><span style="font-size:13px;font-weight:700;color:var(--text);">AI Brain</span><span class="status active">Groq — llama-3.3-70b</span></div>
+          <div style="display:flex;justify-content:space-between;"><span style="font-size:13px;font-weight:700;color:var(--text);">Backend</span><span class="status done">Python + FastAPI</span></div>
+          <div style="display:flex;justify-content:space-between;"><span style="font-size:13px;font-weight:700;color:var(--text);">Storage</span><span class="status done">Local (Browser)</span></div>
+          <div style="display:flex;justify-content:space-between;"><span style="font-size:13px;font-weight:700;color:var(--text);">UI</span><span class="status done">HTML + CSS + JS</span></div>
+        </div>
+      </div>
+      <div class="card" style="width:100%;max-width:500px;">
+        <div class="card-title">Features</div>
+        <div style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600;color:var(--sub);line-height:1.8;">
+          ✅ AI Chat (Groq powered)<br>✅ Tasks & Notes<br>✅ Business — Customers & Orders<br>✅ Reminders<br>✅ Research Tool<br>✅ Code Generator<br>✅ Translator<br>✅ Dark/Light Mode<br>✅ Local Data — Privacy First
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="../assets/core.js"></script>
+
+<!-- Mobile Bottom Nav -->
+<nav class="mob-nav">
+  <a class="mob-nav-item" href="../index.html"><i class="ti ti-message-circle"></i><span>Chat</span></a>
+  <a class="mob-nav-item" href="dashboard.html"><i class="ti ti-layout-dashboard"></i><span>Dashboard</span></a>
+  <a class="mob-nav-item" href="tasks.html"><i class="ti ti-checkbox"></i><span>Tasks</span></a>
+  <a class="mob-nav-item" href="customers.html"><i class="ti ti-users"></i><span>Customers</span></a>
+  <a class="mob-nav-item" href="settings.html"><i class="ti ti-settings"></i><span>Settings</span></a>
+</nav>
+</body>
+</html>

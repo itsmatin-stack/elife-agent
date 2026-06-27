@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E LIFE — Code</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+  <!-- PWA -->
+  <link rel="manifest" href="../manifest.json">
+  <meta name="theme-color" content="#534AB7">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="E LIFE">
+  <link rel="apple-touch-icon" href="../assets/icon.svg">
+  <link rel="icon" href="../assets/icon.svg">
+  <link rel="stylesheet" href="../assets/core.css">
+  <style>
+  @media(max-width:768px){
+    .sb{position:fixed;top:0;bottom:0;left:0;z-index:100;transform:translateX(0);box-shadow:4px 0 20px rgba(0,0,0,0.15);}
+    .sb.collapsed{transform:translateX(-100%);}
+    .main{width:100%;}
+    .grid-2,.grid-3,.grid-4{grid-template-columns:1fr!important;}
+    .page-content{padding:12px;}
+  }
+  </style>
+<style>
+.code-out{background:#1a1a1e;border:0.5px solid #333;border-radius:var(--radius-lg);padding:16px;font-family:monospace;font-size:13px;color:#e8e8ee;white-space:pre-wrap;min-height:200px;max-height:400px;overflow-y:auto;}
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <div class="sb" id="sidebar">
+    <div class="sb-top"><div class="sb-logo"><div class="logo-icon"><div class="logo-e">E</div><div class="logo-dot"></div><div class="logo-life">LIFE</div></div><div><div class="logo-name">E LIFE</div><div class="online-dot">Online</div></div></div><div class="sb-search"><i class="ti ti-search"></i><input type="text" placeholder="Search..."/></div></div>
+    <div class="sb-scroll">
+      <div class="sec-label">Main</div>
+      <a class="si" href="../index.html"><i class="ti ti-message-circle"></i><div class="si-body"><div class="si-name">Chat</div></div></a>
+      <a class="si" href="dashboard.html"><i class="ti ti-layout-dashboard"></i><div class="si-body"><div class="si-name">Dashboard</div></div></a>
+      <div class="sb-div"></div><div class="sec-label">Tools</div>
+      <a class="si" href="files.html"><i class="ti ti-folder"></i><div class="si-body"><div class="si-name">Files</div></div></a>
+      <a class="si" href="research.html"><i class="ti ti-search"></i><div class="si-body"><div class="si-name">Research</div></div></a>
+      <a class="si active" href="code.html"><i class="ti ti-code"></i><div class="si-body"><div class="si-name">Code</div></div></a>
+      <a class="si" href="translate.html"><i class="ti ti-language"></i><div class="si-body"><div class="si-name">Translate</div></div></a>
+      <div class="sb-div"></div><div class="sec-label">Settings</div>
+      <a class="si" href="settings.html"><i class="ti ti-settings"></i><div class="si-body"><div class="si-name">Settings</div></div></a>
+    </div>
+    <div class="sb-bot"><div class="theme-row" id="themeToggle"><div class="theme-lbl"><i class="ti ti-moon" id="themeIcon"></i><span id="themeLabel">Dark mode</span></div><div class="tgl" id="tgl"></div></div><div class="user-row"><div class="uav">EL</div><div><div class="uname">E LIFE User</div><div class="uplan">Groq powered</div></div></div></div>
+  </div>
+  <div class="main">
+    <div class="topbar"><div class="tb-toggle" id="sidebarToggle"><i class="ti ti-layout-sidebar" id="toggleIcon"></i></div><div class="tb-title">Code Helper</div></div>
+    <div class="page-content">
+      <div class="form-group"><label class="form-label">Language</label>
+        <select class="form-input" id="codeLang" style="width:auto;display:inline-block;margin-right:8px;"><option>Python</option><option>JavaScript</option><option>HTML/CSS</option><option>Java</option><option>C++</option><option>SQL</option><option>Bash</option><option>React</option></select>
+      </div>
+      <div class="form-group"><label class="form-label">Kya banana hai / Kya problem hai</label><textarea class="form-input" id="codeReq" rows="4" placeholder="Jaise: Python mein login system banao, ya is code ka error fix karo..."></textarea></div>
+      <button class="btn btn-primary" onclick="genCode()" id="codeBtn" style="margin-bottom:16px;"><i class="ti ti-sparkles"></i>Generate Code</button>
+      <div id="codeOutput" style="display:none;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <span class="form-label">Generated Code</span>
+          <button class="btn btn-secondary" style="padding:5px 12px;font-size:12px;" onclick="copyCode()"><i class="ti ti-copy"></i>Copy</button>
+        </div>
+        <div class="code-out" id="codeResult"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="../assets/core.js"></script>
+<script>
+async function genCode() {
+  const req = document.getElementById('codeReq').value.trim();
+  const lang = document.getElementById('codeLang').value;
+  if(!req) return;
+  const btn = document.getElementById('codeBtn');
+  btn.innerHTML='<i class="ti ti-loader"></i> Generating...'; btn.disabled=true;
+  document.getElementById('codeOutput').style.display='block';
+  document.getElementById('codeResult').textContent='Code generate ho raha hai...';
+  try {
+    const reply = await groqChat([{role:'user',content:`Write ${lang} code for: ${req}\n\nProvide clean, working, well-commented code only. No extra explanation needed, just the code.`}]);
+    const code = reply.replace(/```[\w]*\n?/g,'').replace(/```/g,'').trim();
+    document.getElementById('codeResult').textContent = code;
+  } catch(e) {
+    document.getElementById('codeResult').textContent='Error — dobara try karo.';
+  }
+  btn.innerHTML='<i class="ti ti-sparkles"></i>Generate Code'; btn.disabled=false;
+}
+function copyCode() {
+  navigator.clipboard.writeText(document.getElementById('codeResult').textContent);
+  showToast('Code copy ho gaya!','success');
+}
+</script>
+<style>@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}.ti-loader{display:inline-block;animation:spin 1s linear infinite;}</style>
+
+<!-- Mobile Bottom Nav -->
+<nav class="mob-nav">
+  <a class="mob-nav-item" href="../index.html"><i class="ti ti-message-circle"></i><span>Chat</span></a>
+  <a class="mob-nav-item" href="dashboard.html"><i class="ti ti-layout-dashboard"></i><span>Dashboard</span></a>
+  <a class="mob-nav-item" href="tasks.html"><i class="ti ti-checkbox"></i><span>Tasks</span></a>
+  <a class="mob-nav-item" href="customers.html"><i class="ti ti-users"></i><span>Customers</span></a>
+  <a class="mob-nav-item" href="settings.html"><i class="ti ti-settings"></i><span>Settings</span></a>
+</nav>
+</body>
+</html>

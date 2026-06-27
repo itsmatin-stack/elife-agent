@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E LIFE — Chat</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#534AB7">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="E LIFE">
+<link rel="apple-touch-icon" href="assets/icon.svg">
+<link rel="icon" href="assets/icon.svg">
+<link rel="stylesheet" href="assets/core.css">
+<style>
+/* SIDEBAR FIX - FINAL */
+.sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9999;cursor:pointer;}
+.sb-overlay.show{display:block;}
+@media(max-width:768px){
+  .sb{position:fixed;top:0;bottom:0;left:0;z-index:999;transform:translateX(-100%);box-shadow:4px 0 20px rgba(0,0,0,0.3);transition:transform 0.3s ease;background:var(--bg);width:280px;}
+  .sb:not(.collapsed){transform:translateX(0);}
+  .sb.collapsed{transform:translateX(-100%);}
+  .sb-close-btn{display:flex !important;}
+  .main{width:100%;}
+}
+.sb-close-btn{display:none;justify-content:flex-end;padding:12px 16px;}
+.sb-close-btn i{font-size:24px;color:var(--text);cursor:pointer;}
+</style>
+<style>
+.chat-area{flex:1;overflow-y:auto;padding:20px 18px;display:flex;flex-direction:column;gap:14px;}
+.empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:24px;text-align:center;}
+.empty-icon{width:60px;height:60px;border-radius:18px;background:var(--acc2);border:1.5px solid var(--acc3);display:flex;align-items:center;justify-content:center;margin-bottom:4px;}
+.empty-icon i{font-size:28px;color:var(--acc);}
+.empty h2{font-size:17px;font-weight:800;color:var(--text);}
+.empty p{font-size:13px;font-weight:600;color:var(--muted);line-height:1.6;max-width:260px;}
+.chips{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-top:10px;}
+.chip{padding:7px 14px;border-radius:20px;border:0.5px solid var(--border);background:var(--card);font-size:12px;font-weight:600;color:var(--sub);cursor:pointer;}
+.chip:hover{border-color:var(--acc3);color:var(--acc);background:var(--acc2);}
+.msg{display:flex;gap:9px;align-items:flex-end;max-width:85%;}
+.msg.user{align-self:flex-end;flex-direction:row-reverse;}
+.msg-av{width:28px;height:28px;border-radius:50%;background:var(--acc2);border:1px solid var(--acc3);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.msg-av i{font-size:14px;color:var(--acc);}
+.bubble{padding:10px 14px;border-radius:16px;font-size:14px;font-weight:600;line-height:1.6;max-width:100%;}
+.msg.agent .bubble{background:var(--card);border:0.5px solid var(--border);color:var(--text);border-bottom-left-radius:4px;}
+.msg.user .bubble{background:var(--acc);color:#fff;border-bottom-right-radius:4px;}
+.msg-time{font-size:11px;color:var(--muted);padding:0 4px;flex-shrink:0;align-self:flex-end;margin-bottom:2px;}
+.typing{display:flex;gap:9px;align-items:center;}
+.dots{display:flex;gap:4px;padding:12px 14px;background:var(--card);border:0.5px solid var(--border);border-radius:16px;border-bottom-left-radius:4px;}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:blink 1.2s infinite;}
+.dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+.input-area{padding:10px 16px 14px;border-top:0.5px solid var(--border);flex-shrink:0;}
+.quick-row{display:flex;gap:6px;margin-bottom:8px;overflow-x:auto;scrollbar-width:none;}
+.quick-row::-webkit-scrollbar{display:none;}
+.qb{display:flex;align-items:center;gap:4px;padding:5px 11px;border-radius:16px;border:0.5px solid var(--border);background:var(--card);font-size:12px;font-weight:600;color:var(--sub);white-space:nowrap;cursor:pointer;}
+.qb:hover{border-color:var(--acc3);color:var(--acc);background:var(--acc2);}
+.qb i{font-size:14px;}
+.irow{display:flex;align-items:center;gap:8px;}
+.ibox{flex:1;display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:24px;border:0.5px solid var(--border);background:var(--card);}
+.ibox input{flex:1;border:none;background:transparent;font-size:14px;font-weight:600;color:var(--text);outline:none;}
+.ibox input::placeholder{color:var(--muted);font-weight:400;}
+.ibox i{font-size:17px;color:var(--muted);cursor:pointer;}
+.ibox i:hover{color:var(--acc);}
+.send{width:38px;height:38px;border-radius:50%;background:var(--acc);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;}
+.send:hover{opacity:0.85;}
+.send i{font-size:17px;color:#fff;}
+.chat-toolbar{display:flex;align-items:center;gap:6px;padding:8px 18px;border-bottom:0.5px solid var(--border);background:var(--bg);flex-shrink:0;overflow-x:auto;scrollbar-width:none;}
+.chat-toolbar::-webkit-scrollbar{display:none;}
+.tb-btn{display:flex;align-items:center;gap:5px;padding:5px 12px;border-radius:20px;border:0.5px solid var(--border);background:var(--card);font-size:12px;font-weight:600;color:var(--sub);cursor:pointer;white-space:nowrap;}
+.tb-btn:hover{border-color:var(--acc3);color:var(--acc);background:var(--acc2);}
+.tb-btn.active{background:var(--acc2);border-color:var(--acc3);color:var(--acc);}
+.tb-btn.danger{color:var(--red);}
+.tb-btn.danger:hover{background:var(--red2);border-color:var(--red);}
+.tb-btn i{font-size:14px;}
+.tb-sep{width:0.5px;height:20px;background:var(--border);flex-shrink:0;margin:0 2px;}
+.model-sel{padding:5px 10px;border:0.5px solid var(--border);border-radius:20px;background:var(--card);font-size:12px;font-weight:600;color:var(--sub);outline:none;cursor:pointer;}
+.model-sel:focus{border-color:var(--acc3);}
+.history-panel{position:fixed;right:0;top:0;bottom:0;width:280px;background:var(--card);border-left:0.5px solid var(--border);z-index:50;transform:translateX(100%);transition:transform 0.25s;display:flex;flex-direction:column;}
+.history-panel.open{transform:translateX(0);}
+.hp-top{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:0.5px solid var(--border);}
+.hp-title{font-size:15px;font-weight:800;color:var(--text);}
+.hp-close{font-size:20px;color:var(--muted);cursor:pointer;}
+.hp-list{flex:1;overflow-y:auto;padding:8px;}
+.hp-item{padding:10px 12px;border-radius:var(--radius);cursor:pointer;margin-bottom:4px;border:0.5px solid transparent;}
+.hp-item:hover{background:var(--bg2);border-color:var(--border);}
+.hp-item-title{font-size:13px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.hp-item-sub{font-size:11px;font-weight:600;color:var(--muted);margin-top:2px;}
+.hp-empty{text-align:center;padding:30px;color:var(--muted);font-size:13px;font-weight:600;}
+.aia-panel{background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:12px;margin-bottom:10px;display:none;}
+.aia-panel.show{display:block;}
+.aia-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.aia-title{font-size:13px;font-weight:700;color:var(--text);}
+.aia-row{display:flex;gap:8px;align-items:center;}
+.aia-row select{flex:1;padding:7px 10px;border:0.5px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);font-size:12px;font-weight:600;outline:none;}
+.aia-row input{flex:1;padding:7px 10px;border:0.5px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);font-size:12px;font-weight:600;outline:none;}
+.aia-row input::placeholder{color:var(--muted);font-weight:400;}
+.photo-preview{display:none;position:relative;margin-bottom:8px;}
+.photo-preview img{max-height:120px;border-radius:var(--radius);border:0.5px solid var(--border);}
+.photo-preview .remove{position:absolute;top:4px;right:4px;width:22px;height:22px;border-radius:50%;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px;color:#fff;}
+.tb-toggle{cursor:pointer;padding:4px 8px;border-radius:8px;transition:background 0.2s;}
+.tb-toggle:hover{background:var(--bg2);}
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <div class="sb-overlay" id="sbOverlay" onclick="closeSidebar()"></div>
+
+  <div class="sb" id="sidebar">
+    <div class="sb-close-btn"><i class="ti ti-x" onclick="closeSidebar()"></i></div>
+    <div class="sb-top">
+      <div class="sb-logo"><div class="logo-icon"><div class="logo-e">E</div><div class="logo-dot"></div><div class="logo-life">LIFE</div></div><div><div class="logo-name">E LIFE</div><div class="online-dot">Online</div></div></div>
+      <div class="sb-search"><i class="ti ti-search"></i><input type="text" placeholder="Search..."/></div>
+    </div>
+    <div class="sb-scroll">
+      <div class="sec-label">Main</div>
+      <a class="si active" href="index.html"><i class="ti ti-message-circle"></i><div class="si-body"><div class="si-name">Chat</div></div></a>
+      <a class="si" href="pages/dashboard.html"><i class="ti ti-layout-dashboard"></i><div class="si-body"><div class="si-name">Dashboard</div></div><span class="badge bg">Live</span></a>
+      <a class="si" href="pages/notifications.html"><i class="ti ti-bell"></i><div class="si-body"><div class="si-name">Notifications</div></div><span class="badge br">3</span></a>
+      <div class="sb-div"></div><div class="sec-label">Business</div>
+      <a class="si" href="pages/customers.html"><i class="ti ti-users"></i><div class="si-body"><div class="si-name">Customers</div></div></a>
+      <a class="si" href="pages/orders.html"><i class="ti ti-shopping-cart"></i><div class="si-body"><div class="si-name">Orders</div></div><span class="badge ba">5</span></a>
+      <a class="si" href="pages/analytics.html"><i class="ti ti-chart-bar"></i><div class="si-body"><div class="si-name">Analytics</div></div></a>
+      <a class="si" href="pages/emails.html"><i class="ti ti-mail"></i><div class="si-body"><div class="si-name">Emails</div></div><span class="badge br">2</span></a>
+      <a class="si" href="pages/invoices.html"><i class="ti ti-receipt"></i><div class="si-body"><div class="si-name">Invoices</div></div></a>
+      <div class="sb-div"></div><div class="sec-label">Personal</div>
+      <a class="si" href="pages/calendar.html"><i class="ti ti-calendar"></i><div class="si-body"><div class="si-name">Calendar</div></div></a>
+      <a class="si" href="pages/tasks.html"><i class="ti ti-checkbox"></i><div class="si-body"><div class="si-name">Tasks</div></div></a>
+      <a class="si" href="pages/notes.html"><i class="ti ti-note"></i><div class="si-body"><div class="si-name">Notes</div></div></a>
+      <a class="si" href="pages/reminders.html"><i class="ti ti-clock"></i><div class="si-body"><div class="si-name">Reminders</div></div></a>
+      <a class="si" href="pages/saved.html"><i class="ti ti-heart"></i><div class="si-body"><div class="si-name">Saved</div></div></a>
+      <div class="sb-div"></div><div class="sec-label">Tools</div>
+      <a class="si" href="pages/files.html"><i class="ti ti-folder"></i><div class="si-body"><div class="si-name">Files</div></div></a>
+      <a class="si" href="pages/research.html"><i class="ti ti-search"></i><div class="si-body"><div class="si-name">Research</div></div></a>
+      <a class="si" href="pages/code.html"><i class="ti ti-code"></i><div class="si-body"><div class="si-name">Code</div></div></a>
+      <a class="si" href="pages/translate.html"><i class="ti ti-language"></i><div class="si-body"><div class="si-name">Translate</div></div></a>
+      <div class="sb-div"></div><div class="sec-label">Memory</div>
+      <a class="si" href="pages/profile.html"><i class="ti ti-brain"></i><div class="si-body"><div class="si-name">My Profile</div><div class="si-sub">Agent jaanta hai</div></div></a>
+      <a class="si" href="pages/history.html"><i class="ti ti-history"></i><div class="si-body"><div class="si-name">History</div></div></a>
+      <a class="si" href="pages/vault.html"><i class="ti ti-lock"></i><div class="si-body"><div class="si-name">Private Vault</div></div></a>
+      <div class="sb-div"></div><div class="sec-label">Settings</div>
+      <a class="si" href="pages/settings.html"><i class="ti ti-settings"></i><div class="si-body"><div class="si-name">Settings</div></div></a>
+      <a class="si" href="pages/apikeys.html"><i class="ti ti-key"></i><div class="si-body"><div class="si-name">API Keys</div></div></a>
+      <a class="si" href="pages/about.html"><i class="ti ti-info-circle"></i><div class="si-body"><div class="si-name">About</div></div></a>
+    </div>
+    <div class="sb-bot">
+      <div class="theme-row" id="themeToggle"><div class="theme-lbl"><i class="ti ti-moon" id="themeIcon"></i><span id="themeLabel">Dark mode</span></div><div class="tgl" id="tgl"></div></div>
+      <div class="user-row"><div class="uav">EL</div><div><div class="uname">E LIFE User</div><div class="uplan">Groq powered</div></div><i class="ti ti-dots-vertical ml"></i></div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="tb-toggle" id="sidebarToggle" onclick="toggleSidebar()"><i class="ti ti-layout-sidebar"></i></div>
+      <div class="tb-title" id="chatTitle">Chat</div>
+      <div class="tb-icons" style="position:relative;">
+        <i class="ti ti-history" title="Chat History" onclick="toggleHistory()"></i>
+        <div style="position:relative;">
+          <i class="ti ti-dots" title="More" onclick="toggleDotsMenu()" id="dotsBtn"></i>
+          <div id="dotsMenu" style="display:none;position:fixed;right:10px;top:55px;background:var(--card);border:0.5px solid var(--border);border-radius:var(--radius-lg);min-width:180px;z-index:99999;box-shadow:0 4px 20px rgba(0,0,0,0.3);overflow:visible;">
+            <div onclick="newChat();closeDotsMenu()" style="padding:11px 16px;font-size:13px;font-weight:600;color:var(--text);cursor:pointer;display:flex;align-items:center;gap:8px;"><i class="ti ti-plus"></i>New Chat</div>
+            <div onclick="toggleHistory();closeDotsMenu()" style="padding:11px 16px;font-size:13px;font-weight:600;color:var(--text);cursor:pointer;display:flex;align-items:center;gap:8px;"><i class="ti ti-history"></i>Chat History</div>
+            <div style="height:0.5px;background:var(--border);"></div>
+            <div onclick="toggleVoice();closeDotsMenu()" style="padding:11px 16px;font-size:13px;font-weight:600;color:var(--text);cursor:pointer;display:flex;align-items:center;gap:8px;"><i class="ti ti-microphone"></i>Voice Input</div>
+            <div onclick="triggerPhoto();closeDotsMenu()" style="padding:11px 16px;font-size:13px;font-weight:600;color:var(--text);cursor:pointer;display:flex;align-items:center;gap:8px;"><i class="ti ti-camera"></i>Photo</div>
+            <div onclick="toggleAIA();closeDotsMenu()" style="padding:11px 16px;font-size:13px;font-weight:600;color:var(--text);cursor:pointer;display:flex;align-items:center;gap:8px;"><i class="ti ti-robot"></i>AI vs AI</div>
+            <div style="height:0.5px;background:var(--border);"></div>
+            <div onclick="clearChat();closeDotsMenu()" style="padding:11px 16px;font-size:13px;font-weight:600;color:var(--red);cursor:pointer;display:flex;align-items:center;gap:8px;"><i class="ti ti-trash"></i>Clear Chat</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-toolbar">
+      <div class="tb-btn" onclick="newChat()"><i class="ti ti-plus"></i>New Chat</div>
+      <div class="tb-sep"></div>
+      <select class="model-sel" id="modelSel" onchange="onModelChange()">
+        <option value="llama-3.3-70b-versatile">🦙 Llama 3.3 70B</option>
+        <option value="llama-3.1-8b-instant">⚡ Llama 3.1 8B</option>
+        <option value="mixtral-8x7b-32768">🌀 Mixtral 8x7B</option>
+        <option value="gemma2-9b-it">💎 Gemma2 9B</option>
+        <option value="llama3-70b-8192">🔥 Llama3 70B</option>
+      </select>
+      <div class="tb-sep"></div>
+      <div class="tb-btn" id="voiceBtn" onclick="toggleVoice()"><i class="ti ti-microphone"></i>Voice</div>
+      <div class="tb-btn" onclick="triggerPhoto()"><i class="ti ti-camera"></i>Photo</div>
+      <div class="tb-btn" id="aiaBtn" onclick="toggleAIA()"><i class="ti ti-robot"></i>AI vs AI</div>
+      <div class="tb-btn" id="voiceRespBtn" onclick="toggleVoiceResp()"><i class="ti ti-volume"></i>Voice Reply</div>
+      <div class="tb-sep"></div>
+      <div class="tb-btn danger" onclick="clearChat()"><i class="ti ti-trash"></i>Clear</div>
+      <input type="file" id="photoInput" accept="image/*" style="display:none" onchange="onPhotoSelected(event)"/>
+    </div>
+
+    <div class="aia-panel" id="aiaPanel">
+      <div class="aia-header">
+        <div class="aia-title">🤖 AI vs AI — Do models aapas mein debate karenge</div>
+        <i class="ti ti-x" style="cursor:pointer;color:var(--muted);" onclick="toggleAIA()"></i>
+      </div>
+      <div class="aia-row" style="margin-bottom:8px;">
+        <select id="aiaModel1"><option value="llama-3.3-70b-versatile">🦙 Llama 3.3 70B</option><option value="mixtral-8x7b-32768">🌀 Mixtral 8x7B</option><option value="gemma2-9b-it">💎 Gemma2 9B</option></select>
+        <span style="font-size:12px;font-weight:700;color:var(--muted);">VS</span>
+        <select id="aiaModel2"><option value="mixtral-8x7b-32768">🌀 Mixtral 8x7B</option><option value="llama-3.3-70b-versatile">🦙 Llama 3.3 70B</option><option value="gemma2-9b-it">💎 Gemma2 9B</option></select>
+      </div>
+      <div class="aia-row">
+        <input type="text" id="aiaTopic" placeholder="Topic kya hai? Jaise: AI future, cryptocurrency, etc..."/>
+        <button class="btn btn-primary" style="padding:7px 14px;font-size:12px;" onclick="startAIA()"><i class="ti ti-play"></i>Start</button>
+      </div>
+    </div>
+
+    <div class="chat-area" id="chatArea">
+      <div class="empty" id="emptyState">
+        <div class="empty-icon"><i class="ti ti-sparkles"></i></div>
+        <h2>Kya karna hai aaj?</h2>
+        <p>Kuch bhi pucho — personal, business, ya kuch bhi aur.</p>
+        <div class="chips">
+          <div class="chip" onclick="sendChip(this)">Aaj ka summary do</div>
+          <div class="chip" onclick="sendChip(this)">Email draft karo</div>
+          <div class="chip" onclick="sendChip(this)">Business tips do</div>
+          <div class="chip" onclick="sendChip(this)">Code likhao</div>
+          <div class="chip" onclick="sendChip(this)">Kuch naya seekhna hai</div>
+          <div class="chip" onclick="sendChip(this)">Meri help karo</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="input-area">
+      <div class="photo-preview" id="photoPreview">
+        <img id="photoImg" src="" alt=""/>
+        <div class="remove" onclick="removePhoto()"><i class="ti ti-x"></i></div>
+      </div>
+      <div class="quick-row">
+        <div class="qb" onclick="sendChip(this)"><i class="ti ti-bolt"></i>Quick task</div>
+        <div class="qb" onclick="sendChip(this)"><i class="ti ti-mail"></i>Email draft</div>
+        <div class="qb" onclick="sendChip(this)"><i class="ti ti-clock"></i>Reminder</div>
+        <div class="qb" onclick="sendChip(this)"><i class="ti ti-note"></i>Note</div>
+        <div class="qb" onclick="sendChip(this)"><i class="ti ti-search"></i>Research</div>
+        <div class="qb" onclick="sendChip(this)"><i class="ti ti-code"></i>Code</div>
+        <div class="qb" onclick="sendChip(this)"><i class="ti ti-language"></i>Translate</div>
+      </div>
+      <div class="irow">
+        <div class="ibox">
+          <i class="ti ti-microphone" id="micIcon" onclick="toggleVoice()" title="Voice input"></i>
+          <input type="text" id="msgInput" placeholder="Kuch bhi pucho ya bolo..." onkeydown="handleKey(event)"/>
+          <i class="ti ti-camera" onclick="triggerPhoto()" title="Photo bhejo"></i>
+          <i class="ti ti-paperclip" title="File attach"></i>
+        </div>
+        <button class="send" onclick="sendMessage()"><i class="ti ti-arrow-up"></i></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="history-panel" id="historyPanel">
+  <div class="hp-top">
+    <div class="hp-title">Chat History</div>
+    <i class="ti ti-x hp-close" onclick="toggleHistory()"></i>
+  </div>
+  <div style="padding:8px;border-bottom:0.5px solid var(--border);">
+    <button class="btn btn-secondary" style="width:100%;justify-content:center;" onclick="newChat()"><i class="ti ti-plus"></i>New Chat</button>
+  </div>
+  <div class="hp-list" id="historyList"></div>
+</div>
+
+<script src="assets/core.js"></script>
+<script>
+let messages = [];
+let currentModel = 'llama-3.3-70b-versatile';
+let recognition = null;
+let isRecording = false;
+let photoBase64 = null;
+let chatSessions = loadData('chatSessions', []);
+let currentSessionId = genId();
+let voiceRespEnabled = localStorage.getItem('elife_voice_resp') === 'true';
+
+function toggleSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sbOverlay');
+  if (sidebar.classList.contains('collapsed')) {
+    sidebar.classList.remove('collapsed');
+    overlay.style.display = 'block';
+    overlay.classList.add('show');
+  } else {
+    sidebar.classList.add('collapsed');
+    overlay.style.display = 'none';
+    overlay.classList.remove('show');
+  }
+}
+
+function closeSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sbOverlay');
+  sidebar.classList.add('collapsed');
+  overlay.style.display = 'none';
+  overlay.classList.remove('show');
+}
+
+function toggleDotsMenu() {
+  const menu = document.getElementById('dotsMenu');
+  menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+}
+
+function closeDotsMenu() {
+  document.getElementById('dotsMenu').style.display = 'none';
+}
+
+document.addEventListener('click', function(e) {
+  const menu = document.getElementById('dotsMenu');
+  const btn = document.getElementById('dotsBtn');
+  if (menu && btn && !btn.contains(e.target) && !menu.contains(e.target)) {
+    menu.style.display = 'none';
+  }
+});
+
+window.addEventListener('load', () => {
+  if (window.innerWidth <= 768) {
+    document.getElementById('sidebar').classList.add('collapsed');
+    document.getElementById('sbOverlay').style.display = 'none';
+  }
+  setTimeout(() => addMsg('agent', 'Namaste! Main E LIFE Agent hoon. Voice, photo, multi-model sab ready hai. Kya karna hai aaj? 😊'), 500);
+  renderHistory();
+  if(voiceRespEnabled) document.getElementById('voiceRespBtn')?.classList.add('active');
+});
+
+window.addEventListener('resize', () => {
+  if (window.innerWidth > 768) {
+    document.getElementById('sidebar').classList.remove('collapsed');
+    document.getElementById('sbOverlay').style.display = 'none';
+    document.getElementById('sbOverlay').classList.remove('show');
+  } else {
+    document.getElementById('sidebar').classList.add('collapsed');
+    document.getElementById('sbOverlay').style.display = 'none';
+  }
+});
+
+function handleKey(e) { if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage();} }
+function sendChip(el) { document.getElementById('msgInput').value = el.textContent.trim(); sendMessage(); }
+
+function addMsg(role, text, modelLabel) {
+  document.getElementById('emptyState').style.display = 'none';
+  const div = document.createElement('div');
+  div.className = `msg ${role}`;
+  const label = modelLabel ? `<div style="font-size:10px;font-weight:700;color:var(--muted);margin-bottom:3px;">${modelLabel}</div>` : '';
+  if(role==='agent'||role==='ai1'||role==='ai2') {
+    const color = role==='ai2' ? 'var(--green)' : 'var(--acc)';
+    const icon = role==='ai2' ? 'ti-robot-face' : 'ti-sparkles';
+    div.innerHTML = `<div class="msg-av" style="background:var(--acc2);border-color:${color}"><i class="ti ${icon}" style="color:${color}"></i></div><div><div>${label}<div class="bubble">${text.replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')}</div></div></div><div class="msg-time">${timeNow()}</div>`;
+  } else {
+    div.innerHTML = `<div class="bubble">${text.replace(/\n/g,'<br>')}</div><div class="msg-time">${timeNow()}</div>`;
+  }
+  const ca = document.getElementById('chatArea');
+  ca.appendChild(div);
+  ca.scrollTop = ca.scrollHeight;
+}
+
+function showTyping(id='typing') {
+  const div = document.createElement('div');
+  div.className='typing'; div.id=id;
+  div.innerHTML=`<div class="msg-av"><i class="ti ti-sparkles"></i></div><div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>`;
+  const ca=document.getElementById('chatArea'); ca.appendChild(div); ca.scrollTop=ca.scrollHeight;
+}
+
+async function sendMessage() {
+  const input = document.getElementById('msgInput');
+  const text = input.value.trim();
+  if(!text && !photoBase64) return;
+  input.value = '';
+  if(photoBase64) {
+    addMsg('user', `📷 ${text || 'Photo bheja'}`);
+    const content = [{ type:'image_url', image_url:{ url: photoBase64 }}, { type:'text', text: text||'Is photo mein kya hai? Describe karo.' }];
+    messages.push({ role:'user', content });
+    removePhoto();
+  } else {
+    addMsg('user', text);
+    messages.push({ role:'user', content: text });
+  }
+  saveSession(text);
+  showTyping();
+  try {
+    const reply = await groqChatModel(messages.slice(-12), currentModel);
+    document.getElementById('typing')?.remove();
+    messages.push({ role:'assistant', content: reply });
+    addMsg('agent', reply);
+    speakText(reply);
+  } catch(e) {
+    document.getElementById('typing')?.remove();
+    addMsg('agent', 'Error — dobara try karo. API key check karo.');
+  }
+}
+
+async function groqChatModel(msgs, model) {
+  const sysPrompt = 'Tu E LIFE Agent hai — smart, helpful personal AI. Hinglish mein baat kar. Short, clear replies de.';
+  const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    method:'POST',
+    headers:{'Content-Type':'application/json','Authorization':`Bearer ${GROQ_KEY}`},
+    body: JSON.stringify({ model, messages:[{role:'system',content:sysPrompt},...msgs], max_tokens:1024, temperature:0.7 })
+  });
+  const data = await res.json();
+  if(data.error) throw new Error(data.error.message);
+  return data.choices[0].message.content;
+}
+
+function newChat() {
+  messages = [];
+  currentSessionId = genId();
+  const ca = document.getElementById('chatArea');
+  ca.innerHTML = `<div class="empty" id="emptyState"><div class="empty-icon"><i class="ti ti-sparkles"></i></div><h2>Naya Chat!</h2><p>Kuch bhi pucho — main ready hoon.</p></div>`;
+  document.getElementById('chatTitle').textContent = 'Chat';
+  showToast('Naya chat shuru!', 'info');
+}
+
+function onModelChange() {
+  currentModel = document.getElementById('modelSel').value;
+  const name = document.getElementById('modelSel').selectedOptions[0].text;
+  showToast(`Model: ${name}`, 'info');
+}
+
+function clearChat() { newChat(); showToast('Chat clear ho gaya!', 'info'); }
+
+function toggleVoice() {
+  if(!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
+    showToast('Voice support nahi hai is browser mein. Chrome use karo.', 'error'); return;
+  }
+  if(isRecording) { recognition?.stop(); return; }
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  recognition = new SpeechRecognition();
+  recognition.lang = 'hi-IN';
+  recognition.continuous = false;
+  recognition.interimResults = true;
+  recognition.onstart = () => {
+    isRecording = true;
+    document.getElementById('voiceBtn').classList.add('active');
+    document.getElementById('micIcon').style.color = 'var(--red)';
+    showToast('🎤 Suno raha hoon... bolo!', 'info');
+  };
+  recognition.onresult = (e) => {
+    const transcript = Array.from(e.results).map(r=>r[0].transcript).join('');
+    document.getElementById('msgInput').value = transcript;
+  };
+  recognition.onend = () => {
+    isRecording = false;
+    document.getElementById('voiceBtn').classList.remove('active');
+    document.getElementById('micIcon').style.color = '';
+    const text = document.getElementById('msgInput').value.trim();
+    if(text) sendMessage();
+  };
+  recognition.onerror = () => {
+    isRecording = false;
+    document.getElementById('voiceBtn').classList.remove('active');
+    document.getElementById('micIcon').style.color = '';
+    showToast('Voice error — dobara try karo', 'error');
+  };
+  recognition.start();
+}
+
+function triggerPhoto() { document.getElementById('photoInput').click(); }
+function onPhotoSelected(e) {
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    photoBase64 = ev.target.result;
+    document.getElementById('photoImg').src = photoBase64;
+    document.getElementById('photoPreview').style.display = 'block';
+    showToast('Photo ready! Message bhejo.', 'success');
+  };
+  reader.readAsDataURL(file);
+}
+function removePhoto() {
+  photoBase64 = null;
+  document.getElementById('photoPreview').style.display = 'none';
+  document.getElementById('photoInput').value = '';
+}
+
+function toggleAIA() {
+  document.getElementById('aiaPanel').classList.toggle('show');
+  document.getElementById('aiaBtn').classList.toggle('active');
+}
+
+async function startAIA() {
+  const topic = document.getElementById('aiaTopic').value.trim();
+  if(!topic) { showToast('Topic likho pehle!', 'error'); return; }
+  const m1 = document.getElementById('aiaModel1').value;
+  const m2 = document.getElementById('aiaModel2').value;
+  const m1name = document.getElementById('aiaModel1').selectedOptions[0].text;
+  const m2name = document.getElementById('aiaModel2').selectedOptions[0].text;
+  toggleAIA();
+  document.getElementById('emptyState').style.display = 'none';
+  addMsg('agent', `🤖 AI vs AI shuru hota hai!\n**Topic:** ${topic}\n**${m1name}** vs **${m2name}**`);
+  const rounds = 2;
+  let m1msgs = [{role:'user', content:`Topic: "${topic}". Tu iske FAVOR mein bol — strong arguments do. 3-4 points mein. Hinglish mein.`}];
+  let m2msgs = [{role:'user', content:`Topic: "${topic}". Tu iske AGAINST mein bol — strong counter arguments do. 3-4 points mein. Hinglish mein.`}];
+  for(let i=0; i<rounds; i++) {
+    showTyping('typing1');
+    try {
+      const r1 = await groqChatModel(m1msgs, m1);
+      document.getElementById('typing1')?.remove();
+      addMsg('ai1', r1, `🟣 ${m1name} (PRO)`);
+      m1msgs.push({role:'assistant',content:r1});
+      m2msgs.push({role:'user',content:`Counter karo: "${r1}"`});
+      await new Promise(r=>setTimeout(r,800));
+      showTyping('typing2');
+      const r2 = await groqChatModel(m2msgs, m2);
+      document.getElementById('typing2')?.remove();
+      addMsg('ai2', r2, `🟢 ${m2name} (AGAINST)`);
+      m2msgs.push({role:'assistant',content:r2});
+      m1msgs.push({role:'user',content:`Counter karo: "${r2}"`});
+    } catch(e) {
+      document.getElementById('typing1')?.remove();
+      document.getElementById('typing2')?.remove();
+      addMsg('agent', 'AI vs AI mein error aaya — dobara try karo.');
+      break;
+    }
+    if(i<rounds-1) await new Promise(r=>setTimeout(r,1000));
+  }
+  addMsg('agent', `✅ AI vs AI debate complete! Dono ne apne points rakhe.`);
+}
+
+function toggleVoiceResp() {
+  voiceRespEnabled = !voiceRespEnabled;
+  localStorage.setItem('elife_voice_resp', voiceRespEnabled);
+  document.getElementById('voiceRespBtn').classList.toggle('active', voiceRespEnabled);
+  showToast(voiceRespEnabled ? '🔊 Voice reply ON' : '🔇 Voice reply OFF', 'info');
+}
+
+function speakText(text) {
+  if(!voiceRespEnabled) return;
+  if(!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  const clean = text.replace(/[#*`_~]/g,'').replace(/<[^>]*>/g,'').slice(0, 300);
+  const utt = new SpeechSynthesisUtterance(clean);
+  utt.lang = 'hi-IN';
+  utt.rate = 0.95;
+  utt.pitch = 1;
+  const voices = window.speechSynthesis.getVoices();
+  const hiVoice = voices.find(v => v.lang.includes('hi')) || voices.find(v => v.lang.includes('en-IN'));
+  if(hiVoice) utt.voice = hiVoice;
+  window.speechSynthesis.speak(utt);
+}
+
+function saveSession(firstMsg) {
+  if(messages.length === 1) {
+    chatSessions = chatSessions.filter(s=>s.id!==currentSessionId);
+    chatSessions.unshift({ id:currentSessionId, title:firstMsg.slice(0,40), time:new Date().toISOString(), count:1 });
+    if(chatSessions.length>20) chatSessions = chatSessions.slice(0,20);
+    saveData('chatSessions', chatSessions);
+    document.getElementById('chatTitle').textContent = firstMsg.slice(0,30)+'...';
+    renderHistory();
+  } else {
+    chatSessions = chatSessions.map(s=>s.id===currentSessionId?{...s,count:messages.length}:s);
+    saveData('chatSessions', chatSessions);
+  }
+}
+
+function toggleHistory() {
+  document.getElementById('historyPanel').classList.toggle('open');
+  renderHistory();
+}
+
+function renderHistory() {
+  const el = document.getElementById('historyList');
+  if(chatSessions.length===0){el.innerHTML='<div class="hp-empty">Abhi koi history nahi</div>';return;}
+  el.innerHTML = chatSessions.map(s=>`
+    <div class="hp-item" onclick="loadSession('${s.id}')">
+      <div class="hp-item-title">${s.title||'Chat'}</div>
+      <div class="hp-item-sub">${new Date(s.time).toLocaleDateString('en-IN')} · ${s.count||0} messages</div>
+    </div>`).join('');
+}
+
+function loadSession(id) {
+  showToast('Session load feature coming soon!', 'info');
+  toggleHistory();
+}
+
+function genId() { return Date.now().toString(36) + Math.random().toString(36).substr(2, 5); }
+function timeNow() { return new Date().toLocaleTimeString('en-IN', {hour:'2-digit',minute:'2-digit'}); }
+function loadData(key, def) { try { const d=localStorage.getItem(key); return d?JSON.parse(d):def; } catch(e){return def;} }
+function saveData(key, data) { localStorage.setItem(key, JSON.stringify(data)); }
+function showToast(msg, type) { 
+  const t=document.createElement('div');
+  t.style.cssText='position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:10px 20px;border-radius:10px;font-size:14px;font-weight:600;z-index:999999;max-width:90%;text-align:center;';
+  t.textContent=msg;
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(),2500);
+}
+
+const GROQ_KEY = 'YOUR_GROQ_API_KEY_HERE';
+</script>
+</body>
+</html>

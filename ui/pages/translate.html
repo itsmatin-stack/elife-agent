@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E LIFE — Translate</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+  <!-- PWA -->
+  <link rel="manifest" href="../manifest.json">
+  <meta name="theme-color" content="#534AB7">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="E LIFE">
+  <link rel="apple-touch-icon" href="../assets/icon.svg">
+  <link rel="icon" href="../assets/icon.svg">
+  <link rel="stylesheet" href="../assets/core.css">
+  <style>
+  @media(max-width:768px){
+    .sb{position:fixed;top:0;bottom:0;left:0;z-index:100;transform:translateX(0);box-shadow:4px 0 20px rgba(0,0,0,0.15);}
+    .sb.collapsed{transform:translateX(-100%);}
+    .main{width:100%;}
+    .grid-2,.grid-3,.grid-4{grid-template-columns:1fr!important;}
+    .page-content{padding:12px;}
+  }
+  </style>
+</head>
+<body>
+<div class="app-shell">
+  <div class="sb" id="sidebar">
+    <div class="sb-top"><div class="sb-logo"><div class="logo-icon"><div class="logo-e">E</div><div class="logo-dot"></div><div class="logo-life">LIFE</div></div><div><div class="logo-name">E LIFE</div><div class="online-dot">Online</div></div></div><div class="sb-search"><i class="ti ti-search"></i><input type="text" placeholder="Search..."/></div></div>
+    <div class="sb-scroll">
+      <div class="sec-label">Main</div>
+      <a class="si" href="../index.html"><i class="ti ti-message-circle"></i><div class="si-body"><div class="si-name">Chat</div></div></a>
+      <a class="si" href="dashboard.html"><i class="ti ti-layout-dashboard"></i><div class="si-body"><div class="si-name">Dashboard</div></div></a>
+      <div class="sb-div"></div><div class="sec-label">Tools</div>
+      <a class="si" href="files.html"><i class="ti ti-folder"></i><div class="si-body"><div class="si-name">Files</div></div></a>
+      <a class="si" href="research.html"><i class="ti ti-search"></i><div class="si-body"><div class="si-name">Research</div></div></a>
+      <a class="si" href="code.html"><i class="ti ti-code"></i><div class="si-body"><div class="si-name">Code</div></div></a>
+      <a class="si active" href="translate.html"><i class="ti ti-language"></i><div class="si-body"><div class="si-name">Translate</div></div></a>
+      <div class="sb-div"></div><div class="sec-label">Settings</div>
+      <a class="si" href="settings.html"><i class="ti ti-settings"></i><div class="si-body"><div class="si-name">Settings</div></div></a>
+      <a class="si" href="about.html"><i class="ti ti-info-circle"></i><div class="si-body"><div class="si-name">About</div></div></a>
+    </div>
+    <div class="sb-bot"><div class="theme-row" id="themeToggle"><div class="theme-lbl"><i class="ti ti-moon" id="themeIcon"></i><span id="themeLabel">Dark mode</span></div><div class="tgl" id="tgl"></div></div><div class="user-row"><div class="uav">EL</div><div><div class="uname">E LIFE User</div><div class="uplan">Groq powered</div></div></div></div>
+  </div>
+  <div class="main">
+    <div class="topbar"><div class="tb-toggle" id="sidebarToggle"><i class="ti ti-layout-sidebar" id="toggleIcon"></i></div><div class="tb-title">Translate</div></div>
+    <div class="page-content">
+      <div class="grid-2" style="gap:12px;margin-bottom:12px;">
+        <div><label class="form-label" style="margin-bottom:6px;display:block;">From</label><select class="form-input" id="fromLang"><option value="auto">Auto Detect</option><option value="Hindi">Hindi</option><option value="English">English</option><option value="Hinglish">Hinglish</option><option value="Marathi">Marathi</option><option value="Gujarati">Gujarati</option><option value="Punjabi">Punjabi</option><option value="Urdu">Urdu</option><option value="Spanish">Spanish</option><option value="French">French</option><option value="Arabic">Arabic</option></select></div>
+        <div><label class="form-label" style="margin-bottom:6px;display:block;">To</label><select class="form-input" id="toLang"><option value="English">English</option><option value="Hindi">Hindi</option><option value="Hinglish">Hinglish</option><option value="Marathi">Marathi</option><option value="Gujarati">Gujarati</option><option value="Punjabi">Punjabi</option><option value="Urdu">Urdu</option><option value="Spanish">Spanish</option><option value="French">French</option><option value="Arabic">Arabic</option></select></div>
+      </div>
+      <div class="grid-2" style="gap:12px;">
+        <div><label class="form-label" style="margin-bottom:6px;display:block;">Input</label><textarea class="form-input" id="inputText" rows="8" placeholder="Yahan text likho..."></textarea></div>
+        <div><label class="form-label" style="margin-bottom:6px;display:block;">Output</label><textarea class="form-input" id="outputText" rows="8" readonly placeholder="Translation yahan aayega..." style="background:var(--bg2);"></textarea></div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:12px;">
+        <button class="btn btn-primary" onclick="translate()" id="transBtn"><i class="ti ti-language"></i>Translate</button>
+        <button class="btn btn-secondary" onclick="document.getElementById('outputText').select();document.execCommand('copy');showToast('Copy ho gaya!','success')"><i class="ti ti-copy"></i>Copy</button>
+        <button class="btn btn-secondary" onclick="document.getElementById('inputText').value='';document.getElementById('outputText').value=''"><i class="ti ti-trash"></i>Clear</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="../assets/core.js"></script>
+<script>
+async function translate() {
+  const text = document.getElementById('inputText').value.trim();
+  if(!text) return;
+  const from = document.getElementById('fromLang').value;
+  const to = document.getElementById('toLang').value;
+  const btn = document.getElementById('transBtn');
+  btn.innerHTML='<i class="ti ti-loader"></i> Translating...'; btn.disabled=true;
+  document.getElementById('outputText').value='Translating...';
+  try {
+    const reply = await groqChat([{role:'user',content:`Translate the following text ${from!=='auto'?`from ${from}`:''} to ${to}. Return ONLY the translated text, nothing else:\n\n${text}`}]);
+    document.getElementById('outputText').value = reply;
+  } catch(e) {
+    document.getElementById('outputText').value='Error — dobara try karo.';
+  }
+  btn.innerHTML='<i class="ti ti-language"></i>Translate'; btn.disabled=false;
+}
+</script>
+<style>@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}.ti-loader{display:inline-block;animation:spin 1s linear infinite;}</style>
+
+<!-- Mobile Bottom Nav -->
+<nav class="mob-nav">
+  <a class="mob-nav-item" href="../index.html"><i class="ti ti-message-circle"></i><span>Chat</span></a>
+  <a class="mob-nav-item" href="dashboard.html"><i class="ti ti-layout-dashboard"></i><span>Dashboard</span></a>
+  <a class="mob-nav-item" href="tasks.html"><i class="ti ti-checkbox"></i><span>Tasks</span></a>
+  <a class="mob-nav-item" href="customers.html"><i class="ti ti-users"></i><span>Customers</span></a>
+  <a class="mob-nav-item" href="settings.html"><i class="ti ti-settings"></i><span>Settings</span></a>
+</nav>
+</body>
+</html>

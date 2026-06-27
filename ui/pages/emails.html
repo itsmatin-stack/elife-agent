@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E LIFE — Email Drafts</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+  <!-- PWA -->
+  <link rel="manifest" href="../manifest.json">
+  <meta name="theme-color" content="#534AB7">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="E LIFE">
+  <link rel="apple-touch-icon" href="../assets/icon.svg">
+  <link rel="icon" href="../assets/icon.svg">
+  <link rel="stylesheet" href="../assets/core.css">
+  <style>
+  @media(max-width:768px){
+    .sb{position:fixed;top:0;bottom:0;left:0;z-index:100;transform:translateX(0);box-shadow:4px 0 20px rgba(0,0,0,0.15);}
+    .sb.collapsed{transform:translateX(-100%);}
+    .main{width:100%;}
+    .grid-2,.grid-3,.grid-4{grid-template-columns:1fr!important;}
+    .page-content{padding:12px;}
+  }
+  </style>
+</head>
+<body>
+<div class="app-shell">
+  <div class="sb" id="sidebar">
+    <div class="sb-top"><div class="sb-logo"><div class="logo-icon"><div class="logo-e">E</div><div class="logo-dot"></div><div class="logo-life">LIFE</div></div><div><div class="logo-name">E LIFE</div><div class="online-dot">Online</div></div></div><div class="sb-search"><i class="ti ti-search"></i><input type="text" placeholder="Search..."/></div></div>
+    <div class="sb-scroll">
+      <div class="sec-label">Main</div>
+      <a class="si" href="../index.html"><i class="ti ti-message-circle"></i><div class="si-body"><div class="si-name">Chat</div></div></a>
+      <div class="sb-div"></div><div class="sec-label">Business</div>
+      <a class="si" href="customers.html"><i class="ti ti-users"></i><div class="si-body"><div class="si-name">Customers</div></div></a>
+      <a class="si" href="orders.html"><i class="ti ti-shopping-cart"></i><div class="si-body"><div class="si-name">Orders</div></div></a>
+      <a class="si active" href="emails.html"><i class="ti ti-mail"></i><div class="si-body"><div class="si-name">Emails</div></div></a>
+      <div class="sb-div"></div><div class="sec-label">Settings</div>
+      <a class="si" href="settings.html"><i class="ti ti-settings"></i><div class="si-body"><div class="si-name">Settings</div></div></a>
+    </div>
+    <div class="sb-bot"><div class="theme-row" id="themeToggle"><div class="theme-lbl"><i class="ti ti-moon" id="themeIcon"></i><span id="themeLabel">Dark mode</span></div><div class="tgl" id="tgl"></div></div><div class="user-row"><div class="uav">EL</div><div><div class="uname">E LIFE User</div><div class="uplan">Groq powered</div></div></div></div>
+  </div>
+  <div class="main">
+    <div class="topbar"><div class="tb-toggle" id="sidebarToggle"><i class="ti ti-layout-sidebar" id="toggleIcon"></i></div><div class="tb-title">Email Drafts</div></div>
+    <div class="page-content">
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-title">AI se Email Draft Banao</div>
+        <div class="form-group"><label class="form-label">Email kis ke liye / kya topic</label><input class="form-input" id="emailTopic" placeholder="Jaise: Client ko follow-up, complaint, thank you..."/></div>
+        <div class="form-group"><label class="form-label">Tone</label>
+          <select class="form-input" id="emailTone"><option>Professional</option><option>Friendly</option><option>Formal</option><option>Casual</option><option>Urgent</option></select>
+        </div>
+        <button class="btn btn-primary" onclick="draftEmail()" id="draftBtn"><i class="ti ti-sparkles"></i>AI se Draft Banao</button>
+      </div>
+      <div id="emailResult" style="display:none;">
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+            <div class="card-title" style="margin:0;">Generated Draft</div>
+            <div style="display:flex;gap:6px;">
+              <button class="btn btn-secondary" style="padding:5px 10px;font-size:12px;" onclick="copyEmail()"><i class="ti ti-copy"></i>Copy</button>
+              <button class="btn btn-secondary" style="padding:5px 10px;font-size:12px;" onclick="saveEmail()"><i class="ti ti-bookmark"></i>Save</button>
+            </div>
+          </div>
+          <textarea class="form-input" id="emailBody" rows="12" style="font-family:inherit;line-height:1.7;"></textarea>
+        </div>
+      </div>
+      <div style="margin-top:16px;" id="savedEmails"></div>
+    </div>
+  </div>
+</div>
+<script src="../assets/core.js"></script>
+<script>
+let savedEmails=loadData('emailDrafts',[]);
+
+async function draftEmail(){
+  const topic=document.getElementById('emailTopic').value.trim();
+  if(!topic){showToast('Topic likho pehle!','error');return;}
+  const tone=document.getElementById('emailTone').value;
+  const btn=document.getElementById('draftBtn');
+  btn.innerHTML='<i class="ti ti-loader"></i> Drafting...'; btn.disabled=true;
+  try{
+    const reply=await groqChat([{role:'user',content:`Write a ${tone.toLowerCase()} email for: "${topic}". Write in English. Include Subject line. Make it complete and professional.`}]);
+    document.getElementById('emailResult').style.display='block';
+    document.getElementById('emailBody').value=reply;
+  }catch(e){showToast('Error — dobara try karo','error');}
+  btn.innerHTML='<i class="ti ti-sparkles"></i>AI se Draft Banao'; btn.disabled=false;
+}
+
+function copyEmail(){navigator.clipboard.writeText(document.getElementById('emailBody').value);showToast('Copy ho gaya!','success');}
+
+function saveEmail(){
+  const body=document.getElementById('emailBody').value.trim();
+  if(!body)return;
+  const firstLine=body.split('\n')[0].slice(0,50);
+  savedEmails.push({id:genId(),title:firstLine,body,created:new Date().toISOString()});
+  saveData('emailDrafts',savedEmails);
+  renderSaved(); showToast('Email save ho gaya!','success');
+}
+
+function deleteEmail(id){savedEmails=savedEmails.filter(e=>e.id!==id);saveData('emailDrafts',savedEmails);renderSaved();}
+
+function renderSaved(){
+  const el=document.getElementById('savedEmails');
+  if(savedEmails.length===0){el.innerHTML='';return;}
+  el.innerHTML=`<div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;">Saved Drafts</div>`+
+  savedEmails.slice().reverse().map(e=>`
+    <div class="card" style="margin-bottom:8px;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <i class="ti ti-mail" style="color:var(--acc);font-size:18px;"></i>
+        <div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${e.title}</div><div style="font-size:11px;font-weight:600;color:var(--muted);">${formatDate(e.created)}</div></div>
+        <i class="ti ti-trash" style="color:var(--muted);cursor:pointer;" onclick="deleteEmail('${e.id}')"></i>
+      </div>
+    </div>`).join('');
+}
+renderSaved();
+</script>
+<style>@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}.ti-loader{display:inline-block;animation:spin 1s linear infinite;}</style>
+
+<!-- Mobile Bottom Nav -->
+<nav class="mob-nav">
+  <a class="mob-nav-item" href="../index.html"><i class="ti ti-message-circle"></i><span>Chat</span></a>
+  <a class="mob-nav-item" href="dashboard.html"><i class="ti ti-layout-dashboard"></i><span>Dashboard</span></a>
+  <a class="mob-nav-item" href="tasks.html"><i class="ti ti-checkbox"></i><span>Tasks</span></a>
+  <a class="mob-nav-item" href="customers.html"><i class="ti ti-users"></i><span>Customers</span></a>
+  <a class="mob-nav-item" href="settings.html"><i class="ti ti-settings"></i><span>Settings</span></a>
+</nav>
+</body>
+</html>
