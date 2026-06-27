@@ -173,7 +173,7 @@
         <i class="ti ti-history" title="Chat History" onclick="toggleHistory()"></i>
         <div style="position:relative;">
           <i class="ti ti-dots" title="More" onclick="toggleDotsMenu()" id="dotsBtn"></i>
-          <div id="dotsMenu" style="display:none;position:absolute;right:0;top:32px;background:var(--card);border:0.5px solid var(--border);border-radius:var(--radius-lg);min-width:160px;z-index:200;box-shadow:0 4px 20px rgba(0,0,0,0.12);overflow:hidden;">
+          <div id="dotsMenu" style="display:none;position:fixed;right:10px;top:55px;background:var(--card);border:0.5px solid var(--border);border-radius:var(--radius-lg);min-width:180px;z-index:99999;box-shadow:0 4px 20px rgba(0,0,0,0.3);overflow:visible;">
             <div onclick="newChat();closeDotsMenu()" style="padding:11px 16px;font-size:13px;font-weight:600;color:var(--text);cursor:pointer;display:flex;align-items:center;gap:8px;" onmouseover="this.style.background='var(--bg2)'" onmouseout="this.style.background=''"><i class="ti ti-plus"></i>New Chat</div>
             <div onclick="toggleHistory();closeDotsMenu()" style="padding:11px 16px;font-size:13px;font-weight:600;color:var(--text);cursor:pointer;display:flex;align-items:center;gap:8px;" onmouseover="this.style.background='var(--bg2)'" onmouseout="this.style.background=''"><i class="ti ti-history"></i>Chat History</div>
             <div style="height:0.5px;background:var(--border);"></div>
