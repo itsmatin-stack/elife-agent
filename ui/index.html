@@ -123,10 +123,10 @@
 <body>
 <div class="app-shell">
   <!-- Mobile Overlay - CLICK KARNE SE SIDEBAR BANDH HOGA -->
-  <div class="sb-overlay" id="sbOverlay" onclick="closeSidebar()"></div>
+  
 
   <!-- SIDEBAR -->
-  <div class="sb" id="sidebar">
+  <div class="sb" id="sidebar"><div class="sb-overlay" id="sbOverlay" onclick="closeSidebar()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:99999;cursor:pointer;"></div>
     <div class="sb-top">
       <div class="sb-logo"><div class="logo-icon"><div class="logo-e">E</div><div class="logo-dot"></div><div class="logo-life">LIFE</div></div><div><div class="logo-name">E LIFE</div><div class="online-dot">Online</div></div></div>
       <div class="sb-search"><i class="ti ti-search"></i><input type="text" placeholder="Search..."/></div>
