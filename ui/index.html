@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="hi">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,11 +16,11 @@
 <link rel="stylesheet" href="assets/core.css">
 <style>
 /* Mobile responsive */
-/* Mobile sidebar overlay */
-.sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:99;}
+/* Mobile sidebar overlay - FIXED */
+.sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:999;cursor:pointer;}
 .sb-overlay.show{display:block;}
 @media(max-width:768px){
-  .sb{position:fixed;top:0;bottom:0;left:0;z-index:100;transform:translateX(-100%);box-shadow:4px 0 20px rgba(0,0,0,0.15);}
+  .sb{position:fixed;top:0;bottom:0;left:0;z-index:1000;transform:translateX(-100%);box-shadow:4px 0 20px rgba(0,0,0,0.15);transition:transform 0.3s ease;background:var(--bg);}
   .sb:not(.collapsed){transform:translateX(0);}
   .sb.collapsed{transform:translateX(-100%);}
   .main{width:100%;}
@@ -114,14 +114,18 @@
 .photo-preview{display:none;position:relative;margin-bottom:8px;}
 .photo-preview img{max-height:120px;border-radius:var(--radius);border:0.5px solid var(--border);}
 .photo-preview .remove{position:absolute;top:4px;right:4px;width:22px;height:22px;border-radius:50%;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px;color:#fff;}
+
+/* Sidebar toggle fix - mobile */
+.tb-toggle{cursor:pointer;padding:4px 8px;border-radius:8px;transition:background 0.2s;}
+.tb-toggle:hover{background:var(--bg2);}
 </style>
 </head>
 <body>
 <div class="app-shell">
-  <!-- Mobile Overlay -->
-<div class="sb-overlay" id="sbOverlay" onclick="closeSidebar()"></div>
+  <!-- Mobile Overlay - CLICK KARNE SE SIDEBAR BANDH HOGA -->
+  <div class="sb-overlay" id="sbOverlay" onclick="closeSidebar()"></div>
 
-<!-- SIDEBAR -->
+  <!-- SIDEBAR -->
   <div class="sb" id="sidebar">
     <div class="sb-top">
       <div class="sb-logo"><div class="logo-icon"><div class="logo-e">E</div><div class="logo-dot"></div><div class="logo-life">LIFE</div></div><div><div class="logo-name">E LIFE</div><div class="online-dot">Online</div></div></div>
@@ -167,12 +171,14 @@
   <!-- MAIN -->
   <div class="main">
     <div class="topbar">
-      <div class="tb-toggle" id="sidebarToggle"><i class="ti ti-layout-sidebar" id="toggleIcon"></i></div>
+      <!-- Sidebar Toggle Button -->
+      <div class="tb-toggle" id="sidebarToggle" onclick="toggleSidebar()"><i class="ti ti-layout-sidebar" id="toggleIcon"></i></div>
       <div class="tb-title" id="chatTitle">Chat</div>
       <div class="tb-icons" style="position:relative;">
         <i class="ti ti-history" title="Chat History" onclick="toggleHistory()"></i>
         <div style="position:relative;">
           <i class="ti ti-dots" title="More" onclick="toggleDotsMenu()" id="dotsBtn"></i>
+          <!-- 3 DOTS MENU - SIDEBAR BUTTON HATAYA HAI -->
           <div id="dotsMenu" style="display:none;position:fixed;right:10px;top:55px;background:var(--card);border:0.5px solid var(--border);border-radius:var(--radius-lg);min-width:180px;z-index:99999;box-shadow:0 4px 20px rgba(0,0,0,0.3);overflow:visible;">
             <div onclick="newChat();closeDotsMenu()" style="padding:11px 16px;font-size:13px;font-weight:600;color:var(--text);cursor:pointer;display:flex;align-items:center;gap:8px;" onmouseover="this.style.background='var(--bg2)'" onmouseout="this.style.background=''"><i class="ti ti-plus"></i>New Chat</div>
             <div onclick="toggleHistory();closeDotsMenu()" style="padding:11px 16px;font-size:13px;font-weight:600;color:var(--text);cursor:pointer;display:flex;align-items:center;gap:8px;" onmouseover="this.style.background='var(--bg2)'" onmouseout="this.style.background=''"><i class="ti ti-history"></i>Chat History</div>
@@ -291,11 +297,64 @@ let photoBase64 = null;
 let chatSessions = loadData('chatSessions', []);
 let currentSessionId = genId();
 
+// ── SIDEBAR TOGGLE ──────────────────────
+function toggleSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sbOverlay');
+  const isOpen = !sidebar.classList.contains('collapsed');
+  
+  if (isOpen) {
+    sidebar.classList.add('collapsed');
+    overlay.classList.remove('show');
+  } else {
+    sidebar.classList.remove('collapsed');
+    overlay.classList.add('show');
+  }
+}
+
+function closeSidebar() {
+  document.getElementById('sidebar').classList.add('collapsed');
+  document.getElementById('sbOverlay').classList.remove('show');
+}
+
+// ── DOS MENU ────────────────────────────
+function toggleDotsMenu() {
+  const menu = document.getElementById('dotsMenu');
+  menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+}
+
+function closeDotsMenu() {
+  document.getElementById('dotsMenu').style.display = 'none';
+}
+
+// Close dots menu on outside click
+document.addEventListener('click', function(e) {
+  const menu = document.getElementById('dotsMenu');
+  const btn = document.getElementById('dotsBtn');
+  if (menu && btn && !btn.contains(e.target) && !menu.contains(e.target)) {
+    menu.style.display = 'none';
+  }
+});
+
 // ── INIT ───────────────────────────────
 window.addEventListener('load', () => {
+  // Set initial sidebar state for mobile
+  if (window.innerWidth <= 768) {
+    document.getElementById('sidebar').classList.add('collapsed');
+  }
   setTimeout(() => addMsg('agent', 'Namaste! Main E LIFE Agent hoon. Voice, photo, multi-model sab ready hai. Kya karna hai aaj? 😊'), 500);
   renderHistory();
   if(voiceRespEnabled) document.getElementById('voiceRespBtn')?.classList.add('active');
+});
+
+// Handle window resize
+window.addEventListener('resize', () => {
+  if (window.innerWidth > 768) {
+    document.getElementById('sidebar').classList.remove('collapsed');
+    document.getElementById('sbOverlay').classList.remove('show');
+  } else {
+    document.getElementById('sidebar').classList.add('collapsed');
+  }
 });
 
 // ── HELPERS ───────────────────────────
@@ -323,288 +382,4 @@ function showTyping(id='typing') {
   const div = document.createElement('div');
   div.className='typing'; div.id=id;
   div.innerHTML=`<div class="msg-av"><i class="ti ti-sparkles"></i></div><div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>`;
-  const ca=document.getElementById('chatArea'); ca.appendChild(div); ca.scrollTop=ca.scrollHeight;
-}
-
-// ── SEND MESSAGE ───────────────────────
-async function sendMessage() {
-  const input = document.getElementById('msgInput');
-  const text = input.value.trim();
-  if(!text && !photoBase64) return;
-  input.value = '';
-
-  if(photoBase64) {
-    addMsg('user', `📷 ${text || 'Photo bheja'}`);
-    const content = [{ type:'image_url', image_url:{ url: photoBase64 }}, { type:'text', text: text||'Is photo mein kya hai? Describe karo.' }];
-    messages.push({ role:'user', content });
-    removePhoto();
-  } else {
-    addMsg('user', text);
-    messages.push({ role:'user', content: text });
-  }
-
-  saveSession(text);
-  showTyping();
-
-  try {
-    const reply = await groqChatModel(messages.slice(-12), currentModel);
-    document.getElementById('typing')?.remove();
-    messages.push({ role:'assistant', content: reply });
-    addMsg('agent', reply);
-    speakText(reply);
-  } catch(e) {
-    document.getElementById('typing')?.remove();
-    addMsg('agent', 'Error — dobara try karo. API key check karo.');
-  }
-}
-
-// ── GROQ WITH MODEL ────────────────────
-async function groqChatModel(msgs, model) {
-  const sysPrompt = 'Tu E LIFE Agent hai — smart, helpful personal AI. Hinglish mein baat kar. Short, clear replies de.';
-  const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-    method:'POST',
-    headers:{'Content-Type':'application/json','Authorization':`Bearer ${GROQ_KEY}`},
-    body: JSON.stringify({ model, messages:[{role:'system',content:sysPrompt},...msgs], max_tokens:1024, temperature:0.7 })
-  });
-  const data = await res.json();
-  if(data.error) throw new Error(data.error.message);
-  return data.choices[0].message.content;
-}
-
-// ── NEW CHAT ───────────────────────────
-function newChat() {
-  messages = [];
-  currentSessionId = genId();
-  const ca = document.getElementById('chatArea');
-  ca.innerHTML = `<div class="empty" id="emptyState"><div class="empty-icon"><i class="ti ti-sparkles"></i></div><h2>Naya Chat!</h2><p>Kuch bhi pucho — main ready hoon.</p></div>`;
-  document.getElementById('chatTitle').textContent = 'Chat';
-  showToast('Naya chat shuru!', 'info');
-}
-
-// ── MODEL CHANGE ───────────────────────
-function onModelChange() {
-  currentModel = document.getElementById('modelSel').value;
-  const name = document.getElementById('modelSel').selectedOptions[0].text;
-  showToast(`Model: ${name}`, 'info');
-}
-
-// ── CLEAR CHAT ─────────────────────────
-function clearChat() {
-  newChat();
-  showToast('Chat clear ho gaya!', 'info');
-}
-
-// ── VOICE INPUT ────────────────────────
-function toggleVoice() {
-  if(!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
-    showToast('Voice support nahi hai is browser mein. Chrome use karo.', 'error'); return;
-  }
-  if(isRecording) {
-    recognition?.stop(); return;
-  }
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  recognition = new SpeechRecognition();
-  recognition.lang = 'hi-IN';
-  recognition.continuous = false;
-  recognition.interimResults = true;
-  recognition.onstart = () => {
-    isRecording = true;
-    document.getElementById('voiceBtn').classList.add('active');
-    document.getElementById('micIcon').style.color = 'var(--red)';
-    showToast('🎤 Suno raha hoon... bolo!', 'info');
-  };
-  recognition.onresult = (e) => {
-    const transcript = Array.from(e.results).map(r=>r[0].transcript).join('');
-    document.getElementById('msgInput').value = transcript;
-  };
-  recognition.onend = () => {
-    isRecording = false;
-    document.getElementById('voiceBtn').classList.remove('active');
-    document.getElementById('micIcon').style.color = '';
-    const text = document.getElementById('msgInput').value.trim();
-    if(text) sendMessage();
-  };
-  recognition.onerror = () => {
-    isRecording = false;
-    document.getElementById('voiceBtn').classList.remove('active');
-    document.getElementById('micIcon').style.color = '';
-    showToast('Voice error — dobara try karo', 'error');
-  };
-  recognition.start();
-}
-
-// ── PHOTO ──────────────────────────────
-function triggerPhoto() { document.getElementById('photoInput').click(); }
-
-function onPhotoSelected(e) {
-  const file = e.target.files[0];
-  if(!file) return;
-  const reader = new FileReader();
-  reader.onload = (ev) => {
-    photoBase64 = ev.target.result;
-    document.getElementById('photoImg').src = photoBase64;
-    document.getElementById('photoPreview').style.display = 'block';
-    showToast('Photo ready! Message bhejo.', 'success');
-  };
-  reader.readAsDataURL(file);
-}
-
-function removePhoto() {
-  photoBase64 = null;
-  document.getElementById('photoPreview').style.display = 'none';
-  document.getElementById('photoInput').value = '';
-}
-
-// ── AI vs AI ───────────────────────────
-function toggleAIA() {
-  const panel = document.getElementById('aiaPanel');
-  panel.classList.toggle('show');
-  document.getElementById('aiaBtn').classList.toggle('active');
-}
-
-async function startAIA() {
-  const topic = document.getElementById('aiaTopic').value.trim();
-  if(!topic) { showToast('Topic likho pehle!', 'error'); return; }
-  const m1 = document.getElementById('aiaModel1').value;
-  const m2 = document.getElementById('aiaModel2').value;
-  const m1name = document.getElementById('aiaModel1').selectedOptions[0].text;
-  const m2name = document.getElementById('aiaModel2').selectedOptions[0].text;
-
-  toggleAIA();
-  document.getElementById('emptyState').style.display = 'none';
-
-  addMsg('agent', `🤖 AI vs AI shuru hota hai!\n**Topic:** ${topic}\n**${m1name}** vs **${m2name}**`);
-
-  const rounds = 2;
-  let m1msgs = [{role:'user', content:`Topic: "${topic}". Tu iske FAVOR mein bol — strong arguments do. 3-4 points mein. Hinglish mein.`}];
-  let m2msgs = [{role:'user', content:`Topic: "${topic}". Tu iske AGAINST mein bol — strong counter arguments do. 3-4 points mein. Hinglish mein.`}];
-
-  for(let i=0; i<rounds; i++) {
-    showTyping('typing1');
-    try {
-      const r1 = await groqChatModel(m1msgs, m1);
-      document.getElementById('typing1')?.remove();
-      addMsg('ai1', r1, `🟣 ${m1name} (PRO)`);
-      m1msgs.push({role:'assistant',content:r1});
-      m2msgs.push({role:'user',content:`Counter karo: "${r1}"`});
-
-      await new Promise(r=>setTimeout(r,800));
-
-      showTyping('typing2');
-      const r2 = await groqChatModel(m2msgs, m2);
-      document.getElementById('typing2')?.remove();
-      addMsg('ai2', r2, `🟢 ${m2name} (AGAINST)`);
-      m2msgs.push({role:'assistant',content:r2});
-      m1msgs.push({role:'user',content:`Counter karo: "${r2}"`});
-    } catch(e) {
-      document.getElementById('typing1')?.remove();
-      document.getElementById('typing2')?.remove();
-      addMsg('agent', 'AI vs AI mein error aaya — dobara try karo.');
-      break;
-    }
-    if(i<rounds-1) await new Promise(r=>setTimeout(r,1000));
-  }
-  addMsg('agent', `✅ AI vs AI debate complete! Dono ne apne points rakhe.`);
-}
-
-// ── VOICE RESPONSE (TTS) ───────────────
-let voiceRespEnabled = localStorage.getItem('elife_voice_resp') === 'true';
-
-function toggleVoiceResp() {
-  voiceRespEnabled = !voiceRespEnabled;
-  localStorage.setItem('elife_voice_resp', voiceRespEnabled);
-  const btn = document.getElementById('voiceRespBtn');
-  btn.classList.toggle('active', voiceRespEnabled);
-  showToast(voiceRespEnabled ? '🔊 Voice reply ON' : '🔇 Voice reply OFF', 'info');
-}
-
-function speakText(text) {
-  if(!voiceRespEnabled) return;
-  if(!('speechSynthesis' in window)) return;
-  window.speechSynthesis.cancel();
-  const clean = text.replace(/[#*`_~]/g,'').replace(/<[^>]*>/g,'').slice(0, 300);
-  const utt = new SpeechSynthesisUtterance(clean);
-  utt.lang = 'hi-IN';
-  utt.rate = 0.95;
-  utt.pitch = 1;
-  const voices = window.speechSynthesis.getVoices();
-  const hiVoice = voices.find(v => v.lang.includes('hi')) || voices.find(v => v.lang.includes('en-IN'));
-  if(hiVoice) utt.voice = hiVoice;
-  window.speechSynthesis.speak(utt);
-}
-
-// ── HISTORY ────────────────────────────
-function saveSession(firstMsg) {
-  if(messages.length === 1) {
-    chatSessions = chatSessions.filter(s=>s.id!==currentSessionId);
-    chatSessions.unshift({ id:currentSessionId, title:firstMsg.slice(0,40), time:new Date().toISOString(), count:1 });
-    if(chatSessions.length>20) chatSessions = chatSessions.slice(0,20);
-    saveData('chatSessions', chatSessions);
-    document.getElementById('chatTitle').textContent = firstMsg.slice(0,30)+'...';
-    renderHistory();
-  } else {
-    chatSessions = chatSessions.map(s=>s.id===currentSessionId?{...s,count:messages.length}:s);
-    saveData('chatSessions', chatSessions);
-  }
-}
-
-function toggleHistory() {
-  document.getElementById('historyPanel').classList.toggle('open');
-  renderHistory();
-}
-
-function renderHistory() {
-  const el = document.getElementById('historyList');
-  if(chatSessions.length===0){el.innerHTML='<div class="hp-empty">Abhi koi history nahi</div>';return;}
-  el.innerHTML = chatSessions.map(s=>`
-    <div class="hp-item" onclick="loadSession('${s.id}')">
-      <div class="hp-item-title">${s.title||'Chat'}</div>
-      <div class="hp-item-sub">${new Date(s.time).toLocaleDateString('en-IN')} · ${s.count||0} messages</div>
-    </div>`).join('');
-}
-
-function loadSession(id) {
-  showToast('Session load feature coming soon!', 'info');
-  toggleHistory();
-}
-</script>
-<!-- Mobile Bottom Nav -->
-<nav class="mob-nav">
-  <a class="mob-nav-item active" href="index.html"><i class="ti ti-message-circle"></i><span>Chat</span></a>
-  <a class="mob-nav-item" href="pages/dashboard.html"><i class="ti ti-layout-dashboard"></i><span>Dashboard</span></a>
-  <a class="mob-nav-item" href="pages/tasks.html"><i class="ti ti-checkbox"></i><span>Tasks</span></a>
-  <a class="mob-nav-item" href="pages/customers.html"><i class="ti ti-users"></i><span>Customers</span></a>
-  <a class="mob-nav-item" href="pages/settings.html"><i class="ti ti-settings"></i><span>Settings</span></a>
-</nav>
-
-<script>
-// Register Service Worker
-if('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
-      .then(r => console.log('[E LIFE] SW registered'))
-      .catch(e => console.log('[E LIFE] SW error:', e));
-  });
-}
-
-// PWA Install prompt
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', e => {
-  e.preventDefault();
-  deferredPrompt = e;
-  const btn = document.createElement('div');
-  btn.className = 'tb-btn active';
-  btn.innerHTML = '<i class="ti ti-download"></i>Install App';
-  btn.style.cssText = 'background:var(--green2);border-color:var(--green);color:var(--green);';
-  btn.onclick = () => {
-    deferredPrompt.prompt();
-    deferredPrompt.userChoice.then(r => {
-      if(r.outcome==='accepted') btn.remove();
-      deferredPrompt = null;
-    });
-  };
-  document.querySelector('.chat-toolbar')?.appendChild(btn);
-});
-</script>
-</body>
-</html>
+  const ca=document
