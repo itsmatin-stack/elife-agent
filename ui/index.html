@@ -20,7 +20,7 @@
 .sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:99999;cursor:pointer;}
 .sb-overlay.show{display:block;}
 @media(max-width:768px){
-  .sb{position:fixed;top:0;bottom:0;left:0;z-index:10000;transform:translateX(-100%);box-shadow:4px 0 20px rgba(0,0,0,0.15);transition:transform 0.3s ease;background:var(--bg);}
+  .sb{position:fixed;top:0;bottom:0;left:0;z-index:10000;transform:translateX(-100%);box-shadow:4px 0 20px rgba(0,0,0,0.15);transition:transform 0.3s ease;background:var(--bg);width:280px;}
   .sb:not(.collapsed){transform:translateX(0);}
   .sb.collapsed{transform:translateX(-100%);}
   .main{width:100%;}
@@ -121,12 +121,12 @@
 </style>
 </head>
 <body>
-<div class="app-shell">
+<div class="app-shell"><div class="sb-overlay" id="sbOverlay" onclick="closeSidebar()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:99999;cursor:pointer;"></div>
   <!-- Mobile Overlay - CLICK KARNE SE SIDEBAR BANDH HOGA -->
   
 
   <!-- SIDEBAR -->
-  <div class="sb" id="sidebar"><div class="sb-overlay" id="sbOverlay" onclick="closeSidebar()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:99999;cursor:pointer;"></div>
+  <div class="sb" id="sidebar">
     <div class="sb-top">
       <div class="sb-logo"><div class="logo-icon"><div class="logo-e">E</div><div class="logo-dot"></div><div class="logo-life">LIFE</div></div><div><div class="logo-name">E LIFE</div><div class="online-dot">Online</div></div></div>
       <div class="sb-search"><i class="ti ti-search"></i><input type="text" placeholder="Search..."/></div>
